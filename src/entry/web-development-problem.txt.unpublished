@@ -1,0 +1,38 @@
+Title: The Probem with Very Part-Time Web Development
+Date: 2008-12-05 07:30
+Tags: 
+Published: False
+Comments: True
+---
+<p>
+<span class="preamble">The rapidly changing field of web development frameworks presents a huge problem for me as a part-time web developer, especially when I want to have some knowledge of many of them.
+</span>
+</p>
+
+<p><em>(Note: I no longer work with the proprietary in-house framework described throughout&mdash;I now work at <a href="http://www.sixapart.com" title="Six Apart Ltd.">Six Apart</a> with <a href="http://www.movabletype.com">Movable Type</a>, which is also available under the <a href="http://www.gnu.org/licenses/gpl.txt">GPL</a> at <a href="http://www.movabletype.org" title="Movable Type Open Source">http://www.movabletype.org</a>. An initial draft of this post was written in December, but never published.</em>)</p>
+
+<p>It's a problem that I do not have to suffer through in my life as a full-time web developer, because the proprietary custom framework we've developed isn't changing all that rapidly, and we do our best to not break backwards-compatibility.
+</p>
+
+<p>But this isn't the case in the real-world. A developer in the real-world has an <a href="http://en.wikipedia.org/wiki/List_of_web_application_frameworks" title="List of Web Application Frameworks on WikiPedia">exhaustive list</a> of frameworks he/she can build on top of. This is of course a great thing for creating innovative, applications in a short period of time. But, it's also a horrible thing for people like me who want to do some quick projects in their spare time&mdash;not because the frameworks aren't good, but because there is a time commitment to get up to speed on them.</p>
+
+<p>I was once a huge fan of <a href="http://www.djangoproject.com" title="The Django Project">Django</a>. With it, I've built a great number of application (2 different blog engines, a <a href="http://twitter.com" title="Twitter">Twitter</a>-like service for tracking what you eat, a local news aggregator, a full-featured <a href="http://www.delicious.com" title="Delicious Bookmarking">delicious</a> clone, etc), each in a very short period of time. It was really wonderful, and made me feel extremely productive. I was extremely productive. But, it also took me a bit of time to become productive with it. In other words, it took a few projects for me to feel as though I was becoming an expert with it.</p>
+
+<p>As time goes by though, version numbers start increasing, and framework revisions start becoming incompatible with things in you've previously written. Backwards compatibility is a myth. Suddenly, on top of the regular bugfixes, and new development you want to do, you're now  re-architecting large portions of your code to stay current with security holes and framework bugfixes. Naturally, the part-time developer has a difficult time keeping up.</p>
+
+<p><q>Don't use Django then,</q> you say. And, <q>good advice,</q> I say, but then there exists a series of new problems. Which language? Which framework? Will it run well/easily on my shared web hosting? It's not necessarily Django's fault&mdash;it's a great full-featured framework&mdash;the problem exists with <em>most</em> frameworks.</p>
+
+
+
+
+/////////////////////////////////////////
+<p>For me, the language has to be dynamic, and it's a huge win for me if the language supports first-class functions. It also helps if the language has a large user-community building good libraries for it. For personal projects, PHP is normally out. I'm not too-too familiar with Ruby, so it's out, but there are a ton of interesting ideas I've seen come from the Ruby community. Scheme, my personal favorite, also out due to libraries. OCaml, a language I'd like to become more efficient in&mdash;well, I'd have to do some more research. Python is of course in.</p>
+
+<p>Generally, I'll use Python because it's probably the language I've written the most code in over the years<sup><a href="#f1">[1]</a></sup> in my spare time, so the question then becomes "which framework." I really have no good answer for this because many of them are great, but the great ones change frequently.
+</p>
+
+<p>I always seem to come back to <a href="http://webpy.org/">webpy</a> though. Webpy is very simplistic in nature, but chaotic as well. There's a somewhat small community of people around it, and the organization of it all is a mess, unlike more mature projects like Django.</p>
+
+
+<h3>Footnotes</h3>
+<p id="f1">[1]: The exception might be Java, since 300 lines of Java is probably about 30 in Python.</p>

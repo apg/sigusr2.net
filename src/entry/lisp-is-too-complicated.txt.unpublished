@@ -1,0 +1,42 @@
+title: Lisp is too Complicated
+date: 2013-06-06
+tags: lisp
+published: False
+---
+<p>I think the success of languages like Python and Ruby is a result of 2 major factor&mdash;they ship with batteries, and are simple and succinct.</p>
+
+<p>Common Lisp suffers from a huge spec. However, despite it's size, you'd be hard pressed to even download this blog post with an implementation that just implements the spec. This means that most implementations roll their own libraries, and while they're often similar, they require external libraries to be compatible amongst different CL implementations.</p>
+
+<p>And this is true for pretty much anything else you'd want to do in the real world in Common Lisp. XML parsing? JSON parsing? Not here. Install a library through asdf, or quicklisp.<sup><a id="return-quicklisp" href="#note-quicklisp">[1]</a></sup></p>
+
+<p>Common Lisp provides a lot of powerful features, including conditions and restarts, but it's simply too big to master quickly. And, since you first need to learn how to utilize external packages to see any <em>real</em> results, it's easy to dismiss.</p>
+
+<p>Scheme is no better, and typically worse. Despite the fact that Scheme is standardized, you'd really be hard pressed to run the same program that does "real" work via multiple implementations. This is because the spec is too tiny, and that's by design. And, while the spec is very tiny, the features in it are big. Hygienic macros and first class continuations aren't exactly the easiest things to grasp.</p>
+
+<p>Clojure fairs really well here, but only because it lies on top of Java. Since the JVM ships with the Java standard library, and <em>that</em> provides networking, support for calendaring and even user interface toolkits, Clojure is useful right from the get go.</p>
+
+<p>To support a speedy onboarding, the language itself has familiar data structures by default, and shies away from complicated features like recursion and conditions, and provides relatively straightforward looping constructs and exception handling that's very similar to Java. In other words, even average Joe's can learn Clojure.</p>
+
+<p>Also, care was also taken to avoid names like <code class="inline">call-with-current-continuation</code> so succinctness is kept in tact.
+
+<p>However, the reliance on the host's core library for doing useful things is a pretty big drawback. Though, contrib does help heal that pain a bit.</p>
+
+<p>Newlisp, which has a very small community, and many haters<sup><a id="return-haters" href="#note-haters">[2]</a></sup>, ships with networking, and even modules for interacting with MySQL, Postgres, FTP, CGI, some crypto and SMTP. A Newlisp programmer can get <em>real</em> work done without installing 3rd party libraries, and that's something to be celebrating about.</p>
+
+<p>Downloading this blog post is as simple as:</p>
+
+<code class="newlisp">
+(get-url "http://sigusr2.net/2013/06/06/lisp-is-too-complicated.html")
+</code>
+
+<p>Like Clojure, Newlisp isn't standardized, and has a single implementation (as far as I can tell). This is much like the Python ecosystem, or even the Ruby ecosystem.<sup><a id="return-ecosystems" href="#note-ecosystems">[3]</a></sup> It's unfortunate to me that the language isn't more widely used. But, I'm sure some of the decisions the authors made were just foreign to the very opinionated Lisp community at large.<sup><a id="return-usage" href="#note-usage">[4]</a></sup></p>
+
+<p>The Lisp ecosystem is complicated--much more complicated than I'm describing, and certainly
+
+
+<ol class="footnotes">
+    <li id="note-quicklisp">Both asdf and quicklisp get you running quick, but you still have to use them to do real work.<a href="#return-quicklisp">&crarr;</a></li>
+    <li id="note-haters">Just search for "criticism of newlisp" and you'll find lots<a href="#return-haters">&crarr;</a></li>
+    <li id="note-ecosystems">Sure, there are many implementations of Python and Ruby, but they ship with the same standard library, and the same capabilities out of the box. The reason for the different implementations is almost always to get more performance, or more compatibility with other platforms.<a href="#return-ecosystems">&crarr;</a></li>
+    <li id="note-haters">I don't use it, but it's compelling. The dynamic scoping by default is a turn off, but that might not be so bad if one just gets used to it.<a href="#return-usage">&crarr;</a></li>    
+</ol>

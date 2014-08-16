@@ -1,0 +1,70 @@
+title: Why I Use Python
+date: 2010-05-27
+tags: python
+comments: True
+published: False
+---
+<p><span class="preamble">I often complain about <a href="http://python.org">Python</a> because <a href="http://shootout.alioth.debian.org/u64/which-programming-languages-are-fastest.php?gpp=on&ghc=on&scala=on&java=on&sbcl=on&csharp=on&go=on&ocaml=on&mzscheme=on&hipe=on&v8=on&lua=on&vw=on&python3=on&yarv=on&calc=chart">it's a slow</a> (yes, these benchmarks are flawed, but it still makes my point), <a href="">shitty language</a>, that <a href="http://sigusr2.net/2009/Oct/01/python-worlds.html">isn't bendable</a>, <a href="http://sigusr2.net/2009/Mar/04/dispatching-with-with.html">isn't extendible</a>, but is still perhaps the best language out there in my opinion.</span></p>
+
+<h3>It's Blub</h3>
+<p>Python is obviously <a href="http://www.paulgraham.com/avg.html">blub</a>. People who write code in Python will dispute that it's better than language X, because language X lacks "so and so," but most Python programmers can't look past Python to see things that could potentially improve their lives greatly.</p>
+
+<h4>Optimized Tail Calls</h4>
+<p><a href="http://c2.com/cgi/wiki?TailCallOptimization">Tail Call Optimization</a> is an extremely useful optimization to have in a programming language. Having it opens up a whole mess of new things to play with, and makes it possible to use recursive algorithms (that are often easier to grok) than their imperative cousins.</p>
+
+<h4>Continuations</h4>
+<p>People who write code in Scheme will immediately know what I'm talking about, when I say continuations, but those that don't might be wondering what the hell that is, and also what it's good for. I'll refer you to <a href="http://en.wikipedia.org/wiki/Continuation">this article</a> on <a href="http://wikipedia.org">Wikipedia</a>, for an explanation, but let's talk about why they might be useful in Python.</p>
+
+
+
+<p>Consider writing functions in <a href="http://en.wikipedia.org/wiki/Continuation-passing_style">Continuation Passing Style</a>, which you could potentially use to write different control flow, or when generating code from a compiler. (This example just computes the factorial of a number):</p>
+
+<pre><code class="python">
+def I(value):
+    return value
+
+def eq(a, b, cont=I):
+    return cont(a == b)
+
+def sub(a, b, cont=I):
+    return cont(a - b)
+
+def product(a, b, cont=I):
+    return cont(a * b)
+
+def factorial(n, cont=I):
+    def compare_cont(truth):
+        if truth:
+            return cont(1)
+        else:
+            def sub_cont(diff):
+                def new_cont(val):
+                    return product(n, val, cont=cont)
+                return factorial(diff, cont=new_cont)
+            return sub(n, 1, cont=sub_cont)
+    return eq(n, 0, cont=compare_cont)
+</code></pre>
+
+<p>It's twisted, certainly, but that will compute the factorial of a number using CPS&mdash;in Python, you can only compute up until <code class="inline">n == 142</code> due to Python's lack of tail call optimization.</p>
+
+<p>In this example, we couldn't write <code class="inline">compare_cont</code> as a <code class="inline">lambda</code> because of course because it contains an <code class="inline">if</code> <em>statement</em>, despite the fact that the way it would nest would read much more naturally (i.e. top to bottom):</p>
+
+<pre><code class="python">
+def factorial(n, cont=I):
+    def compare_cont(truth):
+        if truth:
+            return cont(1)
+        else:
+            return sub(n, 1, 
+                       cont=lambda diff:
+                              factorial(diff, cont=\
+                                   lambda val: product(n, val, cont=cont)))
+    return eq(n, 0, cont=compare_cont)
+</code></pre>
+
+<p>Most people have accepted the fact that <code class="inline">lambda</code> in Python is all but meaningless. Sure, it has its uses, and it certainly executes that one expression with elegance, but face it&mdash;it's annoying.</p>
+
+<p>Is the lack of multi-line anonymous functions a death sentence? No. Is it inconvenient? Certainly, but if you can write a Lisp in a <a href="http://thinkpython.blogspot.com/2008/02/lisp-in-single-expression.html">single line of Python</a>, obviously it's not broken right?</p>
+
+<p>But, back to the point.</p>
+

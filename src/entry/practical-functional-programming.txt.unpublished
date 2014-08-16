@@ -1,0 +1,48 @@
+title: Practical Functional Programming
+date: 2009-06-10
+tags: functional, php
+published: False
+comments: True
+---
+<p><span class="preamble">Back in <a href="/2009/Feb/06/higher-order-php.html" title="Higher Order PHP">February</a>, I wrote about how to use some of the new features that were set to drop in the next major release of <a href="http://www.php.net/">PHP</a>, version 5.3&mdash;most notably the new anonymous functions which support closures. 
+</span></p>
+
+<p>This was a fairly successful post, and received some attention from the folks on the web, but it also raised some questions from my (now ex-) coworkers. Enough so, that for my last hurrah there, I decided to give a talk about <a href="/talks/practical-functional-programming.pdf" title="Practical Functional Programming">Practical Functional Programming</a>. It wasn't an academic talk as the name implies, and some of what I said was even wrong or a lie, but the point of it was to introduce something informally, that many of my coworkers were confused about, or even scared of.
+</p>
+
+<p>Along with my quickly prepared slides, I spent some time to create some examples that demonstrate the concepts I was showing. Though the obvious choice was to write these examples in my language of choice <a href="http://en.wikipedia.org/wiki/Scheme_programming_language">Scheme</a>, I assured my coworkers that I would not talk about a language derived from <a href="http://en.wikipedia.org/wiki/LISP">Lisp</a>. I took it a step further, and chose to not introduce a language that they were unfamiliar with. I did what any crazy person would do&mdash;I choose PHP.
+</p>
+
+<p><q>But, PHP isn't a functional language!</q> you say. And of course, you'd be right in the fact that it isn't normally considered a functional programming language at all. Even with 5.3's support for anonymous functions and closures, you'll have a hard time arguing this. But then again, what is "Functional Programming?" And what is "Imperative Programming?"</p>
+
+<p>Don't answer with text book definitions (and certainly, don't go looking on WikiPedia if you don't know the answer&mdash;at least not yet). They are <em>styles</em> of programming. Sure, there's a class of programming languages that we dub <q><a href="http://en.wikipedia.org/wiki/Functional_programming_language" title="Functional Programming Language on WikiPedia">functional</a></q>, likewise for <q><a href="http://en.wikipedia.org/wiki/Imperative_programming_language" title="Imperative Programming Language on WikiPedia">imperative</a></q> languages. But, in all reality, functional programming is about thinking twice before introducing an operation that can lead to <a href="http://en.wikipedia.org/wiki/Side_effect_%28computer_science%29" title="Side Effects on WikiPedia">side effects</a>, where as in imperative programming you just <em>do</em>.</p>
+
+<p>Note however, that so called <q>functional languages</q> make it easier to build programs that do not modify state, or even go so far as to <em>forbid</em> you from modifying state (such languages are said to be "pure"). 
+</p>
+
+<p>The objection so many newcomers have, and my coworkers had, was valid: <q>Why get rid of 'side effects'?</q> The answer boils down to at least 2 different things that are problematic in imperative programming: the easiness of reasoning about the program, and the easiness of testing it.</p>
+
+<h3 id="reasoning">Reasoning About Code</h3>
+<p>When you look at a program, the <q>reasonable factor</q> of it is dependent on a number of things. Firstly, is the number of lines of code. If it's too much to fit in your head at once, or too much code to fit on a single screen, you are bound to be shifting your concentration as you scroll to reread other parts. (Incidentally, a computer's virtual memory system works in a similar fashion. If what you are trying to access isn't in resident memory, it has to find the page that includes it.)</p>
+
+<p>Secondly, is the amount of distinct pieces of information the part of the code relies on. If there are many, then you have to remember where they came from, their context, and track whether or not function calls within your code modify the arguments you pass to them. Essentially, you went from reasoning about a small piece of code to understanding a much larger part of the code. All of this because the function you need to understand, or the functions it uses can modify the arguments passed to it.
+</p>
+
+<p>Now consider for a minute a simple solution. Instead of <a href="http://en.wikipedia.org/wiki/Evaluation_strategy#Call_by_reference">passing variables by reference</a>, <a href="http://en.wikipedia.org/wiki/Evaluation_strategy#Call_by_value">pass always by value</a>. Just doing this means that variables you make use of in a portion of code can't be modified by a function that uses it, which is one less portion you need to reason about. <q>Function <code class="inline">foo</code> computes a Fast Fourier Transform</q>, instead of <q>Function <code class="inline">foo</code> computes a Fast Fourier Transform and compresses its arguments since the call after '<code class="inline">foo</code>' requires the same parameters but, gzip compressed.</q> (Yes, this <em>is</em> an absurd example)</p>
+
+<p>But, this isn't exactly true, either. What about global variables? If a function, often considered a <q>black box,</q> relies on a global variable, is it really a <q>black box?</q> Of course not! Changing the global variable changes the behavior of the <q>black box.</q> One cannot reason about a function relying on a global variable without understanding where and how the global variable is modified!</p>
+
+<p>Such functions (e.g. those that rely on global state, and those that modify their arguments) are said to <em>not</em> be <a href="http://en.wikipedia.org/wiki/Referential_transparency_(computer_science)">referentially transparent</a>. A function <em>is</em> referentially transparent if we can just replace every call to <code class="inline">foo(x, y)</code> with the <em>value</em> of calling <code class="inline">foo(x, y)</code> without affecting anything else (i.e. changing a global, <em>writing</em> to the screen or to a file, etc).</p>
+
+<h3 id="testing">Testing</h3>
+<p>A few months ago, I watched a talk, <a href="http://www.youtube.com/watch?v=-FRm3VPhseI&feature=channel" rel="external" title="The Clean Code Talks - 'Global State and Singletons'"><em>Global State and Singletons</em></a>, which primarily talked about the problems with global state, and how it is extremely hard to test. The simple reason for this is exactly what we said before&mdash;it is hard to predict the behavior of something relying on global state.</p>
+
+<p>What is even worse though, is that you can no longer reliably isolate tests because they may rely on a state change instituted by a previous test. In essence, test B can't run until test C, D and E all pass.</p>
+
+<p>Now, consider <code class="inline">foo</code>, a referentially transparent function that makes use of 2 other functions <code class="inline">bar</code>, and <code class="inline">baz</code>.</p>
+
+<p>In order to show that <code class="inline">foo</code> is correct, we need to show that both <code class="inline">bar</code> and <code class="inline">baz</code> are correct as well. However, we don't need to do this in any specific order, because if <code class="inline">bar</code> fails, so too will <code class="inline">foo</code>, unless our tests, or our specifications are wrong&mdash;which is another problem that no programming language is likely to address. (Side note: How do you test your tests?)</p>
+
+
+
+<p>Now, I'm not trying to argue that everyone needs to go out and <a href="http://learnyouahaskell.com/"><em>Learn You a Haskell for Great Good!</em></a>, but what I am saying is that some aspects of the functional programming style are great fits if you are on a quest to become a great imperative programmer. And, if you are on that quest, be sure to stop off and get to know <a href="http://en.wikipedia.org/wiki/Recursion_%28computer_science%29">Captain Recursion</a>, <a href="http://en.wikipedia.org/wiki/Higher_order_function">Mr. HOF</a> and <a href="http://en.wikipedia.org/wiki/Evaluation_strategy">Professor Eval</a>.
