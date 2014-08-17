@@ -29,7 +29,8 @@ all: static entries pages $(BUILDDIR)/index.html $(BUILDDIR)/feed.xml
 
 .ONESHELL:
 $(BUILDDIR)/index.html: $(entry_srcs) $(index_deps)
-	for n in $(entry_srcs); do
+	@echo "Building index"
+	@for n in $(entry_srcs); do
 		DD=$$(head -n 3 $$n | tail -n 1 | sed -e 's/-//g')
 		echo $$n $$DD $$(head -n 3 $$n | tail -n 1) $$(head -n 1 $$n);
 	done | sort -r -n -k 2 -t '%' \
@@ -46,9 +47,10 @@ $(BUILDDIR)/index.html: $(entry_srcs) $(index_deps)
 
 .ONESHELL:
 $(BUILDDIR)/feed.xml: $(entry_srcs)
-	echo "<?xml version=\"1.0\" encoding=\"utf-8\"?><feed xmlns=\"http://www.w3.org/2005/Atom\"><title>$(BLOG_TITLE)</title><link href=\"$(BLOG_URL)/atom.xml\" rel=\"self\" /><link href=\"$(BLOG_URL)\"/><updated>$(shell date +%Y-%m-%dT%H:%M:%SZ)</updated><author><name>$(BLOG_AUTHOR)</name></author><id>$(BLOG_ATOM_ID)</id>" > $@
+	@echo "Building feed.xml"
+	@echo "<?xml version=\"1.0\" encoding=\"utf-8\"?><feed xmlns=\"http://www.w3.org/2005/Atom\"><title>$(BLOG_TITLE)</title><link href=\"$(BLOG_URL)/atom.xml\" rel=\"self\" /><link href=\"$(BLOG_URL)\"/><updated>$(shell date +%Y-%m-%dT%H:%M:%SZ)</updated><author><name>$(BLOG_AUTHOR)</name></author><id>$(BLOG_ATOM_ID)</id>" > $@
 
-	for n in $(entry_srcs); do
+	@for n in $(entry_srcs); do
 		DD=$$(head -n 3 $$n | tail -n 1 | sed -e 's/-//g')
 		echo $$n $$DD $$(head -n 3 $$n | tail -n 1) $$(head -n 1 $$n);
 	done | sort -r -n -k 2 -t '%' \
@@ -66,7 +68,7 @@ $(BUILDDIR)/feed.xml: $(entry_srcs)
 	}
 	{print "<entry><title>" htmlescape($$4) "</title><link href=\42$(BLOG_URL)/" filename($$1) "\42/><id>" filename($$1) "</id><updated>" $$3 "T00:00:00Z</updated><content type=\42html\42><![CDATA[]]></content></entry>"}' >> $@
 
-	echo "</feed>" >> $@
+	@echo "</feed>" >> $@
 
 entries: $(entry_targets)
 pages: $(page_targets)
@@ -75,11 +77,13 @@ static:
 	@cp -a $(STATICDIR)/* $(BUILDDIR)/static
 
 $(BUILDDIR)/%.html: $(ENTRYDIR)/%.md $(entry_deps)
-	$(THEME) $(THEMEOPTS) -t $(THEMEDIR)/entry.html -o $@ $<
+	@echo "Building $*.html"
+	@$(THEME) $(THEMEOPTS) -t $(THEMEDIR)/entry.html -o $@ $<
 
 $(BUILDDIR)/page/%.html: $(PAGEDIR)/%.md $(page_deps)
+	@echo "Building $*.html"
 	@mkdir -p $(BUILDDIR)/page
-	$(THEME) $(THEMEOPTS) -t $(THEMEDIR)/page.html -o $@ $<
+	@$(THEME) $(THEMEOPTS) -t $(THEMEDIR)/page.html -o $@ $<
 
 clean:
 	@rm -rf $(BUILDDIR)
