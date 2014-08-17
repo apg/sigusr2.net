@@ -85,9 +85,14 @@ $(BUILDDIR)/page/%.html: $(PAGEDIR)/%.md $(page_deps)
 	@mkdir -p $(BUILDDIR)/page
 	@$(THEME) $(THEMEOPTS) -t $(THEMEDIR)/page.html -o $@ $<
 
+.ONESHELL:
+sync:
+	@pushd .
+	cd build/
+	@rsync -vrRz --rsh=/usr/bin/ssh . apgwoz@sigusr2.net:sigusr2.net
+	@popd
+
 clean:
 	@rm -rf $(BUILDDIR)
 
-#include $(entry_srcs:.md=.d)
-
-.PHONY: dirs clean
+.PHONY: dirs clean sync
