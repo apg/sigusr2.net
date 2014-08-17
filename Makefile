@@ -46,7 +46,7 @@ $(BUILDDIR)/index.html: $(entry_srcs) $(index_deps)
 
 .ONESHELL:
 $(BUILDDIR)/feed.xml: $(entry_srcs)
-	echo "<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title>$(BLOG_TITLE)</title><link href="$(BLOG_URL)/atom.xml" rel="self" /><link href="$(BLOG_URL)"/><updated>$(shell date +%Y-%m-%dT%H:%M:%SZ)</updated><author><name>$(BLOG_AUTHOR)</name></author><id>$(BLOG_ATOM_ID)</id>" > $@
+	echo "<?xml version=\"1.0\" encoding=\"utf-8\"?><feed xmlns=\"http://www.w3.org/2005/Atom\"><title>$(BLOG_TITLE)</title><link href=\"$(BLOG_URL)/atom.xml\" rel=\"self\" /><link href=\"$(BLOG_URL)\"/><updated>$(shell date +%Y-%m-%dT%H:%M:%SZ)</updated><author><name>$(BLOG_AUTHOR)</name></author><id>$(BLOG_ATOM_ID)</id>" > $@
 
 	for n in $(entry_srcs); do
 		DD=$$(head -n 3 $$n | tail -n 1 | sed -e 's/-//g')
@@ -78,6 +78,7 @@ $(BUILDDIR)/%.html: $(ENTRYDIR)/%.md $(entry_deps)
 	$(THEME) $(THEMEOPTS) -t $(THEMEDIR)/entry.html -o $@ $<
 
 $(BUILDDIR)/page/%.html: $(PAGEDIR)/%.md $(page_deps)
+	@mkdir -p $(BUILDDIR)/page
 	$(THEME) $(THEMEOPTS) -t $(THEMEDIR)/page.html -o $@ $<
 
 clean:

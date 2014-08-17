@@ -23,7 +23,7 @@ Never again will you need to worry about whether or not your Ruby is
 compatible with the one on your VPS, or whether that random templating
 engine is installed somewhere correctly.
 
-This blog is now "powered" by a `Makefile`, and the little utility
+This blog is now "[powered][makeblog]" by a `Makefile`, and the little utility
 from discount called `theme` that I found. The `Makefile` is less than
 100 lines of [GNU]() `make` and uses Unix utilities that you already have on your
 box. I use `awk`, for instance, to munge a bit of text, `sort` to
@@ -102,6 +102,8 @@ whatever. No one reads this blog anyway!
 [jekyll]: http://jekyllrb.com/
 
 [GNU]: https://gnu.org
+
+[makeblog]: https://github.com/apg/sigusr2.net/blob/master/Makefile
 
 [pandoc]: http://johnmacfarlane.net/pandoc/
 

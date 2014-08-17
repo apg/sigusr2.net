@@ -69,7 +69,7 @@ and it's pretty close in the single binding case.
 What does this mean? Absolutely nothing! It's a frivolous comparison
 for the sake of experiment, but is there a point here?
 
-Sort of. I choose to compare Scheme and OCaml simple because they are
+Sort of. I choose to compare Scheme and OCaml simply because they are
 sort of duals of each other. On the one hand, you have Scheme, vastly
 flexible and superior because of it's dynamic nature. On the other
 hand, you have OCaml, vastly flexible and superior because of it's
