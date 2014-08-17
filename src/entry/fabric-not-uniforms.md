@@ -9,7 +9,7 @@ evaluation or personal experience, but instead by fads that a small, vocal
 minority tout.
 
 These things aren't typically as simple as the best sorting algorithm, or a
-recipe for hashing passwords[[1]][1] (maybe a bad example[[2]][2]), but are
+recipe for hashing passwords[^1] (maybe a bad example[^2]), but are
 deeper than that--I'm talking about which programming language one should use,
 or which "framework," or even which message broker or database.
 
@@ -27,7 +27,7 @@ of eating ludes" and he has "better things to do, than sit around and fuck my
 head." With "Straight Edge" and another song "Out of Step", in which MacKaye
 affirms "I don't smoke. I don't drink. I don't fuck. At least I can fucking
 think" MacKaye inadvertently started a movement, or a life-style, or a music
-scene--depending on whom you talk to[[3]][3].
+scene--depending on whom you talk to[^3].
 
 He often speaks about how those two songs were re-purposed to power other
 people's agendas, which he never intended. There's a great metaphor that goes
@@ -55,9 +55,9 @@ which outlines it's performance properties under many different circumstances.
 
 Uniforms hinder progress in our industry. The legions that uniforms create
 can't see past their solutions--sort of analogous to "the blub
-paradox."[[4]][5].
+paradox."[^4].
 
-Uniforms don't always fit[[5]][6], and more often than not cause us to lose
+Uniforms don't always fit[^5], and more often than not cause us to lose
 site of the original problem. Instead we focus on how we can use a belt and
 some thread to make the uniform fit our new problem, for no better reason than
 allegiance. This leads to security problems, bugs and bloated software, among
@@ -67,26 +67,15 @@ We need to all become better tailors. And we certainly need to learn the art
 of fabric construction and selection. Only then will we be able to create our
 own properly fitting clothes.
 
-  1. "Just use bcrypt" -- [On Cryptography and Dogmas][7], [Old, but epic fad
-herd][8].
+  [^1]: "Just use bcrypt" -- [On Cryptography and Dogmas](http://antirez.com/post/crypto-dogmas.html), [Old, but epic fad herd](https://github.com/antirez/lamernews/pull/8).
 
-  2. A potential bad example because even if you don't understand it, using
-bcrypt is fundamentally more secure than salted, or even non-salted SHA1 / MD5
-for storing passwords. But the whole "don't think or evaluate for yourself,
-'cause we're waving what we use at you and we're awesome" attitude is shit.
-Other obvious choices are scrypt, PBKDF1 or PBKDF2.
+  [^2]: A potential bad example because even if you don't understand it, using bcrypt is fundamentally more secure than salted, or even non-salted SHA1 / MD5 for storing passwords. But the whole "don't think or evaluate for yourself, 'cause we're waving what we use at you and we're awesome" attitude is shit.Other obvious choices are scrypt, PBKDF1 or PBKDF2.
 
-  3. [EDGE Perspectives on Drug Free Culture][9] has great explorations on the
-matter
+  [^3]: [EDGE Perspectives on Drug Free Culture](http://www.theedgeprojectmovie.com/) has great explorations on the matter
 
-  4. Maybe it's a stretch, but the comparison [blub][10] seems apt.
+  [^4]: Maybe it's a stretch, but the comparison [blub](https://en.wikipedia.org/wiki/Blub#Blub) seems apt.
 
-  5. But, there's no denying that a uniform sometimes perfectly fits. The
-reason for this stems from the fact that uniforms are normally patterned after
-a successful project. Rails was patterned after [Basecamp][11] was created,
-for instance. Django was patterned after a CMS for a newspaper. There are many
-cases when Rails and Django (and other frameworks and languages) are
-absolutely the best choice for a project.
+  [^5]: But, there's no denying that a uniform sometimes perfectly fits. The reason for this stems from the fact that uniforms are normally patterned after a successful project. Rails was patterned after [Basecamp](http://basecamp.com) was created, for instance. Django was patterned after a CMS for a newspaper. There are many cases when Rails and Django (and other frameworks and languages) are absolutely the best choice for a project.
 
    [1]: #bcrypt
 
@@ -103,10 +92,6 @@ absolutely the best choice for a project.
    [7]: http://antirez.com/post/crypto-dogmas.html
 
    [8]: https://github.com/antirez/lamernews/pull/8
-
-   [9]: http://www.theedgeprojectmovie.com/
-
-   [10]: https://en.wikipedia.org/wiki/Blub#Blub
 
    [11]: http://basecamp.com
 

@@ -17,7 +17,7 @@ long running process can fail quickly, though that's what the `-n` option is
 for). More on that in a second.
 
 In some ways it's rather silly to have `when` launch the second process when
-it's something the shell can easily do--I agree[[1]][3]. So, the default mode
+it's something the shell can easily do--I agree[^1]. So, the default mode
 (`-z` mode) might be better described as "retry until 0". Then, basic usage
 would look like:
 
@@ -40,7 +40,7 @@ and
 In a bourne compatible shell, `when` never sees anything past the `&&`, which,
 with our argument parsing, means that we can call `execvp` directly on `argv`
 after incrementing past the options, making the code simpler, and eliminate
-the subshell invocation all together! [[2]][4]
+the subshell invocation all together![^2]
 
 What does this do to `-t` mode though, the reason `when` exists to begin with?
 Well, that's a bit trickier. In essence it'd make sense to be able to share
@@ -64,11 +64,9 @@ this.
 
 (thanks to the [suckless-dev][5] list for the discussion.)
 
-  1. By far the biggest complaint!
+  [^1]: By far the biggest complaint!
 
-  2. There's a tradeoff though. We still want to be able to support complex
-pipelines to watch, so we a way to determine whether or not a subshell is
-needed. Simplicity of always using a subshell might win out.
+  [^2]: There's a tradeoff though. We still want to be able to support complex pipelines to watch, so we a way to determine whether or not a subshell is needed. Simplicity of always using a subshell might win out.
 
    [1]: https://github.com/apgwoz/when
 

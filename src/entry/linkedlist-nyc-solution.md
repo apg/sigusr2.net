@@ -3,7 +3,7 @@
 % 2012-11-05
 
 
-Though I hate competition[[1]][1], I love ice cream, and so the [LinkedList's
+Though I hate competition[^1], I love ice cream, and so the [LinkedList's
 programming contest][2] was a worth while endeavor.
 
 I didn't spend much time on it (I planned about 20 minutes since I had a
@@ -93,9 +93,7 @@ The code runs in Guile 2.0+, or a sane scheme implementation that supports
 BTW, some of the [other entries][5] were pretty cool. If only they'd use their
 time working on free software...
 
-  1. In fact, I've rated it [1 star][6] on [Combosaurus][7]. Why? Well, that's
-a long story (I suppose), but it doesn't bring out the best (in some ways, it
-does of course, but not the side I'd like to see) in people.
+  [^1]: In fact, I've rated it [1 star][6] on [Combosaurus][7]. Why? Well, that's a long story (I suppose), but it doesn't bring out the best (in some ways, it does of course, but not the side I'd like to see) in people.
 
    [1]: #hate-competition
 

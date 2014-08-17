@@ -9,7 +9,7 @@ resIZER), in some ways, does both.
 
 At [Labs][2], one of our products, [Combosaurus][3] requires that we serve a
 lot of images, in at least 3 different size configurations. This of course
-meant that we had to make a choice[[1]][4].
+meant that we had to make a choice[^1].
 
 Do we do resizing up front, storing each image N times, where N is the number
 of size configurations, or do we do the resizing on the fly?
@@ -40,21 +40,21 @@ between them, we were able to quickly prototype the system, and launch it to
 our early alpha testers. With browser side caching, images loaded snappily and
 things were looking up.
 
-Last month the day came to replace the aging system[[2]][9]. We have a lot
+Last month the day came to replace the aging system[^2]. We have a lot
 more testers now than we had when we started, and the whole thing was due for
 a redesign. We wanted even more snappy loading of images, and more
 concurrency.
 
 The design of the original system was simple, and the new design shares quite
 a bit of the original high-level architecture. We use S3 to host all of the
-full-size[[3]][10] images. Upon request, we check the full-size image cache,
+full-size[^3] images. Upon request, we check the full-size image cache,
 and if it's in there we resize, otherwise we download from S3, stick it in the
-cache and resize, before serving it back to the client[[4]][11].
+cache and resize, before serving it back to the client[^4].
 
 To avoid some potential craziness, we pre-white-list a few different size
 configurations for images. When a request is parsed, we interpret the code
 that was given in the URL and respond with an appropriately sized image. With
-this we get some of the benefits of pre-resizing[[5]][12], and the obvious
+this we get some of the benefits of pre-resizing[^5], and the obvious
 benefits of dynamic resizing.
 
 And, to avoid a 404 while a file is in the process of going through the
@@ -70,7 +70,7 @@ sucks.
 
 One solution is obvious, use evented IO to download the images, and to handle
 requests. Seems reasonable, but as everyone knows, doing anything even
-somewhat computationally intensive[[6]][13] with evented IO is a bad idea,
+somewhat computationally intensive[^6] with evented IO is a bad idea,
 right?
 
 Well, that's where having multiple cores really comes in handy, and that's
@@ -80,7 +80,7 @@ So, the rewrite of phizer does a few things differently. First, instead of
 using 30 pre-forked processes, it uses 5 (customizable of course)
 [Tornado][14] based processes. The first process maintains a resized-image
 cache as well. When a requested image (and size) is not cached, it proxies the
-request to an appropriate worker[[7]][15], which asynchronously downloads the
+request to an appropriate worker[^7], which asynchronously downloads the
 image, resizes it appropriately and delivers it back to the master. The worker
 stores the full size download in a cache, too, so future fetches for a
 larger/smaller thumbnail take even less time.
@@ -94,26 +94,19 @@ happy with the performance thus far, and can certainly scale horizontally
 Anyway, we're releasing [phizer][1]. Feel free to hack on it and make it even
 better. We certainly will be.
 
-  1. It's certainly possible that we'll make a new choice later, but we're set
-on this for now.
+  [^1]: It's certainly possible that we'll make a new choice later, but we're set on this for now.
 
-  2. The system _really_ didn't like me pointing 4 different domains at it to
-take advantage of browser request parallelization.
+  [^2]: The system _really_ didn't like me pointing 4 different domains at it to take advantage of browser request parallelization.
 
-  3. though scaled down to something more reasonable before being archived on
-S3
+  [^3]: though scaled down to something more reasonable before being archived on S3
 
-  4. The new architecture actually caches the thumbnails as well, but I'm
-getting ahead of myself
+  [^4]: The new architecture actually caches the thumbnails as well, but I'm getting ahead of myself
 
-  5. Great cachability, constraints on the designer [which can easily be
-broken, of course]. Dynamic resizing of course is very flexible and non-
-committal.
+  [^5]: Great cachability, constraints on the designer [which can easily be broken, of course]. Dynamic resizing of course is very flexible and non-committal.
 
-  6. And resizing images, despite being quick, does use a decent amount of CPU
-of course
+  [^6]: And resizing images, despite being quick, does use a decent amount of CPU of course
 
-  7. CRC32(image-filename) % number backend processes
+  [^7]: CRC32(image-filename) % number backend processes
 
    [1]: https://github.com/apgwoz/phizer
 

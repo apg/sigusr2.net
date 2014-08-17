@@ -5,7 +5,7 @@
 
 Recently, I took part in a discussion about whether or not it was possible to
 implement something like [Dialyzer][1] in Python. The answer is of course
-[yes][2], and there are many examples of such tools[[1]][3]. The discussion
+[yes][2], and there are many examples of such tools[^1]. The discussion
 soon turned into "why?"
 
 Here's the thing. Using a static analyzer in a dynamic language isn't supposed
@@ -41,18 +41,17 @@ program addresses the reasons you're writing it in the first place.
 
 _Thanks to [snowsuit][4] for leading me to this thought_
 
-  1. [PySonar][5] is especially cool. See also [ternjs][6] for javascript.
+  
+[^1]: [PySonar](https://yinwang0.wordpress.com/2010/09/12/pysonar/) is especially cool. See also [ternjs][6] for javascript.
+
 
    [1]: http://www.erlang.org/doc/man/dialyzer.html
 
-   [2]: http://stackoverflow.com/questions/35470/are-there-any-static-
-analysis-tools-for-python
+   [2]: http://stackoverflow.com/questions/35470/are-there-any-static-analysis-tools-for-python
 
    [3]: note-pysonar
 
    [4]: http://snowsuit.github.io
-
-   [5]: https://yinwang0.wordpress.com/2010/09/12/pysonar/
 
    [6]: http://ternjs.net/
 

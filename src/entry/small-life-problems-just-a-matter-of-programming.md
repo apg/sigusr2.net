@@ -24,7 +24,7 @@ I use [dwm][2] as my desktop environment/window manager. If you're not
 familiar, it's a very simple tiling window manager for [X][3], which, out of
 the box doesn't even have a clock. It's stupidly easy to get a clock on the
 screen of course, but for whatever reason I hadn't taken the time to configure
-it.[[1]][4]
+it.[^1]
 
 It dawned on me yesterday that if dwm supported multiple colors for the status
 bar, I could turn the clock a different color just before 6 o'clock--my target
@@ -40,14 +40,9 @@ need to create some other notification, monitor some stat, or watch the
 weather--well, I've learned that it's just a simple matter of
 programming.[[2]][7]
 
-  1. Actually, this isn't entirely true. While dwm didn't display a clock, my
-[GNU screen][8] status bar did--of course that only shows on tag 1--which I
-don't see when my screen is fullscreen [Emacs][9].
+  [^1]: Actually, this isn't entirely true. While dwm didn't display a clock, my [GNU screen](http://gnu.org/software/screen) status bar did--of course that only shows on tag 1--which I don't see when my screen is fullscreen [Emacs](http://gnu.org/software/emacs).
 
-  2. "HA! You idiot. This is not how the Jargon file defines SMOP!" Right you
-are. I'm not using the ironic definition. I'm saying that sometimes simple
-problems have stupidly simple solutions that aren't elegant but do the job
-anyway.
+  [^2]: "HA! You idiot. This is not how the Jargon file defines SMOP!" Right you are. I'm not using the ironic definition. I'm saying that sometimes simple problems have stupidly simple solutions that aren't elegant but do the job anyway.
 
    [1]: http://en.wikipedia.org/wiki/Daylight_Savings_Time
 
@@ -62,8 +57,4 @@ anyway.
    [6]: https://github.com/apgwoz/dwm/blob/master/dwmstatus.c#L114
 
    [7]: #footnote-matter
-
-   [8]: http://gnu.org/software/screen
-
-   [9]: http://gnu.org/software/emacs
 
