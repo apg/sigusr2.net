@@ -4,7 +4,7 @@
 
 In [Plotting Points][points], I ranted about how it's difficult to
 take a column of data and turn it into something visual without
-resorting to non-[CLI][cli]] tools. Well, with [grapt][], I may have
+resorting to non-[CLI][cli] tools. Well, with [grapt][], I may have
 done something about it, or at least started on something that could
 be a reasonable solution.
 
