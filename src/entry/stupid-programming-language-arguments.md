@@ -54,10 +54,10 @@ need for the "`in`" here, but that implements recursive bindings which
 are semantically similar to Scheme's "`letrec`" which makes it an apples
 to orange's comparison.
 
-*Update 2:* I misunderstood. "and" works here in an apples to apples way,
+*Update 2:* I misunderstood. "`and`" works here in an apples to apples way,
 but the whole point of this post is that this type of comparison is stupid
-anyway, so whatever.
-
+anyway, so whatever. But, if you're counting, that makes it `8 + 6n`, which
+is still worse than Scheme.
 
 Let's now consider Scheme:
 
@@ -94,7 +94,7 @@ the merit of using one language over another.
 Move along, and let people use whatever tools they need to use to
 get shit done, and spend time with their families.
 
-[^1]: This isn't really the whole story, but it's close enough for illustrative purposes.
+[^1]: This isn't really the whole story, but it's close enough for illustrative purposes. See [tel's reponse](https://lobste.rs/s/loyihq/stupid_programming_language_arguments/comments/tobv2j#c_tobv2j)
 [^2]: The punchline of the argument is that a dynamic language has but one single static type.
 
 [harper]: http://existentialtype.wordpress.com/2011/03/19/dynamic-languages-are-static-languages/
