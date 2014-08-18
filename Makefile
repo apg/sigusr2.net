@@ -1,7 +1,7 @@
 BLOG_TITLE = SIGUSR2
 BLOG_URL = http://sigusr2.net
 BLOG_AUTHOR = Andrew Gwozdziewycz
-BLOG_ATOM_ID = $(shell $(BLOG_URL) | md5sum | cut -f 1 -d ' ')
+BLOG_ATOM_ID = $(shell echo $(BLOG_URL) | md5sum | cut -f 1 -d ' ')
 
 THEME = theme
 THEMEOPTS = -c footnotes
@@ -69,6 +69,7 @@ $(BUILDDIR)/feed.xml: $(entry_srcs)
 	{print "<entry><title>" htmlescape($$4) "</title><link href=\42$(BLOG_URL)/" filename($$1) "\42/><id>" filename($$1) "</id><updated>" $$3 "T00:00:00Z</updated><content type=\42html\42><![CDATA[]]></content></entry>"}' >> $@
 
 	@echo "</feed>" >> $@
+	@cp $@ $(BUILDDIR)/atom.xml
 
 entries: $(entry_targets)
 pages: $(page_targets)
