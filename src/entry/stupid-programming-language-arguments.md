@@ -32,7 +32,7 @@ OCaml looks like so:
     
     (* which is functionally equivalent to: *)
     
-    (fun x = x + 1) 1
+    (fun x -> x + 1) 1
 
 Just by looking at the number of characters used for the desugared
 version, Scheme looses by quite a bit. And, even the sugared version
@@ -48,6 +48,12 @@ OCaml, this looks like so:
 For each binding, we need "`let `", 4 characters, an "`=`", 1 character,
 and "` in`", 3 characters--8 characters for each new binding, minimum. A
 simple formula then, is `8n` where `n` is the number of bindings.
+
+*Update:* A friend suggested that we could use "`and`" and remove the 
+need for the "`in`" here, but that implements recursive bindings which
+are semantically similar to Scheme's "`letrec`" which makes it an apples
+to orange's comparison.
+
 
 Let's now consider Scheme:
 
