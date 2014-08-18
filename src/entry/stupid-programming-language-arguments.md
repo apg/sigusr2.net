@@ -54,6 +54,10 @@ need for the "`in`" here, but that implements recursive bindings which
 are semantically similar to Scheme's "`letrec`" which makes it an apples
 to orange's comparison.
 
+*Update 2:* I misunderstood. "and" works here in an apples to apples way,
+but the whole point of this post is that this type of comparison is stupid
+anyway, so whatever.
+
 
 Let's now consider Scheme:
 
