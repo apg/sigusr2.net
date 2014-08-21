@@ -1,8 +1,28 @@
+# More Modest (c) 2014 Andrew Gwozdziewycz, <web@apgwoz.com>
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# These configure the atom feed
 BLOG_TITLE = SIGUSR2
-BLOG_URL = http://sigusr2.net
-BLOG_AUTHOR = Andrew Gwozdziewycz
+BLOG_URL = http://sigusr2.net 
+BLOG_AUTHOR = Andrew Gwozdziewycz 
 BLOG_ATOM_ID = $(shell echo $(BLOG_URL) | md5sum | cut -f 1 -d ' ')
 
+# For the make sync target
+RSYNC_TARGET = apgwoz@apgwoz.com:sigusr2.net
+
+# location of the theme executable
 THEME = theme
 THEMEOPTS = -c footnotes
 
@@ -90,7 +110,13 @@ $(BUILDDIR)/page/%.html: $(PAGEDIR)/%.md $(page_deps)
 sync:
 	@pushd .
 	cd build/
-	@rsync -vrRz --rsh=/usr/bin/ssh . apgwoz@sigusr2.net:sigusr2.net
+	@rsync -vrRz --rsh=/usr/bin/ssh . $(RSYNC_TARGET)
+	@popd
+
+run: all
+	@pushd .
+	cd build/
+	python2.7 -m SimpleHTTPServer
 	@popd
 
 clean:
