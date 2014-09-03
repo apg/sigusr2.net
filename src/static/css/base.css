@@ -56,7 +56,6 @@ a:visited {
 
 .wrapper main {
  padding-top: 30px;
- line-height: 1.5;
 }
 
 .wrapper main h2 {
@@ -72,6 +71,7 @@ a:visited {
 .wrapper main article,
 .wrapper main section {
  font-size: 1.6em;
+ line-height: 1.6;
 }
 
 .wrapper main pre {
