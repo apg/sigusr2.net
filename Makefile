@@ -1,5 +1,5 @@
 # More Modest (c) 2014 Andrew Gwozdziewycz, <web@apgwoz.com>
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -15,8 +15,8 @@
 
 # These configure the atom feed
 BLOG_TITLE = SIGUSR2
-BLOG_URL = http://sigusr2.net 
-BLOG_AUTHOR = Andrew Gwozdziewycz 
+BLOG_URL = http://sigusr2.net
+BLOG_AUTHOR = Andrew Gwozdziewycz
 BLOG_ATOM_ID = $(shell echo $(BLOG_URL) | md5sum | cut -f 1 -d ' ')
 
 # For the make sync target
