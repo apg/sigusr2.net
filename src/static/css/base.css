@@ -7,6 +7,7 @@ e6eff9a3
 
 body {
  background: #fff;
+ font-family: "Georgia", serif;
  font-size: 62.5%;
  text-align: center;
 }
@@ -33,12 +34,15 @@ a:visited {
 }
 
 .wrapper header {
- text-align: center;
+ text-align: left;
 }
 
 .wrapper header nav {
- text-align: left;
+ text-align: right;
  font-size: 1.4em;
+}
+.wrapper header nav a {
+ text-decoration: none;
 }
 
 .wrapper header h1 {
@@ -56,6 +60,7 @@ a:visited {
 
 .wrapper main {
  padding-top: 30px;
+ text-align: left;
 }
 
 .wrapper main h2 {
@@ -76,6 +81,15 @@ a:visited {
 
 .wrapper main pre {
  margin: 10px;
+}
+
+.wrapper main pre code {
+ display: block;
+ background-color: #e6eff9;
+ -webkit-border-radius: 5px;
+ -moz-border-radius: 5px;
+ border-radius: 5px; 
+ padding: 10px;
 }
 
 .wrapper main p.signoff {
