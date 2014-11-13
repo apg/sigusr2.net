@@ -108,6 +108,12 @@ every client that exists.
 The only thing left to do is invoke our echo server, by wrapping `()` around
 the `lambda` and tacking on `()` to call it.
 
+**Update:** [trousers][trousers] suggested that a `set` comprehension could
+avoid the catastrophic unbounded memory problem present with the call to `list`.
+No `set` comprehension, however, should be necessary if we just instead change
+`list` to `set`. 
+
+
 
 [^1]: As in "sort of," if you ignore the extra `()`, the `and` connector, and all the other little gotchas...
 
@@ -123,3 +129,4 @@ the `lambda` and tacking on `()` to call it.
 
 [callcc]: http://sigusr2.net/call-cc-for-python.html
 
+[trousers]: https://lobste.rs/s/ayd1md/a_one_line_echo_server_using_let_in_python/comments/akgbj5#c_akgbj5
