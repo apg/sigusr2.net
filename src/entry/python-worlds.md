@@ -14,25 +14,17 @@ at any time.
 
 Consider the following example (taken from the [Warth paper][2]):
 
-
     A = thisWorld; // thisWorld is always the current world
-
     r = new Rectangle(4, 6);
 
-
-    B = A.sprout(); // sprout creates a new world with it's parent set to A
-
-    in B { r.h = 3; } // side effects within this `in' occur only in the world
-B.
-
+    B = A.sprout(); // sprout creates a new world with it's parent set to A 
+    in B { r.h = 3; } // side effects within this `in' occur only in the world B.
 
     C = A.sprout();
 
     in C { r.h = 7 }; // in A's world r.h = 6 still.
 
-
     C.commit(); // only now does r.h = 7 in world A.
-
 
 If you follow along in the comments I've appended to the example, you'll start
 to see why this idea is interesting, even from this little example.
@@ -73,43 +65,29 @@ succinctly like so:
 
 
     app = web.application()
-
     with app.expose('/'):
-
        def get():
-
            return "Hello World"
-
     app.run()
 
 
 For worlds, I also exploit context managers, though mostly for the `in`-like
 syntax, and for managing the current `thisWorld` variable.
 
-The quick[[1]][6] solution that I came up with for [implementing worlds][7]
+The quick[^1] solution that I came up with for [implementing worlds][7]
 can be used like so:
 
 
-    with Universe(): # establishes new world, assigns to local variable
-`thisWorld'
-
+    with Universe(): # establishes new world, assigns to local variable `thisWorld'
        thisWorld.r = True # must assign _directly_ in the world. LIMITATION
-
        new = thisWorld.sprout()
 
-
        with new:
-
            new.r = False
 
-
        with new.sprout():
-
            thisWorld.r = 15
-
-           thisWorld.commit() # now new.r is 15, but the original r is still
-True
-
+           thisWorld.commit() # now new.r is 15, but the original r is still True
 
        print thisWorld.r # => True
 
@@ -135,7 +113,7 @@ With simple immutable objects such as booleans, integers and strings, using
 copy-on-write semantics works wonderfully. Then, on `commit` of the world, the
 code just copies all of the changes into its parent. I haven't tackled the
 case of mutable container objects just yet, as there are complications in the
-API[[2]][8], as well as the implementation.
+API[^2], as well as the implementation.
 
 The interaction with this is sort of annoying though. In order to take
 advantage of worlds in Python, you have to touch virtually every line of code
@@ -152,7 +130,7 @@ It's also possible in the Warth version to worldize functions and any other
 first class object. Maybe the solution is simple and I just haven't seen it
 yet. Whatever hacks, that I come up with though, will be just that, hacks, as
 there is no _easy_ way to add worlds to Python in the same way that Warth
-added them to JavaScript[[3]][9].
+added them to JavaScript[^3].
 
 We are in an age of programming where mainstream programming languages are
 unable to adapt to our needs as programmers. We are unable to bend them at our
@@ -165,17 +143,11 @@ ideas, as _true_ language features to languages that by practicality, I'm
 forced into using. That would make me a much happier, and effective
 programmer.
 
-  1. By quick, I do mean quick. This was 2 hours of work and sketching. Surely
-there is lots of work to be done to make it a true solution.
+[^1]: By quick, I do mean quick. This was 2 hours of work and sketching. Surely there is lots of work to be done to make it a true solution.
 
-  2. The same strategy could be used as for simple values like booleans, if
-the API used a method, say `assign` instead of the more natural assignment
-operator. Consider, `thisWorld.assign('obj.height.inches', 30)` vs.
-`thisWorld.obj.height.inches = 30`.
+[^2]: The same strategy could be used as for simple values like booleans, if the API used a method, say `assign` instead of the more natural assignment operator. Consider, `thisWorld.assign('obj.height.inches', 30)` vs. `thisWorld.obj.height.inches = 30`.
 
-  3. The Worlds prototype was written in [OMeta][13], which is a solution to
-the "unbendable" languages problem. Note: I didn't attempt to write worlds in
-PyMeta, but, it may be possible to do.
+[^3]: The Worlds prototype was written in [OMeta][13], which is a solution to the "unbendable" languages problem. Note: I didn't attempt to write worlds in PyMeta, but, it may be possible to do.
 
    [1]: http://lambda-the-ultimate.org/node/3040
 
