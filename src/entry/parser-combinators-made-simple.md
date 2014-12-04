@@ -11,7 +11,7 @@ for instance, normally just traverse a state machine that was computed before
 hand (either by hand, or by using a parser generator such as [bison][2] or
 [yacc][3]). Sure, there are many things to trip on, tedious to track down
 ambiguities, and other issues, but the general theory of parsing has remained
-unchanged for years--one might say, it is a solved problem.[[1]][4]
+unchanged for years--one might say, it is a solved problem.[^1]
 
 When learning about parsing for the first time though, the idea of a
 [recursive descent parser][5] is often taught first. Recursive descent
@@ -19,7 +19,7 @@ parsers, are relatively simple to reason about, to write and to shoot yourself
 in the foot with. A simple [LL(1)][6] parser (meaning Left-to-right, Left-most
 derivation, 1 token lookahead), for instance, can't parse [left-recursive
 grammars][7], which is the most natural way to write certain types of
-grammars[[2]][8]. Typically, when writing a recursive descent parser, the
+grammars[^2]. Typically, when writing a recursive descent parser, the
 author takes the grammar and produces a function for each production (non-
 terminal). Each function then reads a token and recurses to the other non-
 terminals in the grammar reachable from the current production. And,
@@ -28,7 +28,7 @@ a way that a [parse tree][9] will be created.
 
 This sounds boring and tedious, and in fact is. However, there is a useful
 technique for creating these types of parsers that was developed some time
-ago[[3]][10], which involves composing a small set of functions into more
+ago[^3], which involves composing a small set of functions into more
 meaningful, more advanced parsers. They still suffer from the same problems as
 your typical recursive descent parser (as presented), but with some other
 trickery can be made to overcome those deficiencies (we won't discuss that in
@@ -51,11 +51,8 @@ which represents the _string left to parse_.)
 
 
     def anychar(strn):
-
         if strn == "":
-
             return None
-
         return (strn[0], strn[1:])
 
 
@@ -71,17 +68,11 @@ another parser function, given a predicate (i.e. a function which returns
 
 
     def chartest(pred):
-
         def _(strn):
-
             c = anychar(strn)
-
             if c and pred(c[0]):
-
                 return (c[0], c[1])
-
             return None
-
         return _
 
 
@@ -89,7 +80,6 @@ In order to use `chartest`, we pass it a predicate, like so:
 
 
     >>> chartest(lambda x: x == 'a')('abc')
-
     ('a', 'bc')
 
 
@@ -106,7 +96,6 @@ to note.)
 
 
     def matchchr(targetchr):
-
         return chartest(lambda x: x == targetchr)
 
 
@@ -117,9 +106,7 @@ such as "all alpha numeric"--for that, we use `oneof`.
 
 
     def oneof(target):
-
         chars = set([x for x in target])
-
         return chartest(lambda x: x in chars)
 
 
@@ -131,15 +118,10 @@ characters.
 
 
     alpha = oneof('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
-
     loweralpha = oneof('abcdefghijklmnopqrstuvwxyz')
-
     upperalpha = oneof('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
-
     digit = oneof('0123456789')
-
     hexdigit = oneof('0123456789abcdefABCDEF')
-
     whitespace = oneof(' \t\n\r')
 
 
@@ -151,26 +133,16 @@ complicated, so we'll go through it step by step.
 
 
     def matchstr(target):
-
         if not target:
-
             return lambda strn: ("", strn)
 
-
         def _(strn):
-
             c = matchchr(target[0])(strn)
-
             if c:
-
                 cs = matchstr(target[1:])(c[1])
-
                 if cs:
-
                     return (c[0] + cs[0], cs[1])
-
             return None
-
         return _
 
 
@@ -194,9 +166,7 @@ Let's take a look at how we use it:
 
 
     >>> matchwhile = matchstr('while')
-
     >>> matchwhile('while True:')
-
     ('while', ' True:')
 
 
@@ -210,11 +180,10 @@ create the equivalent of:
 
 
     if strn.startswith("while"):
-
         return (strn[0:5], strn[5:])
 
 
-Which, in Python, would be much more efficient![[4]][11]
+Which, in Python, would be much more efficient![^4]
 
 Another parser function that we need to make this whole thing useful is
 `optional`. `optional` takes as an argument a parser function, and returns a
@@ -223,17 +192,11 @@ not. Essentially, if there is a failure, it returns the original input string.
 
 
     def optional(parserfn):
-
         def _(strn):
-
             c = parserfn(strn)
-
             if c:
-
                 return c
-
             return ('', strn)
-
         return _
 
 
@@ -241,9 +204,7 @@ If we make `matchwhile`, from above, optional we get this:
 
 
     >>> optional_matchwhile = optional(matchwhile)
-
     >>> optional_matchwhile('foo')
-
     ('', 'foo')
 
 
@@ -257,28 +218,20 @@ more times:
 
 
     def repeat(parser):
-
         def _(strn):
-
             c = parser(strn)
-
             if c:
-
                 cs = repeat0(parser)(c[1])
-
                 return (c[0] + cs[0], cs[1])
-
             return None
-
         return _
 
 
     def repeat0(parser):
-
         return optional(repeat(parser))
 
 
-`
+
 
 Again, like `optional`, `repeat` and `repeat0` build parser functions from
 existing ones. This is very much a common pattern when building parsers of
@@ -293,23 +246,14 @@ always will given `optional`, we combine the results and return.
 
 
     >>> optrepeat_while = repeat0(matchwhile)
-
     >>> optrepeat_while('whilewhilewhile')
-
     ('whilewhilewhile', '')
-
     >>> optrepeat_while('foo')
-
     ('', 'foo')
-
     >>> repeat_while = repeat(matchwhile)
-
     >>> repeat_while('foo')
-
     None
-
     >>> repeat_while('while foo')
-
     ('while', ' foo')
 
 
@@ -318,17 +262,11 @@ we introduce `alt`.
 
 
     def alt(*parsers):
-
        def _(strn):
-
            for p in parsers:
-
                result = p(strn)
-
                if result:
-
                    return result
-
        return _
 
 
@@ -336,23 +274,14 @@ This is really simple. We take a list of parser functions and try them one by
 one, from left to right, until we find one that passes.
 
 
-    >>> iforwhileorfor = alt(matchstr('if'), matchstr('while'),
-matchstr('for'))
-
+    >>> iforwhileorfor = alt(matchstr('if'), matchstr('while'), matchstr('for'))
     >>> iforwhileorfor('if')
-
     ('if', '')
-
     >>> iforwhileorfor('while')
-
     ('while', '')
-
     >>> iforwhileorfor('for')
-
     ('for', '')
-
     >>> iforwhileorfor('foof')
-
     None
 
 
@@ -363,29 +292,17 @@ sequence(whileToken, conditional, colonToken, codeBlock)`.
 
 
     def sequence(*parsers):
-
         def _(strn):
-
             parsed = ''
-
             rest = strn
-
             for p in parsers:
-
                 result = p(rest)
-
                 if result:
-
                     rest = result[1]
-
                     parsed += result[0]
-
                 else:
-
                     return None
-
             return (parsed, rest)
-
         return _
 
 
@@ -394,29 +311,17 @@ example looks something like this:
 
 
     >>> whileToken = matchstr("while")
-
     >>> conditional = oneof("><=")
-
     >>> colonToken = matchchr(":")
-
     >>> codeBlock = alt(matchstr("if"), matchstr("for"))
-
     >>> whileStmt = sequence(whileToken, conditional, colonToken, codeBlock)
-
     >>> whileStmt('while<:if')
-
     ('while<:if', '')
-
     >>> whileStmt('while>:if')
-
     ('while>:if', '')
-
     >>> whileStmt('while>:for')
-
     ('while>:for', '')
-
     >>> whileStmt('while:for')
-
     None
 
 
@@ -425,38 +330,25 @@ combining the results of each parser into the results of all of the parser
 function outputs together.
 
 That's all we really need to construct more interesting parsers, so we'll now
-construct a simplified parser for JSON.[[5]][12]
+construct a simplified parser for JSON.[^5]
 
 We'll start with some utility functions:
 
 
     def betweenchrs(parser, left="(", right=")"):
-
         def _(strn):
-
             lres = matchchr(left)(strn)
-
             if lres:
-
                 pres = parser(lres[1])
-
                 if pres:
-
                     rres = matchchr(right)(pres[1])
-
                     if rres:
-
                         return (left + pres[0] + right, rres[1])
-
             return None
-
         return _
 
-
     betweenparens = lambda p: betweenchrs(p, left="(", right=")")
-
     betweenbrackets = lambda p: betweenchrs(p, left="[", right="]")
-
     betweencurlies = lambda p: betweenchrs(p, left="{", right="}")
 
 
@@ -472,23 +364,14 @@ easily, making use of `anychar`.
 
 
     def charorquoted(strn):
-
         c = anychar(strn)
-
         if c[0] == '"':
-
             return None
-
         elif c[0] == '\\':
-
             c2 = chartest(lambda x: x in ('\\', '"'))(c[1])
-
             if c2:
-
                 return (c[0] + c2[0], c2[1])
-
         else:
-
             return c
 
 
@@ -505,25 +388,15 @@ but it's fairly easy to understand:
 
 
     def ignorews(p):
-
         def _(strn):
-
             w = repeat0(whitespace)(strn)
-
             if w:
-
                 pres = p(w[1])
-
                 if pres:
-
                     w2 = repeat0(whitespace)(pres[1])
-
                     if w2:
-
                         return (pres[0], w2[1])
-
             return None
-
         return _
 
 
@@ -535,11 +408,8 @@ of numbers.
 
 
     anint = sequence(optional(matchchr("-")), repeat(digit))
-
     astring = betweenchrs(repeat0(charorquoted), left='"', right='"')
-
     acolon = matchchr(':')
-
     acomma = matchchr(',')
 
 
@@ -558,21 +428,14 @@ way to update the parser function that's contained within the reference.
 
 
     class Forward(object):
-
         def __init__(self):
-
             self.p = None
 
-
         def __call__(self, *args, **kwargs):
-
             return self.p(*args, **kwargs)
 
-
         def __ilshift__(self, p):
-
             self.p = p
-
             return self
 
 
@@ -585,9 +448,7 @@ specified to begin with.
 
 
     avalue = Forward()
-
     akey = ignorews(alt(anint, astring))
-
     akeyvaluepair = sequence(akey, acolon, avalue)
 
 
@@ -597,25 +458,15 @@ appears after each item, except in the last item.
 
 
     def commaseparated(parser):
-
         def _(strn):
-
             r = repeat0(sequence(parser, acomma))(strn)
-
             if r:
-
                 r2 = parser(r[1])
-
                 if r2:
-
                     return (r[0] + r2[0], r2[1])
-
             elif r:
-
                 return r
-
             return None
-
         return _
 
 
@@ -625,7 +476,6 @@ parser function between square brackets to parse a list.
 
 
     adict = betweencurlies(commaseparated(akeyvaluepair))
-
     alist = betweenbrackets(commaseparated(avalue))
 
 
@@ -652,11 +502,8 @@ dictionary. The parser function to do that is quite easy to specify.
 Last, but certainly not least, let's actually use what we've constructed:
 
 
-    >>> json('''{"hello": {1: "how are you?"}, "i is": "fine", "how": "are
-you?", 1: ["these", "values", "work", 2]}''')
-
-    ('{"hello":{1:"how are you?"},"i is":"fine","how":"are
-you?",1:["these","values","work",2]}', '')
+    >>> json('''{"hello": {1: "how are you?"}, "i is": "fine", "how": "are you?", 1: ["these", "values", "work", 2]}''')
+    ('{"hello":{1:"how are you?"},"i is":"fine","how":"are you?",1:["these","values","work",2]}', '')
 
 
 Success!
@@ -670,38 +517,21 @@ exercise to the reader.
 
 Source code for all this is [here][13]
 
-  1. I'm not sure if parsing is really "solved," but the algorithms we have
-work well enough in practice that there isn't a ton of interesting new
-research going on around it. [Yacc is Dead][14], for instance used the results
-of [a paper][15] from 1964, but came [under fire][16]. Can parsing be made
-trivially easy? Maybe, but it's likely that ambiguity will be somewhere--which
-would be the unsolved in parsing.[↵][17]
+[^1]: I'm not sure if parsing is really "solved," but the algorithms we have work well enough in practice that there isn't a ton of interesting new research going on around it. [Yacc is Dead](http://arxiv.org/abs/1010.5023), for instance used the results of [a paper](http://portal.acm.org/citation.cfm?id=321249) from 1964, but came [under fire](http://research.swtch.com/2010/12/yacc-is-not-dead.html). Can parsing be made trivially easy? Maybe, but it's likely that ambiguity will be somewhere--which would be the unsolved in parsing.
 
-  2. See [left][8] [recursion][7]. All joking aside, left recursion occurs in
-a grammar when a non-terminal rule is used recursively and appears on the
-left. For example: `expr = expr + tail`. [↵][18]
+[^2]: See [left](#fnref:2) [recursion](http://en.wikipedia.org/wiki/Left_recursion). All joking aside, left recursion occurs in a grammar when a non-terminal rule is used recursively and appears on the left. For example: `expr = expr + tail`. 
 
-  3. Graham Hutton. Proceedings of the 1989 Glasgow Workshop on Functional
-Programming (Fraserburgh, Scotland), Springer-Verlag Series of Workshops in
-Computing, Springer-Verlag, Berlin, 1990.[↵][19]
+[^3]: Graham Hutton. Proceedings of the 1989 Glasgow Workshop on Functional Programming (Fraserburgh, Scotland), Springer-Verlag Series of Workshops in Computing, Springer-Verlag, Berlin, 1990.
 
-  4. The purpose of this article isn't to describe an efficient parsing
-technique for Python, but to rather demonstrate a useful technique that could
-be adapted and built upon, to build an efficient parsing framework for _any_
-language that supports first class functions. There's a follow up article to
-this which shows just how much of this can actually be abstracted out in order
-to make it even more simple.[↵][20]
+[^4]: The purpose of this article isn't to describe an efficient parsing technique for Python, but to rather demonstrate a useful technique that could be adapted and built upon, to build an efficient parsing framework for _any_ language that supports first class functions. There's a follow up article to this which shows just how much of this can actually be abstracted out in order to make it even more simple.
 
-  5. We limit our parser to strings, integers, dictionary and lists. The
-complete specification appears at [http://json.org][21][↵][22]
+[^5]: We limit our parser to strings, integers, dictionary and lists. The complete specification appears at [http://json.org](http://json.org)
 
    [1]: http://en.wikipedia.org/wiki/LR_parser
 
    [2]: http://www.gnu.org/software/bison/
 
    [3]: http://en.wikipedia.org/wiki/Yacc
-
-   [4]: #note-solvedproblem
 
    [5]: http://en.wikipedia.org/wiki/Recursive_descent_parser
 
@@ -713,12 +543,6 @@ complete specification appears at [http://json.org][21][↵][22]
 
    [9]: http://en.wikipedia.org/wiki/Parse_tree
 
-   [10]: #note-hutton1989
-
-   [11]: #note-efficiency
-
-   [12]: #note-json
-
    [13]: http://files.sigusr2.net/parser_functions.py
 
    [14]: http://arxiv.org/abs/1010.5023
@@ -727,15 +551,6 @@ complete specification appears at [http://json.org][21][↵][22]
 
    [16]: http://research.swtch.com/2010/12/yacc-is-not-dead.html
 
-   [17]: #return-solvedproblem
-
-   [18]: #return-leftrecursion
-
-   [19]: #return-hutton1989
-
-   [20]: #return-efficiency
-
    [21]: http://json.org
 
-   [22]: #return-json
 

@@ -7,13 +7,14 @@ e6eff9a3
 
 body {
  background: #fff;
- font-family: "Georgia", serif;
+ font-family: "Georgia", "Times New Roman", times, serif;
  font-size: 62.5%;
  text-align: center;
 }
 
 h1, h2 {
  color: #35387f;
+ font-family: Helvetica, sans-serif;
 }
 
 h1 a, h2 a, h3 a {
@@ -115,15 +116,20 @@ a:visited {
 
 .wrapper footer {
  margin-top: 60px;
- padding-top: 100px;
+ padding-top: 32px;
  border-top: 1px solid #e6eff9;
  color: #666;
  font-size: 1.4em;
 }
 
+.wrapper footer p.headshot {
+ height: 72px;
+ background: url(/static/img/headshot.png) no-repeat center top;
+}
+
 .wrapper footer p {
- padding-left: 32px;
- padding-right: 32px;
+ padding-left: 48px;
+ padding-right: 48px;
 }
 
 .wrapper footer p.copyright {

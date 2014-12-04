@@ -122,4 +122,8 @@ run: all
 clean:
 	@rm -rf $(BUILDDIR)
 
+commit:
+	git commit -a
+	git push origin master
+
 .PHONY: dirs clean sync
