@@ -40,7 +40,9 @@ features when I get around to it (or need them):
    support something truly neat like [frequency trails][freqtrails]
    easily.
 
-These things probably won't be added until I need them, as the basic usage fits most of my graphing needs when using the CLI, but only time will tell.
+These things probably won't be added until I need them, as the basic
+usage fits most of my graphing needs when using the CLI, but only time
+will tell.
 
 
 

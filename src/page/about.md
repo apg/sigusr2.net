@@ -11,7 +11,7 @@ There's a million [projects][projects] that I'd like to get to, and a mess of
 experiments that'll just have to wait...
 
 I've given a few talks over the years at various local meetups,
-presented numerous times at [Hack and Tell][handt], and spoke at the
+presented numerous times at [Hack and Tell][handt], and [spoke][bangyt] at the
 first [!!Con][bangbangcon], in 2014.
 
 [^1]: But for some reason, never a fedora, or fez.
@@ -20,3 +20,4 @@ first [!!Con][bangbangcon], in 2014.
 [projects]: https://apg.github.io
 [handt]: http://hackandtell.org
 [bangbangcon]: http://bangbangcon.com
+[bangyt]: https://www.youtube.com/watch?v=QLzhB6c8uCg
