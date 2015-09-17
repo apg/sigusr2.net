@@ -31,10 +31,12 @@ Tell via
 Maybe. Just start a blog? Meh.
 
 And then I remembered something that I had fun with while running the
-show---the wrap up emails.  James and I used to switch off on them,
-because they took time and we were both lazy, but I always found them
-to be exciting to produce. For one, I got to write little sarcastic
-comments from time to time, and 2, it actually had a lot of reach.
+show---the
+[wrap up emails](https://gist.github.com/apg/8499daa3daac44f80081).
+James and I used to switch off on them, because they took time and we
+were both lazy, but I always found them to be exciting to produce. For
+one, I got to write little sarcastic comments from time to time, and
+2, it actually had a lot of reach.
 
 For any given event, we maybe had a venue that could hold 80-100
 people. But, the Meetup group had over 2,000! For most people, the
