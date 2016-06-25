@@ -13,11 +13,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+MD5_CMD = md5
+
 # These configure the atom feed
 BLOG_TITLE = SIGUSR2
 BLOG_URL = http://sigusr2.net
 BLOG_AUTHOR = Andrew Gwozdziewycz
-BLOG_ATOM_ID = $(shell echo $(BLOG_URL) | md5sum | cut -f 1 -d ' ')
+BLOG_ATOM_ID = $(shell echo $(BLOG_URL) | $(MD5_CMD) | cut -f 1 -d ' ')
 
 # For the make sync target
 RSYNC_TARGET = apgwoz@apgwoz.com:sigusr2.net
@@ -55,9 +57,9 @@ $(BUILDDIR)/index.html: $(entry_srcs) $(index_deps)
 		echo $$n $$DD $$(head -n 3 $$n | tail -n 1) $$(head -n 1 $$n);
 	done | sort -r -n -k 2 -t '%' \
 	| awk -F ' % ' 'function filename(c) {
-	   match(c, /((.*\/)+)(.*)$$/, arr)
-	   sub(/\.md$$/, ".html", arr[3])
-	   return arr[3]
+	   n = split(c, arr, "/")
+	   sub(/\.md$$/, ".html", arr[n])
+	   return arr[n]
 	}{print "##  [" $$4 "](/" filename($$1) ") *" $$3 "*\n"}' \
 	| $(THEME) $(THEMEOPTS) -t $(THEMEDIR)/index.html -o $@
 
@@ -82,9 +84,9 @@ $(BUILDDIR)/feed.xml: $(entry_srcs)
 	   return c
 	}
 	function filename(c) {
-	   match(c, /((.*\/)+)(.*)$$/, arr)
-	   sub(/\.md$$/, ".html", arr[3])
-	   return arr[3]
+	   n = split(c, arra, "/")
+	   sub(/\.md$$/, ".html", arr[n])
+	   return arr[n]
 	}
 	{print "<entry><title>" htmlescape($$4) "</title><link href=\42$(BLOG_URL)/" filename($$1) "\42/><id>" filename($$1) "</id><updated>" $$3 "T00:00:00Z</updated><content type=\42html\42><![CDATA[]]></content></entry>"}' >> $@
 
@@ -95,7 +97,7 @@ entries: $(entry_targets)
 pages: $(page_targets)
 static:
 	@mkdir -p $(BUILDDIR)/static
-	@cp -a $(STATICDIR)/* $(BUILDDIR)/static
+	@cp -R $(STATICDIR)/* $(BUILDDIR)/static
 
 $(BUILDDIR)/%.html: $(ENTRYDIR)/%.md $(entry_deps)
 	@echo "Building $*.html"
