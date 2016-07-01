@@ -43,15 +43,10 @@ The code starts out simply enough:
 
 
     (defvar ant-last-task "compile")
-
     (defvar ant-build-file-name "build.xml")
-
     (defvar ant-command "ant -emacs")
-
     (defvar *ant-tasks-cache* '())
-
     (defvar *ant-tasks-command* "grep -e '<target.*name=\"[^\-][^\"]*.*$'")
-
     (defvar ant-tasks-default '("compile" "test" "clean"))
 
 We just define a bunch of global variables that can be overridden by a user if
@@ -67,20 +62,13 @@ from the ant build file that declare targets:
 
 
     (defun ant-find-tasks (directory)
-
       (let ((output (shell-command-to-string (concat *ant-tasks-command* " "
-
                                                      directory "/"
-
                                                      ant-build-file-name))))
-
         (if (> (length output) 0)
-
             (mapcar '(lambda (x) (replace-regexp-in-string
 ".*<target.*name=\"\\([^\-][^\"]*\\).*" "\\1" x))
-
                     (split-string output "[\n]"))
-
           nil)))
 
 Essentially, we first save the output of the shell command that gets built up
@@ -101,20 +89,12 @@ variable `*ant-tasks-cache*` for the current project:
 
 
     (defun ant-tasks (directory)
-
       (let ((tasks (assoc-string directory *ant-tasks-cache*)))
-
         (or tasks
-
             (progn
-
-              (let ((newtasks (or (ant-find-tasks directory) ant-tasks-
-default)))
-
+              (let ((newtasks (or (ant-find-tasks directory) ant-tasks-default)))
                 (setq *ant-tasks-cache*
-
                       (cons (cons directory newtasks) *ant-tasks-cache*))
-
               newtasks)))))
 
 The only interesting thing about the above code is the use of `or`. In Lisp,
@@ -127,15 +107,10 @@ brain matter with useless task names:
 
 
     (defun ant-get-task (directory)
-
       (let ((task (completing-read-multiple (concat "Task (default): ")
-
                                             (ant-tasks directory))))
-
         (if (> (length task) 0)
-
             (mapconcat 'identity task " ")
-
           "")))
 
 Well, here it is. Emacs has built in completion via the `completing-read`
@@ -152,19 +127,13 @@ to issue the build command.
 
 
     (defun ant-find-root (indicator)
-
       (let ((cwd default-directory))
-
         (while (and (not (file-exists-p (concat cwd indicator)))
-
                     (not (string-equal (expand-file-name cwd) "/")))
-
           (setq cwd (concat cwd "../")))
 
         (if (file-exists-p (concat cwd indicator))
-
             (expand-file-name cwd)
-
           nil)))
 
 The above function locates the base directory of the project, given the
@@ -175,11 +144,8 @@ built into it with the function `locate-dominating-file`.[[4]][12]
 
 `ant-kill-cache`,
 
-
     (defun ant-kill-cache ()
-
       (interactive)
-
       (setq *ant-tasks-cache* '()))
 
 does exactly what it says it does. It destroys the cache that is built up from
@@ -192,58 +158,36 @@ calls `compile`, which is the main entry point into Compilation Mode.
 
 
     (defun ant (&optional task)
-
       "Run ant `task` in project root directory."
-
       (interactive)
-
       (let ((default-directory (ant-find-root ant-build-file-name)))
-
         (if default-directory
-
             (let ((task (or task (ant-get-task default-directory))))
-
               (setq ant-last-task task)
-
               (compile (concat ant-command " " task)))
-
           (message "Couldn't find an ant project."))))
 
 In the first code block, there was a variable, `ant-last-task`, defined that
 is used above to store the last target run. After a target is given, it's
 saved off in there.
 
-
     (defun ant-last ()
-
       "Run the last ant task in project"
-
       (interactive)
-
       (ant (or ant-last-task "")))
 
-
     (defun ant-compile ()
-
       (interactive)
-
       (ant "compile"))
 
-
     (defun ant-clean ()
-
       (interactive)
-
       (ant "clean"))
 
 
     (defun ant-test ()
-
       (interactive)
-
       (ant "test"))
-
-`
 
 The rest of the code above, just defines some convenient, interactive commands
 for common targets. `M-x ant-compile` will just issue the compile target,
