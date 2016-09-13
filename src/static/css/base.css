@@ -70,12 +70,14 @@ a:visited {
  line-height: 40px;
  padding: 0;
  margin: 0;
+ font-family: "open_sansregular"; 
 }
 .wrapper header nav a img {
  float: left;
 }
 .wrapper header nav a {
  text-decoration: none;
+ font-family: "open_sanssemibold";
 }
 
 .wrapper header nav h1 {
@@ -170,6 +172,10 @@ a:visited {
  color: #666;
  font-size: 1.4em;
 /* font-size: 1.4em;*/
+}
+
+.wrapper footer a {
+ font-family: 'open_sanssemibold';
 }
 
 .wrapper footer p.headshot {
