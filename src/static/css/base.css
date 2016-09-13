@@ -1,20 +1,45 @@
 /*
-e6eff9a3
-6e80cfa3
-5054bda3
-35387fa3
+e6eff9
+6e80cf
+5054bd
+35387f
+
+Last design refresh: September, 2016
 */
+
+@font-face {
+ font-family: 'open_sansregular';
+ src: url('fonts/OpenSans-Regular-webfont.eot');
+ src: url('fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+   url('fonts/OpenSans-Regular-webfont.woff') format('woff'),
+   url('fonts/OpenSans-Regular-webfont.ttf') format('truetype'),
+   url('fonts/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
+ font-weight: normal;
+ font-style: normal;
+}
+
+@font-face {
+ font-family: 'open_sanssemibold';
+ src: url('fonts/OpenSans-Semibold-webfont.eot');
+ src: url('fonts/OpenSans-Semibold-webfont.eot?#iefix') format('embedded-opentype'),
+   url('fonts/OpenSans-Semibold-webfont.woff') format('woff'),
+   url('fonts/OpenSans-Semibold-webfont.ttf') format('truetype'),
+   url('fonts/OpenSans-Semibold-webfont.svg#open_sanssemibold') format('svg');
+ font-weight: normal;
+ font-style: normal;
+}
 
 body {
  background: #fff;
- font-family: "Georgia", "Times New Roman", times, serif;
+ font-family: 'open_sansregular', sans-serif; 
  font-size: 62.5%;
  text-align: center;
 }
 
-h1, h2 {
+h1, h2, h3, h4 {
  color: #35387f;
- font-family: Helvetica, sans-serif;
+ font-size: 1.0em;
+ font-family: 'open_sanssemibold', sans-serif;
 }
 
 h1 a, h2 a, h3 a {
@@ -29,55 +54,83 @@ a:visited {
 }
 
 .wrapper {
- width: 650px;
+ width: 600px;
  margin: 0 auto;
  text-align: left;
 }
 
 .wrapper header {
  text-align: left;
+ font-size: 1.6em;
+ margin: 40px 0 20px 0;
 }
 
-.wrapper header nav {
- text-align: right;
- font-size: 1.4em;
+.wrapper header nav h1 {
+ vertical-align: middle;
+ line-height: 40px;
+ padding: 0;
+ margin: 0;
+}
+.wrapper header nav a img {
+ float: left;
 }
 .wrapper header nav a {
  text-decoration: none;
 }
 
-.wrapper header h1 {
- padding-top: 40px;
- text-indent: -9999em;
-}
-
-.wrapper header h1 a {
- display: block;
- width: 102px;
- height: 86px;
- background: url(/static/img/logo.png) no-repeat;
- margin: 0 auto;
+.wrapper header nav h1 {
+ text-align: right;
 }
 
 .wrapper main {
- padding-top: 30px;
+ margin-top: 32px;
  text-align: left;
 }
 
 .wrapper main h2 {
- font-size: 3.2em;
+ font-size: 1.0em;
 }
 
-.wrapper main hr {
- background: #e6eff9;
- height: 1px;
- border: 0;
+/* index */
+.wrapper main.index h2 {
+ border-bottom: 1px solid #eee;
+ padding-bottom: 4px;
+}
+
+.wrapper main.index h2:last-child {
+ border-bottom: 0 !important;
+}
+
+.wrapper main.index h2 em {
+ display: block;
+ vertical-align: middle;
+ font-style: normal;
+ color: #999;
+}
+
+.wrapper main.index h2 a {
+ font-size: 2.0em;
+}
+
+/* article / page*/
+.wrapper main header {
+
+}
+.wrapper main header h2 {
+ font-size: 1.5em; /* .wrapper header goes to 1.6em, 20px */
 }
 
 .wrapper main article,
 .wrapper main section {
  font-size: 1.6em;
  line-height: 1.6;
+}
+
+.wrapper main article h2,
+.wrapper main article h3,
+.wrapper main section h2,
+.wrapper main section h3 {
+ font-size: 1.25em; /* 20px */
 }
 
 .wrapper main pre {
@@ -103,15 +156,11 @@ a:visited {
  margin-top: 40px;
 }
 
-.wrapper main.index h2 {
- font-size: 2.4em;
-}
-
-.wrapper main.index h2 em {
- vertical-align: middle;
- font-style: normal;
- color: #999;
- font-size: .5em;
+/* footer */
+.wrapper main hr {
+ background: #e6eff9;
+ height: 1px;
+ border: 0;
 }
 
 .wrapper footer {
@@ -120,6 +169,7 @@ a:visited {
  border-top: 1px solid #e6eff9;
  color: #666;
  font-size: 1.4em;
+/* font-size: 1.4em;*/
 }
 
 .wrapper footer p.headshot {
