@@ -1,5 +1,5 @@
 % Realm of Racket
-% book, thoughts, racket
+% book, thoughts, racket, #pinned
 % 2013-12-05
 
 _This has been in draft state since September 2013, and I've only just

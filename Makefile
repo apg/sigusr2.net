@@ -38,6 +38,7 @@ STATICDIR = $(SRCDIR)/static
 entry_deps = $(THEMEDIR)/entry.html $(THEMEDIR)/footer.html $(THEMEDIR)/header.html $(THEMEDIR)/head.html
 page_deps = $(THEMEDIR)/page.html $(THEMEDIR)/footer.html $(THEMEDIR)/header.html $(THEMEDIR)/head.html
 index_deps = $(THEMEDIR)/index.html $(THEMEDIR)/footer.html $(THEMEDIR)/header.html $(THEMEDIR)/head.html
+archive_deps = $(THEMEDIR)/archive.html $(THEMEDIR)/footer.html $(THEMEDIR)/header.html $(THEMEDIR)/head.html
 
 entry_srcs = $(wildcard $(ENTRYDIR)/*.md)
 page_srcs = $(wildcard $(PAGEDIR)/*.md)
@@ -47,11 +48,34 @@ page_targets = $(addprefix $(BUILDDIR)/page/, $(addsuffix .html, $(basename $(no
 
 $(shell mkdir -p $(BUILDDIR))
 
-all: static entries pages $(BUILDDIR)/index.html $(BUILDDIR)/feed.xml
+all: static entries pages $(BUILDDIR)/index.html $(BUILDDIR)/archive.html $(BUILDDIR)/feed.xml
 
 .ONESHELL:
-$(BUILDDIR)/index.html: $(entry_srcs) $(index_deps)
+$(BUILDDIR)/index.html: $(pinned_srcs) $(index_deps)
 	@echo "Building index"
+	# @for n in $(entry_srcs); do
+	# 	if head -n 3 $$n | grep '#pinned'; then
+	# 		DD=$$(head -n 3 $$n | tail -n 1 | sed -e 's/-//g')
+	# 		echo $$n $$DD $$(head -n 3 $$n | tail -n 1) $$(head -n 1 $$n);
+	# 	fi
+	# done
+
+	@for n in $(entry_srcs); do
+		if head -n 3 $$n | grep '#pinned' > /dev/null; then
+			DD=$$(head -n 3 $$n | tail -n 1 | sed -e 's/-//g')
+			echo $$n $$DD $$(head -n 3 $$n | tail -n 1) $$(head -n 1 $$n);
+		fi
+	done | sort -r -n -k 2 -t '%' \
+	| awk -F ' % ' 'function filename(c) {
+	   n = split(c, arr, "/")
+	   sub(/\.md$$/, ".html", arr[n])
+	   return arr[n]
+	}{print "##  *" $$3 "* [" $$4 "](/" filename($$1) ")\n"}' \
+	| $(THEME) $(THEMEOPTS) -t $(THEMEDIR)/index.html -o $@
+
+.ONESHELL:
+$(BUILDDIR)/archive.html: $(entry_srcs) $(archive_deps)
+	@echo "Building archive"
 	@for n in $(entry_srcs); do
 		DD=$$(head -n 3 $$n | tail -n 1 | sed -e 's/-//g')
 		echo $$n $$DD $$(head -n 3 $$n | tail -n 1) $$(head -n 1 $$n);
@@ -62,6 +86,7 @@ $(BUILDDIR)/index.html: $(entry_srcs) $(index_deps)
 	   return arr[n]
 	}{print "##  *" $$3 "* [" $$4 "](/" filename($$1) ")\n"}' \
 	| $(THEME) $(THEMEOPTS) -t $(THEMEDIR)/index.html -o $@
+
 
 
 # '%Y-%m-%dT%H:%M:%SZ'

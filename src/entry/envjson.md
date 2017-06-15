@@ -1,5 +1,5 @@
 % envjson: Config Checking for 12 Factor Apps
-%
+% #pinned
 % 2016-09-28
 
 The 12 factor app uses environment variables for configuration. This

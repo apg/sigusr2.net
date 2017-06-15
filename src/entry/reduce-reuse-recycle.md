@@ -1,5 +1,5 @@
 % Reduce, Reuse, Recycle
-% philosophy, engineering
+% philosophy, engineering, #pinned
 % 2015-03-06
 
 The concept of [recycling][] has existed since, probably, the dawn of

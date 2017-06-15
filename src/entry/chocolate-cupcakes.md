@@ -1,5 +1,5 @@
 % Chocolate Cupcakes
-% recipe, scheme
+% recipe, scheme, #pinned
 % 2008-12-15
 
 

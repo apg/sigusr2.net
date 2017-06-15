@@ -1,5 +1,5 @@
 % Either continue, or error
-% golang
+% golang, #pinned
 % 2016-07-01
 
 In functional languages such as Haskell, or Scala, there's a common

@@ -1,5 +1,5 @@
 % A Spreadsheet is Not a Database
-% spreadsheets,internet-corrections
+% spreadsheets,internet-corrections, #pinned
 % 2013-09-24
 
 

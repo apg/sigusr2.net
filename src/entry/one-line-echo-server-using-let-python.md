@@ -1,5 +1,5 @@
 % A "One" Line Echo Server Using "let" in Python
-% python, hacks, whyohwhy
+% python, hacks, whyohwhy, #pinned
 % 2014-11-12
 
 This morning I realized something incredibly stupid. Stupid, because

@@ -1,5 +1,5 @@
 % Clojure Conj Reading List
-% toread, clojure, conj
+% toread, clojure, conj, #pinned
 % 2010-10-24
 
 

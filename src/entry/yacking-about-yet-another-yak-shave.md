@@ -1,5 +1,5 @@
 % Yacking About Yet Another Yak Shave Called Lack
-% hack-and-tell
+% hack-and-tell, #pinned
 % 2015-05-22
 
 *This is an adaptation of a talk I gave at [Hack and Tell, Round 33][round-33], in NYC*

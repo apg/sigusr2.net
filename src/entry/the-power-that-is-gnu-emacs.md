@@ -1,5 +1,5 @@
 % The Power That is GNU Emacs
-% emacs, gnu, editor
+% emacs, gnu, editor, #pinned
 % 2009-04-30
 
 

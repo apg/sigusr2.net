@@ -1,5 +1,5 @@
 % Plotting Points
-% frustration, data
+% frustration, data, #pinned
 % 2014-07-31
 
 Yesterday, I captured some data from `pidstat` during a failure simulation. I had hypothesized that the components memory usage would be pretty stable regardless of failure, but wanted to confirm it just to be sure. At the end of the simulation, I had a bunch of `pidstat` records that looked like this (with the params I gave it):
