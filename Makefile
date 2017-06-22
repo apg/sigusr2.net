@@ -25,7 +25,7 @@ BLOG_ATOM_ID = $(shell echo $(BLOG_URL) | $(MD5_CMD) | cut -f 1 -d ' ')
 RSYNC_TARGET = apg@sigusr2.net:/var/www/htdocs/sigusr2.net
 
 # location of the theme executable
-THEME = theme
+THEME ?= theme
 THEMEOPTS = -c footnotes
 
 SRCDIR = src
