@@ -1,5 +1,5 @@
 % Small, Life Problems? Just a Matter of Programming
-% c, dwm, hack, keep-it-simple-stupid
+% c, dwm, hack, keep-it-simple-stupid, #pinned
 % 2012-03-23
 
 

@@ -1,5 +1,5 @@
 % More Modest
-% blogs, lolz
+% blogs, lolz, #pinned
 % 2014-08-16
 
 A few days ago, I discovered [discount][discount], a very nice

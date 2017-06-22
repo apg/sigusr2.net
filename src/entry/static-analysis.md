@@ -1,5 +1,5 @@
 % Static Analysis
-% pl, static analysis, dynamic languages
+% pl, static analysis, dynamic languages, #pinned
 % 2014-01-15
 
 

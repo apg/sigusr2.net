@@ -1,5 +1,5 @@
 % Smart Moves in URL Shorteners
-% urls, encoding
+% urls, encoding, #pinned
 % 2012-03-13
 
 It's no secret that virtually every popular (and non popular) site on the web

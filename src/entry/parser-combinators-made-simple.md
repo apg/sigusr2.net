@@ -1,5 +1,5 @@
 % Parser Combinators Made Simple
-% python, parsing, combinators, functional
+% python, parsing, combinators, functional, #pinned
 % 2011-04-18
 
 

@@ -1,5 +1,5 @@
 % Higher Order PHP
-% functional, php, lambda-the-ultimate
+% functional, php, lambda-the-ultimate, #pinned
 % 2009-02-06
 
 There's no doubt in my mind that [Higher order programming][1] is value added

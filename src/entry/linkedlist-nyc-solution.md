@@ -1,5 +1,5 @@
 % LinkedList NYC Solution
-% silly, scheme, hack, brainfuck
+% silly, scheme, hack, brainfuck, #pinned
 % 2012-11-05
 
 

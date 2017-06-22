@@ -1,5 +1,5 @@
 % Scanabanana
-% meetup,hack-and-tell
+% meetup,hack-and-tell, #pinned
 % 2015-09-01
 
 My kids have a few [Scanimation](http://scanimationbooks.com/)

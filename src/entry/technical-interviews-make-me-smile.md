@@ -1,5 +1,5 @@
 % Technical Interviews Make Me Smile
-% interviews, jobs
+% interviews, jobs, #pinned
 % 2013-09-17
 
 

@@ -1,5 +1,5 @@
 % Serializing Work to be Done
-% archive, meetup, java
+% archive, meetup, java, #pinned
 % 2011-04-15
 
 

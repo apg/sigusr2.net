@@ -1,5 +1,5 @@
 % A Language by Any Other Name
-% thought, programming
+% thought, programming, #pinned
 % 2014-02-10
 
 
