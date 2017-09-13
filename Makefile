@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-MD5_CMD ?= md5sum
+MD5_CMD ?= md5
 
 # These configure the atom feed
 BLOG_TITLE = SIGUSR2
