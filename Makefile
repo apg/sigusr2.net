@@ -53,13 +53,6 @@ all: static entries pages $(BUILDDIR)/index.html $(BUILDDIR)/archive.html $(BUIL
 .ONESHELL:
 $(BUILDDIR)/index.html: $(pinned_srcs) $(index_deps)
 	@echo "Building index"
-	# @for n in $(entry_srcs); do
-	# 	if head -n 3 $$n | grep '#pinned'; then
-	# 		DD=$$(head -n 3 $$n | tail -n 1 | sed -e 's/-//g')
-	# 		echo $$n $$DD $$(head -n 3 $$n | tail -n 1) $$(head -n 1 $$n);
-	# 	fi
-	# done
-
 	@for n in $(entry_srcs); do
 		if head -n 3 $$n | grep '#pinned' > /dev/null; then
 			DD=$$(head -n 3 $$n | tail -n 1 | sed -e 's/-//g')
