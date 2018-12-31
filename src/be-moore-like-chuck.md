@@ -1,10 +1,11 @@
 # Be Moore Like Chuck
 
-Not too long ago, (*\*cough\** over 2 years ago at this point) [Phil](http://technomancy.com) and I were chatting
-about some projects, [Forth][forth], and simplicity when _"Be Moore Like Chuck"_
+Not too long ago, (*\*cough\** over 2 years ago at this point)
+[Phil](http://technomancy.com) and I were chatting about some
+projects, [Forth][forth], and simplicity when _"Be Moore Like Chuck"_
 appeared in my buffer. Liking nothing more than t-shirts and bad puns,
 I simply couldn't resist the urge to, well, make a t-shirt out of this
-bad pun. 
+bad pun.
 
 There's of course more to it than that. The phrase "Be Moore Like
 Chuck" pays homage to Forth's creator, [Charles
@@ -113,13 +114,14 @@ board and made v1.
 
 _This_ result is something I quite like. As a result, I've now made it
 [available](https://sigusr2.spreadshirt.com) to anyone else who
-interested in pledging to "Be Moore Like Chuck." The price is "at
-Spreadshirt's cost" + $5 for Chuck's charity of choice, the MIT
-Department of Physics.
+interested in pledging to "Be Moore Like Chuck." I added $5 to the
+default price for Chuck's charity of choice, the MIT Department of
+Physics. However, whatever "commission" Spreadshirt gives me will be
+donated.
 
 <figure>
-    <img src="./i/bemoore-v1.png" alt="'Be Moore Like Chuck' T-Shirt design, with Chuck Moore face in 4 colors." />
-    <figcaption>v1 t-shirt design.</figcaption>
+<img src="./i/bemoore-v1.png" alt="'Be Moore Like Chuck' T-Shirt design, with Chuck Moore face in 4 colors." />
+<figcaption>v1 t-shirt design. <a href="https://sigusr2.spreadshirt.com">Available for purchase.</a></figcaption>
 </figure>
 
 ## Epilogue
