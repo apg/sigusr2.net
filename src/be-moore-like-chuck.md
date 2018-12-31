@@ -28,6 +28,8 @@ in computing and letting your work talk for you.
 We should all strive to do that more. We should all strive to "Be Moore
 Like Chuck."
 
+---
+
 So, anyway, I immediately had an *idea* for the t-shirt, and Phil
 suggested what I was thinking; the text must be in the font face used
 by [colorForth](https://en.wikipedia.org/wiki/ColorForth). I couldn't
