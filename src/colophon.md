@@ -35,7 +35,7 @@ used [make8bitart][make8bitart] for the "logo," pngcrushed it, then
 base64 encoded it into the stylesheet as data.
 
 I have unlinked many posts from the index this time around. The content
-is still somewhat available, [here][old].
+is still somewhat available, [here][here].
 
 Under the hood, pages are served from [httpd(8)][httpd], on top of
 [OpenBSD's][openbsd].
@@ -58,3 +58,4 @@ Under the hood, pages are served from [httpd(8)][httpd], on top of
 [here]: /old
 [ssg4]: https://www.romanzolotarev.com/ssg.html
 [rssg]: https://www.romanzolotarev.com/rssg.html
+[lowdown]: https://github.com/kristapsdz/lowdown

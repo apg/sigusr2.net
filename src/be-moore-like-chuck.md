@@ -16,7 +16,7 @@ microchips, various companies, contributions to NASA and science
 generally, and a number of other accomplishments that I have only
 imagined.
 
-Being more like Chuck isn't about being successful in the computing
+But, being more like Chuck isn't about being successful in the computing
 industry. No, it's about eschewing complexity in favor of simplicity
 and of efficiency. In favor of rapid, incremental development. It's
 about being brave enough to simplify our specifications of software to
@@ -38,13 +38,14 @@ isn't widely available in True Type, open type, or any of the other
 less modern font formats. That left screenshots of colorForth, or
 *gasp* booting up colorForth.
 
-But what good would the story be if I had just done that? Instead of
-taking the easy way out, I instead went down the rabbit hole of trying
-to understand the assembler code for colorForth's font
-rendering. Files were named appropriately. And while I didn't exactly
-understand what was going on, I got enough clues to draw a hypothesis
-about the file `icons.fnt` which seemed the most probable place for
-font data to be stored.
+But what good would the story be if I had just done that, or had found
+[this page][cf]? Instead of taking
+the easy way out, I instead went down the rabbit hole of trying to
+understand the assembler code for colorForth's font rendering. Files
+were named appropriately. And while I didn't exactly understand what
+was going on, I got enough clues to draw a hypothesis about the file
+`icons.fnt` which seemed the most probable place for font data to be
+stored.
 
 A quick run of `file(1)` suggested it was just pure data, which ruled
 out it being an actual font; I suspected a cousin of
@@ -128,7 +129,7 @@ donated.
 
 ## Epilogue
 
-So how come colorForth stores its characters in a seamingly non-ASCII
+So how come [colorForth][cf] stores its characters in a seamingly non-ASCII
 order? Well, it turns out that one of the goals of colorForth was 
 hyper optimization, and ease of input. There's little punctuation
 because color is used instead. It also has a sophisticated editor
@@ -137,7 +138,7 @@ which uses only 27 of the 102 keys on a standard keyboard.
 The relative frequency of characters determines the order of the
 characters in the sprite sheet. You see, to save space in code, and in
 the runtime, characters are *not* stored as ASCII. In place of ASCII,
-Huffman codes are used. The letter 'a' is 5, and the letter 'b' is
+Shannon codes are used. The letter 'a' is 5, and the letter 'b' is
 19. This is odd coming from a conventional computing background,
 but Forth is far from conventional. Forth is unique, to say the least.
 
@@ -145,3 +146,4 @@ _- 2018/12/31_
 
 
 [forth]: https://en.wikipedia.org/wiki/Forth_(programming_language)
+[cf]: https://colorforth.github.io/cf.htm
