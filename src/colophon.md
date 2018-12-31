@@ -38,7 +38,7 @@ I have unlinked many posts from the index this time around. The content
 is still somewhat available, [here][here].
 
 Under the hood, pages are served from [httpd(8)][httpd], on top of
-[OpenBSD's][openbsd].
+[OpenBSD][openbsd].
 
 
 
@@ -55,7 +55,7 @@ Under the hood, pages are served from [httpd(8)][httpd], on top of
 [openbsd]: http://openbsd.org
 [httpd]: http://man.openbsd.org/OpenBSD-current/man8/httpd.8
 [make8bitart]: https://make8bitart.com/
-[here]: /old
+[here]: /old/
 [ssg4]: https://www.romanzolotarev.com/ssg.html
 [rssg]: https://www.romanzolotarev.com/rssg.html
 [lowdown]: https://github.com/kristapsdz/lowdown
