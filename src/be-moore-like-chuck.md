@@ -1,7 +1,7 @@
 # Be Moore Like Chuck
 
 Not too long ago, (*\*cough\** over 2 years ago at this point)
-[Phil](http://technomancy.com) and I were chatting about some
+[Phil](https://technomancy.us/colophon) and I were chatting about some
 projects, [Forth][forth], and simplicity when _"Be Moore Like Chuck"_
 appeared in my buffer. Liking nothing more than t-shirts and bad puns,
 I simply couldn't resist the urge to, well, make a t-shirt out of this
