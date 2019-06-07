@@ -1,11 +1,10 @@
 # Be Moore Like Chuck
 
-Not too long ago, (*\*cough\** over 2 years ago at this point)
-[Phil](https://technomancy.us/colophon) and I were chatting about some
-projects, [Forth][forth], and simplicity when _"Be Moore Like Chuck"_
+Not too long ago, (*\*cough\** over 2 years ago at this point) [Phil](http://technomancy.com) and I were chatting
+about some projects, [Forth][forth], and simplicity when _"Be Moore Like Chuck"_
 appeared in my buffer. Liking nothing more than t-shirts and bad puns,
 I simply couldn't resist the urge to, well, make a t-shirt out of this
-bad pun.
+bad pun. 
 
 There's of course more to it than that. The phrase "Be Moore Like
 Chuck" pays homage to Forth's creator, [Charles
@@ -16,7 +15,7 @@ microchips, various companies, contributions to NASA and science
 generally, and a number of other accomplishments that I have only
 imagined.
 
-But, being more like Chuck isn't about being successful in the computing
+Being more like Chuck isn't about being successful in the computing
 industry. No, it's about eschewing complexity in favor of simplicity
 and of efficiency. In favor of rapid, incremental development. It's
 about being brave enough to simplify our specifications of software to
@@ -28,8 +27,6 @@ in computing and letting your work talk for you.
 We should all strive to do that more. We should all strive to "Be Moore
 Like Chuck."
 
----
-
 So, anyway, I immediately had an *idea* for the t-shirt, and Phil
 suggested what I was thinking; the text must be in the font face used
 by [colorForth](https://en.wikipedia.org/wiki/ColorForth). I couldn't
@@ -38,14 +35,13 @@ isn't widely available in True Type, open type, or any of the other
 less modern font formats. That left screenshots of colorForth, or
 *gasp* booting up colorForth.
 
-But what good would the story be if I had just done that, or had found
-[this page][cf]? Instead of taking
-the easy way out, I instead went down the rabbit hole of trying to
-understand the assembler code for colorForth's font rendering. Files
-were named appropriately. And while I didn't exactly understand what
-was going on, I got enough clues to draw a hypothesis about the file
-`icons.fnt` which seemed the most probable place for font data to be
-stored.
+But what good would the story be if I had just done that? Instead of
+taking the easy way out, I instead went down the rabbit hole of trying
+to understand the assembler code for colorForth's font
+rendering. Files were named appropriately. And while I didn't exactly
+understand what was going on, I got enough clues to draw a hypothesis
+about the file `icons.fnt` which seemed the most probable place for
+font data to be stored.
 
 A quick run of `file(1)` suggested it was just pure data, which ruled
 out it being an actual font; I suspected a cousin of
@@ -117,19 +113,18 @@ board and made v1.
 
 _This_ result is something I quite like. As a result, I've now made it
 [available](https://sigusr2.spreadshirt.com) to anyone else who
-interested in pledging to "Be Moore Like Chuck." I added $5 to the
-default price for Chuck's charity of choice, the MIT Department of
-Physics. However, whatever "commission" Spreadshirt gives me will be
-donated.
+interested in pledging to "Be Moore Like Chuck." The price is "at
+Spreadshirt's cost" + $5 for Chuck's charity of choice, the MIT
+Department of Physics.
 
 <figure>
-<img src="./i/bemoore-v1.png" alt="'Be Moore Like Chuck' T-Shirt design, with Chuck Moore face in 4 colors." />
-<figcaption>v1 t-shirt design. <a href="https://sigusr2.spreadshirt.com">Available for purchase.</a></figcaption>
+    <img src="./i/bemoore-v1.png" alt="'Be Moore Like Chuck' T-Shirt design, with Chuck Moore face in 4 colors." />
+    <figcaption>v1 t-shirt design.</figcaption>
 </figure>
 
 ## Epilogue
 
-So how come [colorForth][cf] stores its characters in a seamingly non-ASCII
+So how come colorForth stores its characters in a seamingly non-ASCII
 order? Well, it turns out that one of the goals of colorForth was 
 hyper optimization, and ease of input. There's little punctuation
 because color is used instead. It also has a sophisticated editor
@@ -138,7 +133,7 @@ which uses only 27 of the 102 keys on a standard keyboard.
 The relative frequency of characters determines the order of the
 characters in the sprite sheet. You see, to save space in code, and in
 the runtime, characters are *not* stored as ASCII. In place of ASCII,
-Shannon codes are used. The letter 'a' is 5, and the letter 'b' is
+Huffman codes are used. The letter 'a' is 5, and the letter 'b' is
 19. This is odd coming from a conventional computing background,
 but Forth is far from conventional. Forth is unique, to say the least.
 
@@ -146,4 +141,3 @@ _- 2018/12/31_
 
 
 [forth]: https://en.wikipedia.org/wiki/Forth_(programming_language)
-[cf]: https://colorforth.github.io/cf.htm

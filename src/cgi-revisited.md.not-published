@@ -1,0 +1,168 @@
+# CGI Revisited
+
+[RFC 3875][rfc3875] defines CGI 1.1, a protocol for allowing web
+servers to execute programs. The basic model has a client making a
+request for a resource that happens to be a program. The web server
+parses the client's request and turns all the relevant request
+information into a set of environment variables, which the program can
+refer to while executing.
+
+POST bodies are typically available on the program's stdin. Additional
+meta-variables will be availabe in the environment in this case such
+that the program knows the `CONTENT_LENGTH` and potentially even the
+`CONTENT_TYPE.`
+
+GET requests are intended to be document producing, based on the
+meta-variable values, and be idempotent and safe. This is not unlike
+the principles of REST, and is not surprising.
+
+For all HTTP methods, a response is constructed by the program and
+written to stdout, which is proxied back to the client through the
+webserver.
+
+As a brief example, let's consider a simple CGI program that adds two
+`a` and `b` that it receives as parameters from the query string.
+We'll use Perl 5 for this, because, well, Perl practically tied the
+early internet together, as did CGI.
+
+```
+#!/usr/bin/env perl
+
+use CGI;
+$query = new CGI;
+
+print "Content-Type: text/plain\r\n\r\n";
+print $query->param('a') + $query->param('b');
+```
+
+With the right web server setup, you can call this CGI using a simple
+curl command:
+
+```
+$ curl "http://example.com/cgi-bin/add.cgi?a=1&b=3"
+Content-type: text/plain
+
+4$
+```
+
+Extending this a bit further, you might have had a mortgage calculator, 
+or a comments page for your web site, or any number of things. In the
+early days, perhaps none more important that `formmail.cgi`.
+
+`formmail.cgi` is a classic example of a successful CGI as a service
+concept, and pretty much every "Contact Us" form on the WWW was powered,
+at some point by it. Users would create their "Contact Us" form, and setup
+the action to `https://example.com/cgi-bin/formmail.cgi?redirect_to=https://mysite.com/contact-us/thanks.html`.
+When a visitor posted the form, a hidden field `key` would be decrypted,
+or somehow checked against a known list of "To:" addresses, and an email
+would be sent off. 
+
+In Perl, it looked something like:
+
+```
+#!/usr/bin/env perl
+
+use Some::Model qw(findCustomerFromKey);
+use CGI;
+$query = new CGI;
+my $to = findToFromKey($query->param('key'));
+if ($to) {
+    $name = $query->param('name');
+    $from = $query->param('from_email');
+    
+    open(MAIL,"|/usr/sbin/sendmail -i -t");
+
+    print MAIL "To: $to{'recipient'}\n";
+    print MAIL "From: $name <$from>\n";
+
+    print MAIL ""A customer has contacted you with the following information:\n";
+
+    @fields = $query->param
+    foreach my $f (@fields) {
+        if ($f =~ /info_(.*)/) {
+            print MAIL "\n$1:" . $query->param($f);
+        }
+    }
+
+    print MAIL "\n\nSincerely,\n\nFormmail as a Service, LLC\n\n";
+
+    close(MAIL);
+
+    # redirect the client.
+    print "Location: " . $query->param('redirect_to');
+}
+```
+
+I've obviously only "sketched" a solution here, and this shouldn't be
+used, but you can see that with a couple of lines of code, I've extended
+the static HTML nature of the World Wide Web into something really 
+interesting.
+
+It's easy to see how this can be taken a lot further, processing requests
+differently depending on the HTTP request method, based on headers, etc.
+For it's simplicity you get some great advantages:
+
+In a basic CGI application like `formmail.cgi` the webserver starts a
+new process every time a request comes in, does the work (adds number,
+or sends an email as above) and exits. As a systems operator, I can log
+how many emails were sent for each customer and _charge_ them per email.
+But, if no one sends an email, the only cost to me, the operator, is the
+association of the "key" to the customer's billing and _To:_ address. 
+
+The simplicity of this model can not be overstated.
+
+
+
+
+This method of process isolation has a big disadvantage--startup time.
+In a more complicated CGI application, one that say, connects to a 
+relational database, or memcached, has to do non-trivial work to become
+available, on every request. It's possible to optimize this a bit--
+connect first to memcached, and if the things you're looking for are
+in the cache, then you don't need to connect to your RDBMS. 
+
+We solved this a few different ways, most of which attempted to "fake"
+the simplicity of CGI but keep processes in memory without cold starting.
+
+[mod_perl][modperl] embedded a Perl interpreter into the Apache web server,
+and created the ability to share state across requests, while maintaining
+the basic simplicity of the CGI protocol. mod\_perl could execute programs
+designed to be run under standard CGI.
+
+While other languages followed suit, these efforts lost out in favor
+of the [FastCGI][fastcgi], and [SCGI][scgi] derivatives, which defined
+a protocol to talk to an _external to the web server_ process, or
+processes. The web server's "CGI" environment would be encoded and
+sent over a Unix or TCP socket, and the application would be written
+with an adapter to read that and present a standard interface to it.
+
+Languages like Python and Ruby eventually standardized on their own
+FastCGI like protocols, with [WSGI][wsgi], and [Rack][rack], and even
+Perl, the language that more or less started all the fun in the first
+place came back around dropping mod\_perl in favor of a WSGI like,
+[PSGI][psgi].
+
+What's interesting to me is that the couple of year old
+"[Serverless][serverless]" seems to be moving in a similar trajectory.
+
+When Lambda came out, "process isolation" was all the rage. This was
+reminiscent of CGI. One event, one process, one response. But now,
+FaaS solutions seem to be adopting a more FastCGI like approach, for
+the exact same reasons that FastCGI became popularized to begin
+with--cold starts are expensive! Even more interesting is that FaaS
+is becoming synonymous with autoscaled HTTP servers.
+
+So, is the next generation of CGI "just" serverless?
+
+
+_- 2019/03/14_
+
+[rfc3875]: https://tools.ietf.org/html/rfc3875
+[serverless]: https://en.wikipedia.org/wiki/Serverless_computing
+[wsgi]: 
+[rack]:
+[psgi]: 
+[mod_perl]: 
+[mod_python]:
+[mod_ruby]:
+[fastcgi]: 

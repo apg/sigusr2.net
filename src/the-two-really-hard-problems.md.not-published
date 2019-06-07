@@ -1,0 +1,117 @@
+# The Two Really Hard Problems
+
+As someone reading this blog, chances are great that you've heard the,
+now cliche, "There are two hard problems in computer science: cache
+invalidation and naming things."
+
+Perhaps, you've even seen / heard some of the extensions to that:
+
+* <q>"And, off by one errors."</q>
+* <q>"7. Asynchronous callbacks,"</q>
+* <q>"Exactly-once Delivery &#8230; Exactly-once Delivery"</q>
+
+I happen to like [Phillip Bowden's](https://twitter.com/pbowden/status/468855097879830528) take on it:
+
+> there's two hard problems in computer science: we only have one joke and it's not funny.
+
+If we're going to be serious about this, ever, at all, then we should
+really look at classifying these things better. I'd therefore
+like to propose an alternative that encompasses them all:
+
+> "There's two really hard problems: Communication and
+> Communication. Wait, I mean, Context Switching."
+
+While I am not well versed in the psychology literature, or in basic
+101-level psychology, even, I don't think it is hard to intuit
+what I mean here. In other words, no citations (OK, maybe 1).
+
+It's easy to see that communication isn't easy in the real world. We
+speak of miscommunication leading to all sorts of problems ranging
+from getting the wrong food with your take out order, to an outright
+declaration of war, and everything in between.
+
+We can define context switching in the real world as "multi-tasking."
+Our brain is great at multi-tasking in some aspects: I'm writing this,
+and my body functions just fine. But look no further than 
+[distracted driving statistics][dds] in the US to see that we, as 
+fallible humans aren't great at multi-tasking, always.
+
+In computing, the original cited problems are all instances of the two
+generally hard problems:
+
+### <q>Cache Invalidation.</q>
+
+*Communication and Context Switching*: A perfect cache is
+indistinguishable from the source of truth, but usually less expensive
+to access. In practice, achieving a perfect cache is nearly impossible
+in a system with some form of parallelism or concurrency. 
+
+When the cache is available over the network, _e.g._ memcache, redis,
+etc, a perfect cache would require, possibly [serializable
+consistency][serializability]. An implementation of that likely puts a
+shared queue in front of both read and write operations to ensure that
+the cache always has the most up to date state before all reads.
+
+And, how do we order those events anyway? By the fallible concept of
+"time?" Which, with any latency cannot accurately be observed, let
+alone be accurately observed consistently across machines?
+
+The moment we say "shared queue," is the moment that alarm bells
+should be ringing, because this requires coordination, which is
+communication. The Comp Sci literature on distributed systems should
+speak well to how hard this is, generally.
+
+<!--
+A slightly less perfect option, MVCC (Multi Version Concurrency
+Control) might increase read throughput at the expense of possibly
+serving data that is, at the moment, being updated.
+
+Of course, all this doesn't matter because communicating which event
+came first, well, that's been the subject of 40+ years of distributed
+systems research -- it's hard.
+
+Of course, *communicating* a consistent time across processes is also
+incredibly hard, so who can even say what happened first without some
+sort of consensus (also a communications problem)?
+
+In a distributed setting, with a multiple process shared cache (_e.g._
+in memcache, or redis, or some other scenario), a perfect cache
+requires, possibly ,
+effectively enforcing a queue of pending operations while multiple
+processes communicate with each other in order carry them out in
+order, despite the Kernel's scheduler interleavings and context
+switches.
+
+With event loops, the order by which callbacks are invoked is
+typically implementation specified. If 
+-->
+
+### <q>Naming Things.</q>
+
+*Communication*. Self-evident. To name is to provide a means by which
+to refer to a thing when communicating.
+
+### <q>And, off by one errors.</q>
+
+*Communication*. Somewhere we told the computer `3`, but we really
+meant `2`. Perhaps a paper published an algorithm assuming array
+indexes start at 1 for mathematical convenience, and our programming
+language of choice uses 0. Somewhere there's a miscommunication.
+
+### <q>7. Asynchronous Callbacks.</q>
+
+*Context Switching*. 
+
+### <q>Exactly-once Delivery &#8230; Exactly-once Delivery</q>
+
+*Communication*. The root of this goes back to something I already
+_delivered_ -- "The Comp Sci literature on distributed systems speaks
+pretty well to this being hard."
+
+### 
+
+_- 2019/03/01_
+
+
+[dds]: https://www.cdc.gov/motorvehiclesafety/distracted_driving/index.html
+[serializability]: https://en.wikipedia.org/wiki/Serializability

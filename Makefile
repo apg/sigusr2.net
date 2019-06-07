@@ -22,5 +22,5 @@ images:
 	cp -R ./i ./build/i
 	cp favicon.png ./build/
 
-sync: all
-	cd build/ && rsync -vrRz --rsh=/usr/bin/ssh . $(RSYNC_TARGET) && cd ..
+sync:
+	@rsync -vrRz --rsh=/usr/bin/ssh ./build/ $(RSYNC_TARGET)
