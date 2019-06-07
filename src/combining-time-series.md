@@ -5,11 +5,11 @@ monitoring community were there. A great time was had by many. (_note:_ I've nev
 part of the monitoring community, but perhaps should make more of an effort?)
 
 [Evan Chan](https://velvia.github.io/) gave a talk entitled: *"Rich
-Histograms at Scale: A New Hope."* In it, he made everyone aware of
+Histograms at Scale: A New Hope."* ([slides](https://www.slideshare.net/EvanChan2/histograms-at-scale-monitorama-2019)) In it, he made everyone aware of
 how much error exists if you do histograms the way that's easy in
 systems like Prometheus--"a couple of linear buckets"--and showed that
 to get even close to a 10% error rate for a span of values from 1000 -
-10e6, you need over 600 *exponential* buckets.
+6e10, you need over 600 *exponential* buckets.
 
 This presents a problem.
 
@@ -20,7 +20,7 @@ to retrieve the buckets to reconstruct latency estimates with histograms.
 Not to worry, though! Evan suggested that a richer histogram model,
 which stored all of the buckets in a single, rich time series, would provide
 better scalability here without sacrificing accuracy. And, using
-[delta encoding](https://en.wikipedia.org/wiki/Delta_encoding), 600
+[delta encoding](https://en.wikipedia.org/wiki/Delta_encoding), 188
 buckets would be quite cheap to store (on the order of 1.8 bytes per
 bucket).
 
@@ -31,7 +31,7 @@ similar time series data was exactly the design we used with InfluxDB
 (v0.0.76 or something) before 2015, and exactly the design we knew
 we'd keep in the new system. Because we knew our graphs would be
 composed of, say, 4 memory related metrics, we put them together in
-the same way you could put 600 histogram buckets together.
+the same way you could put 188 histogram buckets together.
 
 Non-Relational databases always talk about how you've got to design
 your schemas for how you want to query it. Relational databases say
