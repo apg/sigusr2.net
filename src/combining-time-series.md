@@ -9,7 +9,7 @@ Histograms at Scale: A New Hope."* ([slides](https://www.slideshare.net/EvanChan
 how much error exists if you do histograms the way that's easy in
 systems like Prometheus--"a couple of linear buckets"--and showed that
 to get even close to a 10% error rate for a span of values from 1000 -
-6e10, you need over 600 *exponential* buckets.
+6e10, you need 188 *exponential* buckets.
 
 This presents a problem.
 
