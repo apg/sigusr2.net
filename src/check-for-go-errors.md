@@ -21,7 +21,7 @@ What is `assert`? When assertions are turned on, the `assert` statement in many 
 
 ```
 // assert(x != 1)
-if x != 1 {
+if !(x != 1) {
     panic("Assertion error: x != 1")
 }
 ```
