@@ -14,7 +14,7 @@ to get even close to a 10% error rate for a span of values from 1000 -
 This presents a problem.
 
 While it's not that big of a problem to query 10 time series to
-reconstruct latency estimates with histograms, it _is_ a problem to make 600 queries
+reconstruct latency estimates with histograms, it _is_ a problem to make 188 queries
 to retrieve the buckets to reconstruct latency estimates with histograms.
 
 Not to worry, though! Evan suggested that a richer histogram model,
