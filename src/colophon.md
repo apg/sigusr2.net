@@ -30,9 +30,7 @@ Markdown. I used [html2text.py][html2text] to get things mostly back
 in shape, but laziness means that there are still some entries that
 are broken, which I fix when I encounter them and have time to do so.
 
-This iteration of SIGUSR2 is as bare bones as I can get design wise. I
-used [make8bitart][make8bitart] for the "logo," pngcrushed it, then 
-base64 encoded it into the stylesheet as data.
+This iteration of SIGUSR2 is as bare bones as I can get design wise.
 
 I have unlinked many posts from the index this time around. The content
 is still somewhat available, [here][old].
@@ -58,3 +56,4 @@ Under the hood, pages are served from [httpd(8)][httpd], on top of
 [here]: /old
 [ssg4]: https://www.romanzolotarev.com/ssg.html
 [rssg]: https://www.romanzolotarev.com/rssg.html
+[lowdown]: https://kristaps.bsd.lv/lowdown/
