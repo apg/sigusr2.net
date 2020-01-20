@@ -64,7 +64,7 @@ INSERT INTO route_data (
   (3, 'BODY', 'This is the post body for the Take 2 post!');
 ```
 
-Great! As you can see these pages are pretty simple. While we could setup a foreign function to render these templates as markdown, or whatever else, I have spent way too much time thinking about this all as it is, so we'll leave that as an exercise to the reader. Same for control structures, arbitrary includes, and whatever else your fancy schmancy templating languages support these days. _(Back in my day, we typed out HTML for every response LIVE while the client was waiting on the other end&endash;Ed)_
+Great! As you can see these pages are pretty simple. While we could setup a foreign function to render these templates as markdown, or whatever else, I have spent way too much time thinking about this all as it is, so we'll leave that as an exercise to the reader. Same for control structures, arbitrary includes, and whatever else your fancy schmancy templating languages support these days. _(Back in my day, we typed out HTML for every response LIVE while the client was waiting on the other end--Ed)_
 
 Here's the punchline. With `RECURSIVE` Common Table Expressions, we have the ability to _split_ the template body up by the `'%'` character, and join the `route_data` with a potential variable name. If we then `group_concat` each of the parts, we collapse the exploded template back into a single row, ready to serve out.
 
@@ -158,7 +158,7 @@ At this point, the template is "tokenized", and our goal is to issue a query whi
 
 In order to get the actual body, it's just a matter of concatenating all the 1 column rows, with `group_concat`, using a blank delimiter and we get a rendered template.
 
-The query related to the HTTP headers and status line complete the _full_ HTTP response. A quick shim to make this a _full_ web server (_I've done this in Go, but it could be done with bash, netcat, etc, etc, etc&endash;Ed_) follows (_obviously, don't use this in production&endash;Ed_):
+The query related to the HTTP headers and status line complete the _full_ HTTP response. A quick shim to make this a _full_ web server (_I've done this in Go, but it could be done with bash, netcat, etc, etc, etc--Ed_) follows (_obviously, don't use this in production--Ed_):
 
 ```package main
 
