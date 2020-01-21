@@ -271,3 +271,43 @@ func main() {
 I ran out of steam, but I think it's likely possible to _parse_ HTTP from within SQLite... or at least, the important part to extract that path. I'll leave that as an exercise to the reader. :)
 
 _- 2020/01/20_
+
+
+<a id="update-2020-01-21"/>
+**UPDATE: 2020/01/21** It's silly, but I feel as though I'm cheating a little bit by not parsing HTTP within the query itself and leaving that as an open question, but I'm not motivated enough, at this point, to get the thing going end to end. With that said, here's a rudimentary, and _extremely not robust_ HTTP parser that you should never ever, ever, ever use for something real.
+
+```
+WITH RECURSIVE
+  headers(header, rest) AS (
+     VALUES ('', 'GET / HTTP/1.1
+Host: sigusr2.net
+User-Agent: curl/7.54.0
+Accept: */*')
+     UNION ALL
+     SELECT CASE WHEN instr(rest, '
+') = 0 THEN rest
+                 ELSE substr(rest, 0, instr(rest, '
+')) END,
+            CASE WHEN instr(rest, '
+') = 0 THEN ''
+                 ELSE substr(rest, instr(rest, '
+')+1) END
+     FROM headers WHERE rest != ''
+  ),
+  request(method, path, proto) AS (
+     SELECT substr(header, 0, 4) as method,
+            CASE WHEN instr(header, 'HTTP') = 0 THEN NULL
+                 ELSE TRIM(substr(header, 4, instr(header, 'HTTP') - 4)) END as path,
+            CASE WHEN instr(header, 'HTTP') = 0 THEN NULL
+                 ELSE substr(header, instr(header, 'HTTP')) END as proto
+     FROM headers WHERE header LIKE 'GET %' LIMIT 1
+  )
+  SELECT * FROM request;
+```
+
+Like with the previous parsing code, this makes use of `RECURSIVE` Common Table Expressions. The idea here is that the bound parameter would be the entire body that a connecting client sends over the connected socket. These result sets could be merged into the response generated query above. Instead of taking the path as a parameter, we'll have to select the path from the `request` result set, perhaps with a subquery in a `WHERE` clause. While generating a 404 is likely no different, generating errors when the client sends a POST request or some other malformed request is harder, and I have no current strategy...
+
+In the above, the `headers` result set is in charge of splitting the body by newlines. This is almost identical to the code we used to split the templates, except we use a different delimiter. The request result set then looks at all of the found lines and, filters out the first row that starts with `GET `. Given the HTTP protocol, we know that the path is the second, space delimited, item in that line, and the query finds the appropriate locations using `instr` and extracts it with `substr`. 
+
+For doing these types of hacks, a function that could generate a result set by doing a delimiter based split would be a welcome addition to SQLite. But, we've gotten pretty far with this hack, anyway.
+
