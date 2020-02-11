@@ -19,7 +19,7 @@ rss: src/index.html
 	$(RSSG) ./src/index.html > ./build/rss.xml
 
 images:
-	cp -R ./i ./build/i
+	cp -R ./i ./build/i/
 	cp favicon.png ./build/
 
 sync:
