@@ -1,8 +1,7 @@
 # A Language by Any Other Name
 
 Some programs are configurable, and they expose a so called "configuration"
-language. These tend to range from key value pairs to full-fledged, [Turing-
-complete][turing], programming languages.
+language. These tend to range from key value pairs to full-fledged, [Turing-complete][turing], programming languages.
 
 A "programming" language is also a "configuration" language, but only in the
 abstract. A programming language (somehow, by compiler, or virtual machine, or
@@ -18,5 +17,6 @@ Lisp.
 _- 2014/02/10_
 
 
+[^1]: An image is just an executable and associated data residing in memory.
 [turing]: https://en.wikipedia.org/wiki/Turing_completeness
 

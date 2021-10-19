@@ -53,7 +53,7 @@ Under the hood, pages are served from [httpd(8)][httpd], on top of
 [openbsd]: http://openbsd.org
 [httpd]: http://man.openbsd.org/OpenBSD-current/man8/httpd.8
 [make8bitart]: https://make8bitart.com/
-[here]: /old
+[old]: /old
 [ssg4]: https://www.romanzolotarev.com/ssg.html
 [rssg]: https://www.romanzolotarev.com/rssg.html
 [lowdown]: https://kristaps.bsd.lv/lowdown/

@@ -43,8 +43,6 @@ be glad you did.
 
 _- 2017/06/22_
 
-### Footnotes
-
-1. <a id="one"/>We actually took it even farther given this shared pool of resources splits almost equally across two continents. The result of this is that folks in Europe are on call for 12 hours a day, roughly 06:00 - 18:00, and folks in Pacfic time are 10:00 - 22:00. This is for both Primary and Secondary only.<a href="#one-return">#</a>
+[^1]: We actually took it even farther given this shared pool of resources splits almost equally across two continents. The result of this is that folks in Europe are on call for 12 hours a day, roughly 06:00 - 18:00, and folks in Pacfic time are 10:00 - 22:00. This is for both Primary and Secondary only.
 
 [heroku]: https://heroku.com

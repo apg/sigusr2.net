@@ -17,6 +17,9 @@
 #
 set -e
 
+OS=$(uname)
+
+echo $OS
 
 main () {
 	test -n "$1" || usage
@@ -61,11 +64,7 @@ no_file() {
 
 md_to_html() {
 	test -x "$(which lowdown)" || exit 3
-	lowdown \
-	-D html-skiphtml \
-	-D smarty \
-	-d metadata \
-	-d autolink "$1"
+	lowdown "$1"
 }
 
 
@@ -113,8 +112,14 @@ rel_to_abs_urls() {
 
 
 date_rfc_822() {
-	date -j '+%a, %d %b %Y %H:%M:%S %z' \
-	"$(echo "$1"| tr -cd '[:digit:]')0000"
+    echo "THEDATE: $1"
+    if test "${OS}" = "Linux" ; then
+        date --date="${1}" '+%a, %d %b %Y %H:%M:%S %z'
+    else # openbsd presumably
+        date '+%a, %d %b %Y %H:%M:%S %z' -j \
+             "$(echo "$1"| tr -cd '[:digit:]')0000"
+    fi
+
 }
 
 
@@ -150,7 +155,7 @@ render_item() {
 <item>
 <guid>'"$base_url/$url"'</guid>
 <link>'"$base_url/$url"'</link>
-<pubDate>'"$(date_rfc_822 "$date")"'</pubDate>
+<pubDate>'"$(date_rfc_822 "${date}")"'</pubDate>
 <title>'"$title"'</title>
 <description><![CDATA[
 
@@ -175,7 +180,7 @@ render_feed() {
 <title>'"$title"'</title>
 <description>'"$description"'</description>
 <link>'"$base_url"'/</link>
-<lastBuildDate>'"$(date_rfc_822 date)"'</lastBuildDate>
+<lastBuildDate>'"$(date_rfc_822 ${date})"'</lastBuildDate>
 '"$(cat)"'
 </channel></rss>'
 }

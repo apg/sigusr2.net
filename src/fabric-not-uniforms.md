@@ -5,7 +5,7 @@ evaluation or personal experience, but instead by fads that a small, vocal
 minority tout.
 
 These things aren't typically as simple as the best sorting algorithm, or a
-recipe for hashing passwords<sup><a id="one-return" href="#one">1</a></sup> (maybe a bad example<sup><a id="two-return" href="#two">2</a></sup>), but are
+recipe for hashing passwords[^1] (maybe a bad example[^2]), but are
 deeper than that--I'm talking about which programming language one should use,
 or which "framework," or even which message broker or database.
 
@@ -18,8 +18,7 @@ Please, make the herding stop!
 
 [Ian MacKaye][wiki-ian] once wrote two songs, "Straight Edge," and
 "Out of Step," and accidentally started the "straight edge" movement
-(or life-style, or a music scene--depending on who you talk to <sup><a
-id="three-return" href="#three">3</a></sup>). Both songs are
+(or life-style, or a music scene--depending on who you talk to[^3]. Both songs are
 biographical, but they were re-purposed to power other people's
 agendas. Something in which he never intended. There's a great
 metaphor that goes with it:
@@ -48,8 +47,7 @@ Uniforms hinder progress in our industry. The legions that uniforms create
 can't see past their solutions--sort of analogous to ["the blub
 paradox."][blub].
 
-Uniforms don't always fit<sup><a id="four-return"
-href="#four">4</a></sup>, and more often than not cause us to lose
+Uniforms don't always fit[^4], and more often than not cause us to lose
 site of the original problem. Instead we focus on how we can use a
 belt and some thread to make the uniform fit our new problem, for no
 better reason than allegiance. This leads to security problems, bugs
@@ -62,12 +60,10 @@ able to create our own properly fitting clothes.
 
 _- 2012/10/11 (Revised 2018/12/30)_
 
-### Footnotes
-
-1. <a id="one"/>"Just use bcrypt" -- <a href="http://antirez.com/post/crypto-dogmas.html">On Cryptography and Dogmas</a>, <a href="https://github.com/antirez/lamernews/pull/8">Old, but epic fad herd</a>.<a href="#one-return">#</a>
-2. <a id="two"/>A potential bad example because even if you don't understand it, using bcrypt is fundamentally more secure than salted, or even non-salted SHA1 / MD5 for storing passwords. But the whole "don't think or evaluate for yourself, 'cause we're waving what we use at you and we're awesome" attitude is shit.Other obvious choices are scrypt, PBKDF1 or PBKDF2.<a href="#two-return">#</a>
-3. <a id="three"/><a href="http://www.theedgeprojectmovie.com/">EDGE Perspectives on Drug Free Culture</a> has great explorations on the matter<a href="#three-return">#</a>
-4. <a id="four"/> But, there's no denying that a uniform sometimes perfectly fits. The reason for this stems from the fact that uniforms are normally patterned after a successful project. Rails was patterned after <a href="http://basecamp.com">Basecamp</a> was created, for instance. Django was patterned after a CMS for a newspaper. There are many cases when Rails and Django (and other frameworks and languages) are absolutely the best choice for a project.<a href="#four-return">#</a>
+[^1]: "Just use bcrypt" -- [On Cryptography and Dogmas](http://antirez.com/post/crypto-dogmas.html), [Old, but epic fad herd](https://github.com/antirez/lamernews/pull/8.
+[^2]: A potential bad example because even if you don't understand it, using bcrypt is fundamentally more secure than salted, or even non-salted SHA1 / MD5 for storing passwords. But the whole "don't think or evaluate for yourself, 'cause we're waving what we use at you and we're awesome" attitude is shit.Other obvious choices are scrypt, PBKDF1 or PBKDF2.
+[^3]: [EDGE: Perspectives on Drug Free Culture](http://www.theedgeprojectmovie.com/) has great explorations on the matter
+[^4]: But, there's no denying that a uniform sometimes perfectly fits. The reason for this stems from the fact that uniforms are normally patterned after a successful project. Rails was patterned after [Basecamp](http://basecamp.com) was created, for instance. Django was patterned after a CMS for a newspaper. There are many cases when Rails and Django (and other frameworks and languages) are absolutely the best choice for a project.
 
 
 [gothamist]: http://gothamist.com/2006/11/06/interview_with.php

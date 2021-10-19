@@ -161,11 +161,7 @@ render_html_files() {
 render_md_files() {
 	while read -r f
 	do
-		lowdown \
-		-D html-skiphtml \
-		-D smarty \
-		-d metadata \
-		-d autolink < "$1/$f" |
+		lowdown < "$1/$f" |
 		render_html_file "$3" \
 		> "$2/${f%\.md}.html"
 	done

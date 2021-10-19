@@ -3,7 +3,7 @@
 My friend Chris [reminded][reminded] me today that I still haven't
 done _any_ acting. It's easy to say, _"So what? Most people don't ever
 do acting."_ And, you'd of course be right. It's not _really_ about
-the acting, though, I'd love to be an extra<sup><a id="one-return" href="#one">1</a></sup>, or have a 1-line role of
+the acting, though, I'd love to be an extra[^1], or have a 1-line role of
 some sort, someday. It's more about what the term "acting" reminds me
 of--a genius of a man, gracious as can be, who inspired me as a
 software engineer, and tried to teach me things that only now make
@@ -96,7 +96,7 @@ _- 2017/10/24 (Updated 2018/12/30)_
 
 ### Footnotes
 
-1. <a id="one"/>I've now been an extra! The show hasn't aired yet, and who knows if I actually made the cut, but I did it!<a href="#one-return">#</a>
+[^1]: I've now been an extra! The show hasn't aired yet, and who knows if I actually made the cut, but I did it!
 
 [reminded]: https://twitter.com/chrisboredom/status/922472087884849154
 [obit]: http://www.legacy.com/obituaries/philly/obituary.aspx?n=charles-augustus-kapps&pid=163071607&

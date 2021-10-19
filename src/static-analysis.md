@@ -3,7 +3,7 @@
 Recently, I took part in a discussion about whether or not it was
 possible to implement something like [Dialyzer][dialyzer] in
 Python. The answer is of course [yes][yes], and there are many examples
-of such tools<sup><a id="one-return" href="#one">1</a></sup>. The discussion soon turned into "why?"
+of such tools[^1]. The discussion soon turned into "why?"
 
 Here's the thing. Using a static analyzer in a dynamic language isn't
 supposed to be 100% accurate--that'd be pretty tough to guarantee, and
@@ -43,9 +43,7 @@ it in the first place.
 
 _- 2014/01/15_
 
-### Footnotes
-  
-1. <a id="one" /><a href="https://yinwang0.wordpress.com/2010/09/12/pysonar/">PySonar</a> is especially cool. See also <a href="http://ternjs.net/">ternjs</a> for javascript.<a href="#one-return">#</a>
+[^1]: [PySonar](https://yinwang0.wordpress.com/2010/09/12/pysonar/) is especially cool. See also [ternjs](http://ternjs.net/) for javascript.
 
 
 
