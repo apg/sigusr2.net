@@ -22,5 +22,8 @@ images:
 	cp -R ./i ./build/i/
 	cp favicon.png ./build/
 
+devel:
+	cd build/ && python3 -m http.server
+
 sync:
 	cd build/ && rsync -vrRz --rsh=/usr/bin/ssh . $(RSYNC_TARGET)

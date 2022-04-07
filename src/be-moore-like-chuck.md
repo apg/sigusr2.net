@@ -112,7 +112,7 @@ that there's a face on it, and so, I went back to the literal drawing
 board and made v1.
 
 _This_ result is something I quite like. As a result, I've now made it
-[available](https://sigusr2.spreadshirt.com) to anyone else who
+[available](https://sigusr2.myspreadshop.com) to anyone else who
 interested in pledging to "Be Moore Like Chuck." The price is "at
 Spreadshirt's cost" + $5 for Chuck's charity of choice, the MIT
 Department of Physics.
