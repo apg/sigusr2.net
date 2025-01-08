@@ -19,8 +19,6 @@ set -e
 
 OS=$(uname)
 
-echo $OS
-
 main () {
 	test -n "$1" || usage
 	test -f "$1" || no_file "$1"
@@ -112,12 +110,11 @@ rel_to_abs_urls() {
 
 
 date_rfc_822() {
-    echo "THEDATE: $1"
     if test "${OS}" = "Linux" ; then
         date --date="${1}" '+%a, %d %b %Y %H:%M:%S %z'
     else # openbsd presumably
-        date '+%a, %d %b %Y %H:%M:%S %z' -j \
-             "$(echo "$1"| tr -cd '[:digit:]')0000"
+        date -j "$(echo "$1"| tr -cd '[:digit:]')0000" \
+                 '+%a, %d %b %Y %H:%M:%S %z'
     fi
 
 }

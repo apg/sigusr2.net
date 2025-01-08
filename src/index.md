@@ -1,4 +1,8 @@
-## Recent
+## Now
+
+I kind of have a [/now](/now.html) page. 
+
+## "Recent" Posts
 
 * ["Meta-circular" Static Types](/metacircular-static-types.html) -- 2022/06/08
 * [On the Missed Opportunities of Static Types](/on-the-missed-opportunities-of-static-types.html) -- 2021/02/05
