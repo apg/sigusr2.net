@@ -7,7 +7,7 @@ well.
 
 Content is written in markdown and published using a
 [ssg4][ssg4], which invokes 
-[lowdown][lowdown], a markdown implementation written in C. The [RSS feed](/rss.xml) is
+[lowdown][lowdown], a markdown implementation written in C. The [feed](/feed.xml) is
 generated with [rssg][rssg]. All
 content on the blog, including this page, and any others, unless
 specifically stated, is released under the
@@ -36,7 +36,7 @@ I have unlinked many posts from the index this time around. The content
 is still somewhat available, [here][old].
 
 Under the hood, pages are served from [httpd(8)][httpd], on top of
-[OpenBSD's][openbsd].
+[OpenBSD][openbsd].
 
 
 

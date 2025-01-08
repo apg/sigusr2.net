@@ -25,6 +25,9 @@ again. Long ago, I played with compiling Scheme to Go, and it was too
 ambitious compared to my interest level. I fear this new idea will
 have the same fate...
 
+Doing my best to get better at sketching, write down more of my thoughts,
+take more photos, and compile "social media" into a singular place... here. 
+
 ## Now-ish
 
 2024 sparked an obsession with linocut. Still hoping to carve and print

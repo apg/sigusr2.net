@@ -7,7 +7,7 @@
 <title></title>
 <link rel="alternate" type="application/rss+xml" href="/rss.xml">
 <style type="text/css">
-body { margin: 1.5em 1.5em 100px 6em; font-size: 16px; background: #fffffa;color: #333;}
+  body { margin: 1.5em 1.5em 100px 6em; font-size: 16px; background: #fffffa;color: #333; font-family: sans; }
 header { margin: 0 0 3em 0; font-family: monospace; }
 header a { margin: 0 1.5em 0 0; }
 @keyframes blinker {from, 49.9% {opacity: 0;} 50%, to {opacity: 1;}}
@@ -18,15 +18,16 @@ header h1 span { font-size: 1.0em; }
 article li { padding-bottom: .5em; line-height: 1.5; }
 article p { line-height: 1.5; }
 article img { height: 100%; }
+article h1, article h2, article h3, article h4 { font-family: serif; }
 hr {display: block;height: 1px;width: 65%;border: 0;border-top: 1px solid #ccc;margin: 1em 0;padding: 0;}
 q { font-style: italic; }
 
-@media (max-width: 670px) {
+@media (max-width: 630px) {
  body { margin: 1.5em .5em 3em .5em; }
  article { width: 100% }
 }
 
-@media (min-width: 670px) {
+@media (min-width: 630px) {
  article { width: 40em; }
 }
 </style>
