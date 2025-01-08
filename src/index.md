@@ -10,4 +10,4 @@ I kind of have a [/now](/now.html) page.
 * [Serving Traffic "Directly" from SQLite](/serving-traffic-directly-from-sqlite.html) -- 2020/01/20
 * [ELI5: Employment History Edition](/eli5-employment-history.html) -- 2019/10/18
 
-See also, [the feed](/feed.html). Subscribe via Atom [/feed.xml](/feed.xml).
+See also, [the feed](/feed.html). Subscribe via [/feed.xml](/feed.xml).
