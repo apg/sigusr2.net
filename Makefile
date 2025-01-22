@@ -20,7 +20,7 @@ rss: src/feed.html
 	cp ./build/feed.xml ./build/rss.xml
 
 images:
-	cp -R ./i ./build/i/
+	cp -a ./i/ ./build/
 	cp favicon.png ./build/
 
 devel:

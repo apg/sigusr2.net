@@ -12,3 +12,9 @@ I kind of have a [/now](/now.html) page.
 * [ELI5: Employment History Edition](/eli5-employment-history.html) -- 2019/10/18
 
 See also, [the feed](/feed.html). Subscribe via [/feed.xml](/feed.xml).
+
+## Photo "Essays"
+
+* [Patient Panda](/essay/patient-panda.html) -- 2023/10/27
+* [Coliseum](/essay/coliseum.html) -- 2023/10/25
+
