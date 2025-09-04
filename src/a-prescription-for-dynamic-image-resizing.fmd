@@ -1,0 +1,119 @@
+---
+title: A Prescription for Dynamic Image Resizing
+publish_date: 2012-12-18
+blog: true
+---
+Everyone seems to have a story for how they do image resizing for a website.
+Some resize in advance, while others resize dynamically. [Phizer](https://github.com/apgwoz/phizer) (PHoto
+resIZER), in some ways, does both.
+
+At [Labs](http://www.okcupidlabs.com/#ny), one of our products, [Combosaurus](http://combosaurus.com) requires that we serve a
+lot of images, in at least 3 different size configurations. This of course
+meant that we had to make a choice[^1].
+
+Do we do resizing up front, storing each image N times, where N is the number
+of size configurations, or do we do the resizing on the fly?
+
+Our sister company, [OkCupid](http://www.okcupid.com), choose the latter. It makes a lot of sense
+really. Dynamically resizing images means that a designer isn't constrained,
+seemingly forever, to image sizes determined before the site has any users.
+And, while yes, one could go through and resize all the images to accommodate
+new sizes, it's obviously going to take a lot of time and effort to resize
+millions of images--so we chose to follow suit. They also have a CDN in front
+of their resizer, something that we'll almost certainly do in the future, but
+haven't needed to do yet.
+
+One interesting thing to note about the problem of dynamic resizing is that
+the image resizing operations are fairly cheap. In fact, in everything I've
+tested in solving this problem, the IO is always the bottleneck--never the
+resize. (This is perhaps counter-intuitive to most people, as I've had
+numerous people virtually gasp at that thought).
+
+But, because of this fact, it's relatively easy to write something that
+performs exceptionally well even in a dynamic language like Python--so that's
+what we did.
+
+For our first implementation, we enlisted Python's [multiprocessing](http://docs.python.org/2/library/multiprocessing.html),
+[BaseHTTPServer](http://docs.python.org/2/library/basehttpserver.html) and the [Python Imaging Library](http://www.pythonware.com/products/pil/). We knew this wouldn't
+scale forever, but by pre-forking 30 processes, and creating a shared cache
+between them, we were able to quickly prototype the system, and launch it to
+our early alpha testers. With browser side caching, images loaded snappily and
+things were looking up.
+
+Last month the day came to replace the aging system[^2]. We have a lot
+more testers now than we had when we started, and the whole thing was due for
+a redesign. We wanted even more snappy loading of images, and more
+concurrency.
+
+The design of the original system was simple, and the new design shares quite
+a bit of the original high-level architecture. We use S3 to host all of the
+full-size[^3] images. Upon request, we check the full-size image cache,
+and if it's in there we resize, otherwise we download from S3, stick it in the
+cache and resize, before serving it back to the client[^4].
+
+To avoid some potential craziness, we pre-white-list a few different size
+configurations for images. When a request is parsed, we interpret the code
+that was given in the URL and respond with an appropriately sized image. With
+this we get some of the benefits of pre-resizing[^5], and the obvious
+benefits of dynamic resizing.
+
+And, to avoid a 404 while a file is in the process of going through the
+system, we temporarily serve photos through the resizer, via the webserver it
+was uploaded to--in other words, we have a single master (S3), and each
+webserver is a slave.
+
+The only thing that really hurt in the old system was BaseHTTPServer. We
+blocked everytime we needed to pull an image from an external machine. With a
+fixed number of processes and unknown latency, this meant that a (uncached)
+full page load (with maybe 40 images) would potentially spin for a while. This
+sucks.
+
+One solution is obvious, use evented IO to download the images, and to handle
+requests. Seems reasonable, but as everyone knows, doing anything even
+somewhat computationally intensive[^6] with evented IO is a bad idea,
+right?
+
+Well, that's where having multiple cores really comes in handy, and that's
+what we did--we made use of them.
+
+So, the rewrite of phizer does a few things differently. First, instead of
+using 30 pre-forked processes, it uses 5 (customizable of course)
+[Tornado](http://tornadoweb.org) based processes. The first process maintains a resized-image
+cache as well. When a requested image (and size) is not cached, it proxies the
+request to an appropriate worker[^7], which asynchronously downloads the
+image, resizes it appropriately and delivers it back to the master. The worker
+stores the full size download in a cache, too, so future fetches for a
+larger/smaller thumbnail take even less time.
+
+Images in cache are served in sub milliseconds. Images needing to be
+downloaded fully take some time--but this is mostly S3 latency. We're seeing
+200ms or more in some cases on our development machines. All in all, we're
+happy with the performance thus far, and can certainly scale horizontally
+(we're on one machine right now).
+
+Anyway, we're releasing [phizer](https://github.com/apgwoz/phizer). Feel free to hack on it and make it even
+better. We certainly will be.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,55 @@
+---
+title: Web Publishing
+publish_date: 2025-09-28
+blog: true
+---
+
+I recently reflected on why I don't publish more content to the web under my own control (i.e. this website). The system I use is stupidly simple, and that's actually the problem--it's not flexible enough for the variety of things I'd like to do.
+
+You see, it's set up as a blog--an ordered set of posts--and then some pages. There are no categories. There are no "page types". It's a set of markdown files, a header, a footer, and a special hand curated "index page." 
+
+Publishing content on the web, regardless of where it's stored (e.g. filesystem, database, punched paper tape), is almost always organized in a way that each piece of content is a separate page, and then referenced by a set of index pages (either by category, or date) that link to those individual pages. A typical blog uses both "by date" and "by category" type indexes.
+
+To "compile" a website, then, one "compiles" each individual page, computes the appropriate indexes, and then "compiles" each index. My previous tooling did this for one category, and somewhat poorly.
+
+I like to think of this whole process in terms of [higher order functions](https://en.wikipedia.org/wiki/Higher-order_function), specifically, `foldr`. The function `foldr` takes a starting value, an operation, and a collection. It then computes a new starting value using the operation and the right most value of the collection until all values in the collection have been computed with, recursively.
+
+Using this as a foundation, we can derive:
+
+1. `filter`: The starting value is an empty list. If the operation "keeps the next item" it puts the item on the list and returns it, otherwise returns the list as is.
+2. `map`: The starting value is an empty list. Runs the operation over each item adding the result to the accumulated list.
+
+and, now we have everything we need to assemble a site.
+
+If we want to generate an index page for a category, we use `filter` to select all of the content items that are in the category, and then use `foldr` with the `compile_batch` operation, until we finally get all of the summaries in one page.
+
+If we want to generate each individual permalink page, we `map` over all of the content calling `compile_one`. 
+
+These primitive operations are pretty much present in every website publishing system in some way or another. Dynamic site generators like WordPress do this with "[lazy evaluation](https://en.wikipedia.org/wiki/Lazy_evaluation)," while a static site generators like Hugo do this "[eagerly](https://en.wikipedia.org/wiki/Evaluation_strategy#Eager_evaluation)." 
+
+Now that we have a baseline about how these systems work from a theoretical point of view, what are the practical considerations?
+
+1. **Dependencies:** what do I need before I render pages? Do I need some obscure compiler to compile the source code? Do I need a now unsupported version of Python, or a specific, non POSIX extension for awk? Does this only work if I have a Postgres database that I have to manage separately?
+2. **Layout:** how do I put my content into holes in the many layouts I've built?
+3. **Markup:** how can I easily author content without making mistakes that cause my site to break?
+4. **Extensibility:** what if I want a new layout for a new type of page?
+
+I'll address the "Dependencies" problem in a different post, because this is something I think has broader application, but the other things are pretty simple.
+
+**Layout:** Yeah, any templating language will do. There's some "minimal" amount of features that go into this, but at minimum:
+
+1. Include the contents of another file
+2. Loop over some collection (index page requirement)
+3. Include the content of your content in a manner consistent with your authoring intentions. (e.g. be able to render your content, escape it as necessary, transform it, etc)
+
+**Markup:** The main goal here is that you probably don't want to be limited to writing raw HTML, though that's an option. How much expressivity you get is a matter of personal preference.
+
+**Extensibility:** At minimum, there's some ability to choose an alternate layout per some metadata field, or other criteria. Perhaps at maximum, the tool provides a "Swiss Army Knife" complete with a DSL or something. 
+
+<hr />
+
+This site is now compiled using a new tool called foldr. The name is pronounced "folder", and obviously has multiple meanings. It "folds" a website. It finds files stored in a "folder." It's effectively the `foldr` function I mentioned previously.
+
+foldr is a dependency free (well, you need a C99 compiler), batteries included tool. It's capable of taking a directory of files written in it's simpler variant of markdown, "fmd", and a template file and either mapping over each fmd and producing a page per file, or folding the set of files into a single page. It has a basic query language that can `filter` pages based on content metadata. I wouldn't go so far as to call it a Swiss Army Knife, but it's at least as sharp as a bone folder.
+
+(I'm not ready to release it as a "project" yet, but I'm actively using it now, and it's not that hard to get a preview of it in action.)

@@ -1,0 +1,44 @@
+---
+title: Colophon
+last_update: 2025-08-25
+page: true
+---
+
+This is [SIGUSR2](/). SIGUSR2 is the blog and other stuff of [Andrew
+Gwozdziewycz](http://apgwoz.com), and the name of a [Signal](https://en.wikipedia.org/wiki/Unix_signal#SIGUSR2) in the
+[POSIX](http://pubs.opengroup.org/onlinepubs/9699919799/) specification. Not surprisingly, there is a SIGUSR1 as well.
+
+Content is written in a lighter weight variant of markdown and published using [foldr](https://codeberg.org/apg/foldr), a static site generator written in a single C file that supports templating and a basic markdown like authoring language. Why? See [this post]().
+
+All content on this site, including this page, and any others, unless
+specifically stated, is released under the [Creative Commons
+Attribution-ShareAlike
+4.0](https://creativecommons.org/licenses/by-sa/4.0/), which means you
+are free to repurpose the site for your own use provided you share
+your changes, and provide attribution back to the author, me, Andrew
+Gwozdziewycz.
+
+SIGUSR2 has undergone many transformations in the past, and has served
+as a test bed for various static blog engines, including some not
+written by me. In [2008](http://sigusr2.net/announcing-modest.html),
+the blog received it's first major refresh, and its current name. It
+had previously been called "23 Excuses." Select posts from "23
+Excuses" were kept and republished--the rest were burned.
+
+The refresh lasted until about 2014, when I decided to center it,
+change its color scheme, and rewrite all but the content. While the
+original [modest](http://sigusr2.net/announcing-modest.html), the name
+of the static blog tool I had created, used HTML, I was determined to
+use something more friendly, such as Markdown. I used
+[html2text.py](https://github.com/Alir3z4/html2text/) to get things
+mostly back in shape, but laziness means that there are still some
+entries that are broken, which I fix when I encounter them and have
+time to do so.
+
+The previous iteration was put together using [ssg](https://romanzolotarev.com/ssg.html) and [lowdown](https://kristaps.bsd.lv/lowdown/), and I was fairly happy with that approach. It's, unfortunately, just a bit too primitive.
+
+Under the hood, we're still served with [httpd(8)](http://man.openbsd.org/OpenBSD-current/man8/httpd.8), on top of [OpenBSD](http://openbsd.org).
+
+
+
+

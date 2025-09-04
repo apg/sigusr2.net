@@ -1,30 +1,37 @@
-URL = http://sigusr2.net
-NAME = SIGUSR2
-SSG = ./bin/ssg4
-RSSG = ./bin/rssg
-RSYNC_TARGET = apg@peter.sigusr2.net:/var/www/htdocs/sigusr2.net
+WARNINGS=-fstack-protector -pedantic -W -Wall -Wbad-function-cast \
+	-Wcast-align -Wcast-qual -Wdisabled-optimization -Wendif-labels \
+	-Wfloat-equal -Wformat=2 -Wformat-nonliteral -Winline \
+	-Wmissing-declarations -Wmissing-prototypes -Wnested-externs \
+	-Wno-unused-parameter -Wpointer-arith -Wshadow -Wstrict-prototypes \
+	-Wstack-protector -Wswitch -Wundef -Wwrite-strings
 
-all: mkdirs posts rss images
+INCLUDES=
+LDFLAGS=
+CFLAGS=$(DEBUG) $(WARNINGS) $(INCLUDES) $(RELEASE) -std=c99
+OBJS=foldr.o
+
+all: foldr site
+
+cron: update site
+
+
+# Build the compiler
+foldr: $(OBJS)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $@
+
+site:
+	$(MAKE) -C ./src/
 
 clean:
-	rm -rf ./build
+	rm -f *.o foldr
+	rm -rf ./build/
+	$(MAKE) -C ./src/ clean
 
-mkdirs:
-	@mkdir -p ./build
-
-posts:
-	$(SSG) ./src ./build $(NAME) $(URL)
-
-rss: src/feed.html
-	$(RSSG) ./src/feed.html > ./build/feed.xml
-	cp ./build/feed.xml ./build/rss.xml
-
-images:
-	cp -a ./i/ ./build/
-	cp favicon.png ./build/
-
-devel:
+serve:
 	cd build/ && python3 -m http.server
 
-sync:
-	cd build/ && rsync -vrRz --rsh=/usr/bin/ssh . $(RSYNC_TARGET)
+synchttpdocs:
+
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@

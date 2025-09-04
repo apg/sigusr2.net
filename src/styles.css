@@ -1,0 +1,32 @@
+*{box-sizing:border-box;}
+@font-face{font-family:"Atkinson Hyperlegible Regular";src:url("/f/Atkinson-Hyperlegible-Regular-102a.woff2") format("woff2"),font-weight:normal;font-style:normal;}
+@font-face{font-family:"Atkinson Hyperlegible Bold";src:url("/f/Atkinson-Hyperlegible-Bold-102a.woff2") format("woff2"),font-weight:bold;font-style:normal;}
+@font-face{font-family:"Atkinson Hyperlegible Italic";src:url("/f/Atkinson-Hyperlegible-Italic-102a.woff2") format("woff2"),font-weight:normal;font-style:italic;}
+@font-face{font-family:"Atkinson Hyperlegible BoldItalic";src:url("/f/Atkinson-Hyperlegible-BoldItalic-102a.woff2") format("woff2"),font-weight:bold;font-style:italic;}
+@font-face{font-family:"Atkinson Hyperlegible Mono";src:url("/f/Atkinson-Hyperlegible-Mono-Regular.woff2") format("woff2"),font-weight:normal;font-style:monospace;}
+body{font-family:"Atkinson Hyperlegible Regular",system-ui,-apple-system,sans-serif;font-size:18px;line-height:1.6;color:#333;background:#fff;margin:0;padding:0;max-width:65ch;margin:0 auto;padding:1rem;}
+code,tt{font-family:"Atkinson Hyperlegible Mono",monospace;}
+@media (max-width:768px){
+body{font-size:16px;padding:0.75rem;}
+.site-nav ul{gap:1rem;}}
+h1,h2,h3,h4,h5,h6{line-height:1.2;margin-top:2rem;margin-bottom:0.5rem;}
+h1{font-size:2rem;margin-top:0;}
+h2{font-size:1.5rem;}
+h3{font-size:1.25rem;}
+p{margin-bottom:1rem;}
+pre:has(> code){font-size:0.9rem;background:#fafafa;padding:.5rem;border-bottom-right-radius:25px;}
+.site-nav{padding-bottom:1rem;}
+.site-nav .logo{float:left;}
+.site-nav ul{list-style:none;padding:.5rem;display:flex;flex-direction:row-reverse;gap:1.25rem;}
+.site-nav a{color:#666;text-decoration:none;}
+.site-nav a:hover{color:#333;}
+img{max-width:100%;height:auto;}
+figure{margin:2rem 0;}
+figcaption{font-size:0.9rem;color:#666;margin-top:0.5rem;font-style:italic;}
+a{color:#0066cc;}
+a:hover{color:#004499;}
+ul,ol{margin-bottom:1rem;}
+li{margin-bottom:0.25rem;}
+q{font-style:italic;}
+main footer{font-size:.9rem;font-style:italic;margin:2.0rem 0;color:#666;}
+#site-footer{margin:0 12rem 0 0;padding:1.0rem 0 1.5rem 0;color:#333;font-size:.9rem;border-top:1px solid #ccc;}

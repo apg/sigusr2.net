@@ -1,0 +1,1 @@
+FONTS = "./f/Atkinson-Hyperlegible-Bold-102a.woff2" "./f/Atkinson-Hyperlegible-Mono-Regular.woff2" "./f/Atkinson-Hyperlegible-Italic-102a.woff2" "./f/Atkinson-Hyperlegible-Regular-102a.woff2" "./f/Atkinson-Hyperlegible-BoldItalic-102a.woff2"
