@@ -33,5 +33,11 @@ serve:
 synchttpdocs:
 
 
+REMOTE_RSYNC_TARGET = apg@peter.sigusr2.net:/var/www/htdocs/sigusr2.net
+
+remotesync:
+	cd build/ && rsync -vrRz --rsh=/usr/bin/ssh . $(REMOTE_RSYNC_TARGET)
+
+
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

@@ -15,6 +15,8 @@
   <main>
     {{!content}}
 
+    <p>You might be interested in what I'm up to <a href="/now.html">Now</a>.</p>
+
     <h3>Posts by Recency</h3>
 
     <ul>

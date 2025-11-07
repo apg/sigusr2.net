@@ -158,7 +158,7 @@ Still nothing interesting.
 (define (eval-lambda x env)
   (let ((args (map car (cadr x)))
         (body (cdddr x)))
-    (list &#39;closure
+    (list 'closure
           (vector env args body))))
 
 (define (eval-set! x env)
@@ -182,7 +182,7 @@ be used once.
              (map (lambda (ex)
                     (my-eval ex env))
                   (cdr x))))
-     ((eq? &#39;closure (car fun))
+     ((eq? 'closure (car fun))
       (let* ((vfun (cadr fun))
              (cenv (vector-ref vfun 0))
              (bindings (vector-ref vfun 1))
@@ -192,12 +192,12 @@ be used once.
                           bindings
                           (cdr x)))
                (menv (env-extend env frame))
-               (result &#39;()))
+               (result '()))
         (for-each (lambda (form)
                     (set! result (my-eval form menv)))
                   body)
         result)))
-     (else (error "don&#39;t know how to apply that")))))
+     (else (error "don't know how to apply that")))))
 ```
 
 <em>Yawn</em>.
@@ -228,7 +228,7 @@ the type of one of those expressions (doesn't matter which one).
   (let ((cnd (type-of (cadr x) env))
         (cns (type-of (caddr x) env))
         (alt (type-of (cadddr x) env)))
-    (if (eq? cnd &#39;bool)
+    (if (eq? cnd 'bool)
         (if (eq? cns alt)
             cns
             (error (with-ouput-to-string
@@ -273,7 +273,7 @@ type is consistent as well:
          (return (caddr x))
          (nenv (env-extend env frame)))
     (let loop ((exps (cdddr x))
-               (result &#39;void))
+               (result 'void))
       (if (null? exp)
           (if (equal? result return)
               (list '-> (map cadr (cadr x)) result)
@@ -342,7 +342,7 @@ can do this because we've checked the `lambda`'s return type is OK.
                        (display fun)
                        (display " to: ")
                        (display args)))))
-        (error "can&#39;t apply non-function: " fun))))
+        (error "can't apply non-function: " fun))))
 ```
 
 <em>Yawn</em>. This is what we've been waiting for and it turns out that the
@@ -354,9 +354,9 @@ Congratulations.
 ```
 (define (type-of x env)
   (cond
-   ((boolean? x) &#39;bool)
-   ((integer? x) &#39;int)
-   ((procedure? x) &#39;procedure)
+   ((boolean? x) 'bool)
+   ((integer? x) 'int)
+   ((procedure? x) 'procedure)
    ((symbol? x) (env-lookup env x))
    ((if? x) (type-of-if x env))
    ((set!? x) (type-of-set! x env))

@@ -1,0 +1,31 @@
+---
+title: String Closures
+publish_date: 2025-10-10
+blog: true
+---
+I'm not sure I've ever encountered the notion that a string formatting function produces a closure over the function produced by the format string, and the arguments as the lexical environment. Let's get a concrete example here:
+
+    (printf "%d. %s owes $.02f\n" index name debt)
+
+is effectively:
+
+    ((lambda (index name debt)
+       (print
+          (string-append
+              (%d index)
+              ". "
+              (%s name)
+              " owes $"
+              (%f ".02" debt))))
+     index name debt)
+
+That is assuming that `%d` `%s` and `%f` were functions that behaved appropriately. This isn't far off since [Racket](https://docs.racket-lang.org/reference/strings.html#%28part._format%29) has functions like this, named differently. Rust's format strings are implemented as a macro, <tt>[format!](https://doc.rust-lang.org/std/macro.format.html)</tt>, but it doesn't _appear_ to me to produce a closure, rather some other type. As I'm not a crustacean, I can't be sure that the result isn't exactly what I'm suggesting -- it's certainly in spirit similar.
+
+Anyway, the point of this is that we might take it farther and construct curried format functions that return formatted strings. A "string closure" if you will.
+
+
+
+
+
+
+

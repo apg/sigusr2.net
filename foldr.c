@@ -532,6 +532,47 @@ html_escape(const char *input, char *output, size_t output_size)
   *dst = '\0';
 }
 
+static void
+html_escape_code(const char *input, char *output, size_t output_size)
+{
+  const char *src = input;
+  char *dst = output;
+  size_t remaining = output_size - 1;
+
+  while (*src && remaining > 4) {
+    switch (*src) {
+    case '<':
+      if (remaining >= 4) {
+        memcpy(dst, "&lt;", 4);
+        dst += 4;
+        remaining -= 4;
+      }
+      break;
+    case '>':
+      if (remaining >= 4) {
+        memcpy(dst, "&gt;", 4);
+        dst += 4;
+        remaining -= 4;
+      }
+      break;
+    case '&':
+      if (remaining >= 5) {
+        memcpy(dst, "&amp;", 5);
+        dst += 5;
+        remaining -= 5;
+      }
+      break;
+    default:
+      *dst++ = *src;
+      remaining--;
+      break;
+    }
+    src++;
+  }
+
+  *dst = '\0';
+}
+
 
 typedef int (*template_handler_func)(struct page *page, const char *src, char *dst, size_t remaining, const char **next_src, int line_num);
 
@@ -1420,7 +1461,7 @@ handle_code_block(const char **lines, int line_count, int *current_line, char *o
     *processed_dst = '\0';
 
     char escaped_line[2048];
-    html_escape(processed_line, escaped_line, sizeof(escaped_line));
+    html_escape_code(processed_line, escaped_line, sizeof(escaped_line));
     len = snprintf(dst, remaining, "%s\n", escaped_line);
     dst += len;
     written += len;
@@ -1458,7 +1499,7 @@ handle_indented_code(const char **lines, int line_count, int *current_line, char
 
     const char *content = strlen(line) >= 4 ? line + 4 : "";
     char escaped_line[2048];
-    html_escape(content, escaped_line, sizeof(escaped_line));
+    html_escape_code(content, escaped_line, sizeof(escaped_line));
     len = snprintf(dst, remaining, "%s\n", escaped_line);
     dst += len;
     written += len;

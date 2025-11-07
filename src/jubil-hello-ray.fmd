@@ -1,0 +1,154 @@
+---
+title: Jubil: Hello, Ray
+publish_date: 2025-11-07
+blog: true
+---
+Those who know me know that I have a stack of projects THIS high, and nothing typically ever comes from them. So, uhhh, when something finally happens it's kind of neat!
+
+One of the first times I tried to pick up Rust, I did so by writing a little ray tracer. It only supported spheres, and it supported a flat shader. I mean, to say it was simple is an understatement. Last week, while traveling for work, some of my free time was devoted to an old project, Jubil, that I suddenly had a whim to work on, again. It got to the point where I needed a "real" program to try it out with. That's how the Rust ray tracer fits into the story.
+
+Here's ray.jbl:
+
+```
+(define vec 3 list)
+
+(test "vector" 0 0 0 vec
+               length 3 =)
+
+;; (origin dir -- ray)
+(define ray 2 list)
+
+(test "ray" 0 0 0 vec 1 1 1 vec ray
+            length 2 =)
+
+(define origin [0.0 0.0 0.0])
+
+;; ( vec r -- sphere )
+(define sphere 2 list)
+
+(test "ray" 0 0 0 vec 2 sphere
+            length 2 =)
+
+
+;; ( vec scale -- vec )
+(define vecscale 'f let
+                 (f *.) map)
+
+;; ( vec vec -- vec )
+(define vecadd 'a let 'b let
+             a 0 at b 0 at +.
+             a 1 at b 1 at +.
+             a 2 at b 2 at +.
+             3 list)
+
+;; ( vec vec -- vec )
+(define vecsub 'a let 'b let
+             a 0 at b 0 at -.
+             a 1 at b 1 at -.
+             a 2 at b 2 at -.
+             3 list)
+
+;; ( vec vec -- float )
+(define vecdot 'a let 'b let
+             a 0 at b 0 at *.
+             a 1 at b 1 at *.
+             a 2 at b 2 at *.
+             +. +.)
+
+(test 0.0 0.0 0.0 vec 0.0 0.0 0.0 vec vecdot)
+
+;; ( vec -- float )
+(define vecmag 'a let
+              a 0 at dup *.
+              a 1 at dup *.
+              a 2 at dup *.
+              +. +.
+              math.sqrt)
+
+
+;; ( sphere ray -- result(vec) )
+(define intersect-sphere
+   'r let 
+   's let
+    r 0 at 'origin let
+    r 1 at 'dir let  
+    s 0 at 'center let
+    s 1 at 'radius let
+
+    radius dup *. 'rad2 let
+    
+    origin center vecsub 'w let
+    dir dup vecdot 'a let
+    
+    w 2.0 vecscale dir vecdot 'b let
+    w dup vecdot rad2 -. 'c let
+    b dup *. 4.0 a c *. *. -. 'd let
+    (cond (d 0.0 >=.) (0.0 b -. 2.0 a *. /. 't let
+                      dir t vecscale 'rs let
+                      origin rs vecadd ok)
+           true none))
+
+(define spheres [
+          ,@(origin 1.0 sphere)
+          ,@([-3.0 0.0 0.0] 1.0 sphere)
+          ,@([3.0 0.0 0.0] 1.0 sphere)
+        ])
+
+(define width 320)
+(define width/2 ,@(width 2 / int->float))
+
+(define height 240)
+(define height/2 ,@(height 2 / int->float))
+
+(define total-pixels width height *)
+
+;; takes a pixel and turns it into a x,y coordinate based  on value of width
+
+(define xy width divmod)
+
+;; if vector has any ok? values in it, paint it
+;; ( vec -- int )
+(define color
+     'hue let 'intersections let 
+     (cond (intersections (ok?) filter length 0 >) hue
+           true 0))
+   
+
+(define draw
+   (xy 'yy let 'xx let
+    width/2 xx int->float -. 'ex let
+    height/2 yy int->float -. 'ey let
+    0.0 0.0 -5.0 vec 'orig let
+    ex ey 100.0 vec 'dir let
+    orig dir ray 'r let
+    spheres (r intersect-sphere) map
+    128 color
+    )
+   total-pixels times)
+
+
+"P2\n" io.eprint!
+width str io.eprint! " "io.eprint!  height str io.eprint! "\n255\n" io.eprint!
+draw total-pixels list (str) map " " str.join io.eprint!
+```
+
+It's a bit of a mess -- I got very excited that something worked!
+
+Running this under the interpreter:
+
+```
+$ time ./jblrun < ray.jbl 2> thing.pgm
+7.71s user 0.02s system 99% cpu 7.725 total
+```
+
+This is mostly because it's _horribly_ inefficient--we'll get into why another time.
+
+Jubil also has a compiler, but unfortunately, it doesn't yet support the lexical scoping via `let` that ray heavily uses.
+
+The result here is a NetPBM, grayscale image that looks like this:
+
+![Three Spheres](/i/jubil-three-spheres-first-render.png)
+
+It's _wrong_, for some reason being rotated, but there's something fantastic about a language getting to a point where it can produce something real.
+
+_edit: the `xy` function swaps the x, y coordinates. It's fixed by redefining `xy` as `(define xy width divmod swap)`, but correcting a "buggy" celebration post is not something I'm going to do._
