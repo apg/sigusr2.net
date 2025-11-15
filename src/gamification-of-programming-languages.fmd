@@ -1,0 +1,81 @@
+---
+title: Gamification of Programming Languages
+publish_date: 2025-11-14
+blog: true
+---
+<p><em>Guy Steele once gave a talk about [Growing a Language](https://youtu.be/_ahvzDzKdB0). The talk progresses in a masterful way. Guy starts by speaking only in one syllable words, and only extends his vocabulary by defining new words with the existing vocabulary.</em></p>
+
+<p><em>This is literally how to grow a language.</em></p>
+
+<p><em>That talk makes a lot of serious points, and my intention here is not to be dismissive of it, or disrespectful to it in any way at all. My intention here is to define something absurd, for absurdity’s sake.</em></p>
+
+---
+
+Video games have started to teach the mechanics of the game by performing repetitive tasks. Once you perform 3 double jumps, you learn that you can do triple jumps on certain types of platforms. If you were to try to do a triple jumps before learning double jumps, you’d find you can’t. You must progress the hard way.
+
+What if we built programs this way? I think it’d go something like this.
+
+```
+x = 1 + 2
+```
+
+Obviously, this would result in a compiler error:
+
+```
+ERROR: add.p:1: binop ‘+’ not allowed. You must unlock a full adder.
+```
+
+OK, not too hard.
+
+```
+fulladder: 
+  *OUT1 =  RA ^ RB ^ RC // sum
+  *OUT2 = (RA & RB) | (RC & (RA ^ RB))
+```
+
+Where, `RA`, `RB`, `RC` are register values and `OUT1` and `OUT2` represent some other storage locations. _(remember, we’re making this up -- Ed)_.
+
+But now that we’ve got a full adder, we’ve got binop ‘+’.
+
+```
+x = 1 + 2
+if (x > 0) 
+    output(“x is greater than 0”)
+else
+    output(“x is either 0 or less than 0”)
+```
+
+But, of course:
+
+```
+ERROR: add.p:2: if cannot be used before you’ve jumped directly 3 times.
+```
+
+Ahh, shoot. 
+
+```
+x  = 31 + 2
+jgz x, truebranch
+jlez x, falsebranch
+
+truebranch:
+  output(“x is greater than 0”)
+  jump done
+falsebranch:
+  output(“x is either 0 or less than 0”)
+  jump done
+done:
+
+```
+
+Want a loop? Sorry, you’ve gotta prove that you can write a condition and a backwards jump first. Want error handling? Prove you can clean up resources that are no longer necessary. Would rather group individual values together into some form of data abstraction? Show me you can pack data efficiently.
+
+That `output` function is a freebie, but if you want your own functions? What stack protocol are you using? Need mutual recursion? Tail recursion? Show me! 
+
+Think you’ve got what it takes to unleash the power of Closures ... the final boss?
+
+That boss pushes back, of course. <em>“You fool! Closures do not match the power ... OF THE OBJECT!"</em>
+
+We've come this far. We will not back down! Especially, because we looked at the strategy guide already. We know the secret; <em>[“Objects are a poor man’s closures.”](https://people.csail.mit.edu/gregs/ll1-discuss-archive-html/msg03277.html)</em>.
+
+Anyway, I call it “CS la vie.”
