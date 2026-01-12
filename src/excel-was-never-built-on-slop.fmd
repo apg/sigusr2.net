@@ -1,0 +1,19 @@
+---
+title: Excel Was Never Built on Slop
+publish_date: 2026-01-11
+blog: true
+---
+Twice or thrice daily I'll see a hot take on _(I really should revisit my "Selling Like Hot Takes" podcasst idea -- Ed)_ how [[lemons]] commoditized coding, but software engineering has never been more relevant. These takes try to argue out that coding isn't the bottleneck, anymore, and that building the _right_ thing must be supervised by a human.
+
+Occassionally, people will point out that "vibe coding" begets the ability to have one off, single purpose tools compiled from a problem statement expressed in English. _"Show me a pie chart of this CSV, by growth density, after removing crops grown in South America."_ Sometimes they even attempt to link this style of lemon use to the rise of spreadsheets, and Excel, specifically.
+
+One might read the argument that spreadsheets became a scratch pad to solve computational problems, and that lemons aren't beholden to a cell based model, but can instead build extensive React front ends to really explore a problem space with.
+
+Is this really the future we want? Do we really want to set fire to intellectual property, go to war for [water](https://www.sierraclub.org/sierra/2015-3-may-june/feature/fury-road-all-your-darkest-environmental-nightmares-come-true) and other resources, accelerate climate change, and free ourselves of "the burden" of understanding how things work just to throw away vibe coded solutions to high level tasks, faster? I'll ask again, to what end?
+
+**Spreadsheets were a generally applicable abstraction for computation.** They made it possible for non-programmers to write simple computations over tables of data. They
+made it possible to easily compare and analyze sets of data with instant visualizations. They made this accessible to anyone who took the time to learn the basics of the model; A simple model at that. All without the burden of throwing away 10s of 1,000s of lines of React slop.
+
+I believe it's irresponsible to accept this path in the long term. We need to find the next "spreadsheet". The next spreadsheet isn't a JavaScript/React generator. No, the next spreadsheet links together verified, high level, integrated circuits, written by Lemons, with simple shell like pipelines (a new formula). It does this efficiently. It does this with precision. The next "spreadsheet" will be written by Lemons, and they'll, if all goes right, write themselves out of a job.
+
+
