@@ -15,5 +15,3 @@ Is this really the future we want? Do we really want to set fire to intellectual
 made it possible to easily compare and analyze sets of data with instant visualizations. They made this accessible to anyone who took the time to learn the basics of the model; A simple model at that. All without the burden of throwing away 10s of 1,000s of lines of React slop.
 
 I believe it's irresponsible to accept this path in the long term. We need to find the next "spreadsheet". The next spreadsheet isn't a JavaScript/React generator. No, the next spreadsheet links together verified, high level, integrated circuits, written by Lemons, with simple shell like pipelines (a new formula). It does this efficiently. It does this with precision. The next "spreadsheet" will be written by Lemons, and they'll, if all goes right, write themselves out of a job.
-
-
