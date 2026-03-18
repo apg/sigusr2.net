@@ -1,0 +1,46 @@
+---
+title: Notes on not Looking at the Code
+publish_date: 2026-03-04
+blog: true
+---
+I’ve been working at [StrongDM](https://strongdm.com) for the past year and a half. We recently became "famous" after our [AI Lab](https://factory.strongdm.ai) started sharing information about their experimentation and the desire to spend $1,000 a day per engineer, something that sounds absolutely crazy. 
+
+But, despite that team shipping some incredible stuff, they hadn’t tried to ship a product within the main StrongDM product. (They did ship [Leash](http://leash.strongdm.ai/), and have recently shipped [ID](https://id.strongdm.ai), [CXDB](https://github.com/strongdm/cxdb), and [Attractor](https://github.com/strongdm/attractor)).
+
+At the end of January we set out to change that. 
+
+Starting the second week of February we embarked on a mission to ship a brand new and significant feature, to customers, without ever looking at the code. This is one of the learnings from the Lab; things move way too fast to keep up with the reviewing code, and the only real way to operate is to throw more tokens at automated validation. 
+
+We made it, but a week late. The product shipped to a limited Technical Preview 15 working days after we started. 
+
+So, how’d we do it?
+
+Our retro surfaced a number of things, some of which are generally applicable, I think for this kind of workflow.
+
+The product consisted of 4 repositories, setup to run in Kubernetes. The original idea was that given there were 5 of us, 3 would flat out own one service each, one would own validation / QA and the other would effectively own infrastructure. The 4th repository was where the IaC was, and also the shared domain models.
+
+Another learning from the Lab is that collaboration is very hard, and single ownership of repositories is strictly necessary. We learned why throughout this project, but we also believe that more effective communication may increase each repository’s bus factor… at least slightly. 
+
+As we are remote (minus the 2 folks from the Lab), the additional friction of being a message away, and not within voice reach, meant that we (ahem, probably mostly me) would perform tasks that crossed repository boundaries without taking the lock, and without proposing the change through our process.
+
+What was our process, exactly? In short it was a bit chaotic to start, but I scheduled a retro a week in, where we decided that we should be using some issue tracking. We settled on a pattern where we would Claude plan (more rigorous than you’re probably thinking) a feature that we were expecting to have / rely on, or that should be built, and stick it into the appropriate repo’s GitHub Issues. 
+
+Claude, using the `gh` CLI, could then crank through the Issues being used as a todo list. This _largely_ was successful when it was consistently followed, but we failed to account for potential dependency problems and failed to effectively plan more than "go do the backlog" in an organized manner. Effectively, it was hard, even with daily sprints, to know what had actually gotten done, and what would get done, even within the next 20 minutes. 
+
+Still, we took from the experience that the mechanism of "populate work in a queue, and then go execute on it" is a great model. We believe that daily "sprint planning", amounting to do these today, roughly in this order, defer those, in order to achieve agreed upon goals, is worth the daily meeting. Not only does it aids in communication amongst the team, it also allows for clear communication with Product and external Leadership. It becomes possible to say "Feature X will be ready tomorrow."
+
+There’s more to say around some of this, but for the most part that’s the gist. 
+
+A potentially controversial experiment we’re going to try when we start rapidly iterating again, is to have two adversarial teams. The first team owns the full implementation end to end. The second team is in charge of breaking it and disproving that it’s an answer for the product requirements document.
+
+It sounds controversial because we’ve been told that [two pizza teams](https://aws.amazon.com/executive-insights/content/amazon-two-pizza-team/) are the right size for a long time. However, we’ve found that that is way too many people. We’re talking about two, single (hungry) pizza team (2 people with an appetite), instead. The single (hungry) pizza team is effectively a pair, and it almost certainly makes sense to sit together in the same room. If that’s impossible, DMs open, microphones ready, and willing to interrupt. The reason we feel this will work is because sharing context across 5 people has too many connections. While those 5 people don’t necessarily have to have the code in their head anymore, they have to have enough micro context to be able to identify that a helpful agent is full of shit at any given time. 
+
+That’s implementation, but what about validation? 
+
+> <q>We repurposed the word scenario to represent an end-to-end 'user story', often stored outside the codebase (similar to a 'holdout' set in model training), which could be intuitively understood and flexibly validated by [[lemons]].</q> -- [Factory](https://factory.strongdm.ai)
+
+The key here is that we need honest evaluation that the requirements are being satisfied, and that any sort of reliability, or security isn’t being skipped. Scenarios must continually be evaluated and must not be based solely on synthetic or mocked interactions with APIs. The "Digital Twin Universe," as the Factory literature calls it, provides a mechanism for at least _some_ interactions, but there’s not a known mechanism for building suitable analogues for everything.
+
+This is why the validation team makes sense, and why we believe it’s possible that the validation team can be a normal single pizza team. Two people should be able to cover the bulk of the scenario work, and there’s the possibility of an additional person focused purely on simulation of external dependencies (with mocks to temporarily bridge the gap).
+
+I definitely didn’t previously believe that not looking at the code could actually result in software we could give to our paying customers. I do now. I definitely didn’t believe that two weeks was reasonable, and I was right about that…. for now. In time, I think the project we shipped last week will be done in a couple of days, but not before we either: give it to a single person who can effectively juggle 9 contexts, or level up our collaboration skills to meet the needs of the, oftentimes very uncomfortable, new model of software engineering.
