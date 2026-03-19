@@ -266,6 +266,26 @@ extract_links(const char *content, char links[][MAX_NAME_LEN])
     ptr = end + 2;
   }
 
+  // Also treat markdown links to ./foo.html as internal wiki links
+  ptr = content;
+  while ((start = strstr(ptr, "](./")) != NULL && link_count < MAX_BACKLINKS) {
+    start += 4; // skip past "](./"
+    end = strstr(start, ".html)");
+    if (end == NULL) {
+      ptr = start;
+      continue;
+    }
+
+    size_t len = end - start;
+    if (len > 0 && len < MAX_NAME_LEN) {
+      memcpy(links[link_count], start, len);
+      links[link_count][len] = '\0';
+      link_count++;
+    }
+
+    ptr = end + 6; // skip past ".html)"
+  }
+
   return link_count;
 }
 

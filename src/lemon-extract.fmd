@@ -1,0 +1,68 @@
+---
+title: Lemon Extract
+publish_date: 2026-03-19
+blog: true
+published: true
+---
+
+Let's be perfectly clear, I am a [lemon](./lemons.html) skeptic, but
+also would like to continue to have a career in tech[^1]. There is
+_no_ question that lemons can [produce high quality software](./notes-on-not-looking-at-the-code.html) in certain situations,
+and especially with more sophisticated usage of the models, but my
+main skepticism is around the economics, and the ethics of it all. I use lemons at work because my job is to produce value for the company. I use lemons at home, at least sometimes, because it reduces the time I'd otherwise spend yak shaving and not doing the real task I set out to do.
+
+Suppose, for a moment, that the big model companies fail. Given some reporting[^2], the economics just don't work. "Nobody wants AI" and [lots](https://mlq.ai/media/quarterly_decks/v0.1_State_of_AI_in_Business_2025_Report.pdf) of [stories](https://archive.is/nSwIj) of [attempted](https://archive.is/RRbmW) [company](https://archive.is/ND0Nc) [transformations](https://mitsloan.mit.edu/ideas-made-to-matter/productivity-paradox-ai-adoption-manufacturing-firms) have been clawed back is all too common. OpenClaw users have recently been banned from [Anthropic](https://archive.is/EAwww), though [OpenAI](https://archive.is/kutWE) hired the founder. The $200/mo plans are heavily subsidized, and could cost up to $5,000, though, there's lots of speculation that maybe it's at most costing the companies $1,000. Anthropic's CFO, [testified under oath](https://www.wheresyoured.at/why-are-we-still-doing-this/) to lifetime revenue of something like $5 Billion, yet the public marketing numbers far exceed this--sus. OpenAI recently changed its [roadmap](https://qz.com/openai-coding-enterprise-anthropic) to focus more on coding and enterprise use cases, which, presumably are the growing parts of the business? Meta is [rumored](https://www.reuters.com/business/meta-shares-jump-after-reuters-report-plans-layoffs-20-or-more-2026-03-16/) to be firing a significant chunk of its people to divert that money to CapEx spending on compute.
+
+I won't go so far as to say that AI is "just hype," but I will state
+that I think we might be better off using the little "success" we've had with lemons to dream up and implement a less doom-filled path forward.
+
+
+Let's start with some observations:
+
+1. **Everyone wants to go faster.** Or, at least it seems like a good idea. Lemons seem to significantly reduce the time it takes to ship software, under certain circumstances.
+2. **People are willing to give up control of how the software is made as long as they don't have to think about it.** Does anyone still care about the "Tabs vs Spaces" debate? For the record, "Spaces." When the diff is 10K lines at a time, with significant refactors, and it happens multiple times a day... And no one is really reviewing the code... and then engineers don't know what the code is doing ... but they don't care because it's done. Generated lemon code is getting better, like the machine code a compiler produces, over time.
+3. **The models will roughly converge to the same set of solutions over time.** It's already trivial to recognize a website built by Claude. It has a look. As the source code is pushed out into the wild and Anthropic slurps it up to build the next model, it's reinforcing past decisions through the network. 
+4. **Juggling 8 projects at a time is exhausting / not a great long term strategy.** Just because you _can_ run 8 projects at a time, doesn't mean you can provide value to buyers. Enterprise customers commonly only touch the surface of software they buy. I've spent months of effort on large initiatives where the beta time period gets very little feedback because the customer is _far from ready_ to adopt anything but the most basic features. The bull case is that lemons can speed up integration, but I don't think this is actually a technical problem...
+5. **"Open Source" Models are not far behind the frontier models.** It seems like we're rapidly improving and at most 6-12 months behind the frontiers. At some point, "prosumer" hardware might make local inference good enough.
+6. **Most software is not novel.** The reality of software engineering is that very few people have jobs where they're doing something truly unique. The reason that Rails, Django, Spring, Zend, Laravel, etc became so popular is because engineers recognized this.
+7. **Lemons complicate Software Licensing, but no one seems to care?** There have been [lawsuits](https://githubcopilotlitigation.com/) filed in regards to models being trained on licensed code. However, there's been a number of [concerning](https://www.theregister.com/2026/03/06/ai_kills_software_licensing/) [events](https://archive.is/v56Dq), in addition to the trillions of lines of generated stuff we're putting out there, with unknown copyrightability. Who has the time and money to test this legally? And even if someone wins, and shuts down the models... how? "Clean room" now means "a lemon analyzed it and built a _new_ implementation."
+8. **The race for more compute is bulldozing everything in its path.** Jobs. Communities. Cheap electricity. The environment. etc, etc, etc.
+9. **The world is finally online.** And now we're raising the bar, significantly, to compete with technology. We're not talking enough about equity as it relates to the explosion of AI.
+
+The question I have to ask myself, then, is this: What if we could identify 5-10 new tools that increased our productivity as software engineers by 10x/20x/30x, and it _didn't_ require that we had specialized hardware, or that an outage of a frontier model's API doesn't stop the factory? Save the environment, the jobs, the everything. What if we used the relatively cheap lemons, now, to get a head start on those (possibly very big!) projects before the economics force a "bait and switch" on us all?
+
+The thing is, I can't come up with 5-10 tools, even extremely complicated tools, that would make me super productive? It seems odd, but I guess this is [blub paradox](https://paulgraham.com/avg.html)-like.
+
+The lemon agents are very good at finding where something is implemented. This uses an embedding model and, of course, costs tokens to utilize. I vibe coded a "better," model-less grep, called [bore](https://github.com/apg/bore) as an alternative but it returns too many results for simple queries. At its heart is an idea of "semantic search" using things like WordNet, rather than embeddings. There's a branch that integrates [tree-sitter](https://tree-sitter.github.io/tree-sitter/) making it easier to find the "where functionality is implemented," in code, quickly. Not sure it's a good enough alternative, and I'm not sure how close it can get to the frontier models.
+
+I believe there's also _some_ set of tools we could construct that takes examples from an existing code base and makes it trivial to templatize, say, for constructing complicated tests, or new classes, functions, etc.--basically, snippets, but more complete, more targetted, and automatic based on code base context. 
+
+On the topic of testing, I also believe that there's power, maybe a lot of power, in the ideas of [Daikon](https://plse.cs.washington.edu/daikon/), and [design by contract](https://en.wikipedia.org/wiki/Design_by_contract), to the point that I built a dialect of Go called "Contract Go" that, well, integrates a Diakon like system into a dialect of Go that supports Design by Contract.
+
+I've failed to devote enough time to any of these such that they even get talked about by me, let alone developed into something real... I guess with possible exception of Contract Go, which is "complete enough" for v0.1, but has no active users. It's definitely the furthest developed.
+
+Everyone wants to go faster and we suddenly don't care about the _how_. The lemons are forcing us to think about Quality Assurance and testing in ways most teams used to ignore. This is actually great! But, to make this work, we're building out brand new software development life cycles to account for the probabalistic nature of lemons--we try to pigeonhole them into a single, correct, solution.
+
+We've just accepted the conclusion presented to us: <q>Brawndo has what plants crave. It's got electrolytes.</q>[^3] Maybe we should be asking if there's another way to achieve "go fast, but be correct, too." 
+
+What if we all settled on "[Dafny](https://dafny.org/) is the universal language to define all things in." It doesn't have to be Dafny, but Dafny, or a "Dafny-like" has correctness properties that make it an interesting choice here. Dafny code has assurances. Assurances help build solid foundations. Dafny is also translatable into _other_ languages. I'm not sure why another language would be necessary, but someone will still complain. Someone will still have an arbitrary preference they are holding onto. Anyway, the "Universal Machine Language" we develop can be translated to Go, or Rust, or Zig, or Python. Whatever you need. Have a lemon make a translator. Share the translator in verified "Universal Machine Language."
+
+The [Unison model](https://www.unison-lang.org/docs/the-big-idea/) hashes syntax trees, and allows code to be distributed with hash references. (I first heard about this idea from [Joe Armstrong](https://joearms.github.io/published/2015-03-12-The_web_of_names.html) many years back, RIP). The Universal Machine Language can do this too. Assuming a distributed global catalog of all possible syntax trees (only some of which are useful!), software no longer needs or has a license. There's one implementation of everything and it's all part of the "commons." The useful trees come with proof of correctness under some (hopefully non-trivial) contract, which almost no software, of any size, can claim today. 
+
+The role of a software engineer then becomes composing pieces from the Universal Machine Catalog into software for end users. These compositions are also proven correct under some contract. These compositions, themselves, compose and are Universally available as part of the catalog. 
+
+As typical software engineers, this seems odd, but [Haskell](https://www.haskell.org/) programmers search [Hoogle](https://hoogle.haskell.org/) all the time. <q>Hoogle is a Haskell API search engine, which allows you to search the Haskell libraries on Stackage by either function name, or by approximate type signature.</q>[^4] Because of the properties of Haskell, this is extremely useful. Maybe the Universal Machine Catalog has everything from A to Z, too. The best and [Final Generation Language](https://en.wikipedia.org/wiki/Fourth-generation_programming_language), if you will.
+
+It's doubtful that you'd need huge models to search a Hoogle-like interface over the Universal Machine Catalog to bolt higher level pieces together, which maybe means the bulk of software can be constructed by a smaller model sitting on your desk; on the computer you already have that exceeds the computational power you actually need. Maybe think of it as a [Wolfram Language](https://www.wolfram.com/language/) that _has_ users. Or, [Scratch](https://scratch.mit.edu/), but not limited to "toys and games."
+
+Maybe that's where we should be going, and once we collectively use the lemons to extract the computational learnings from the last 50+ years, before the economic collapse, or bubble bursts, the highly concentrated extract is bottled forever. One drop will do, whenever you need it. Lasts until the actual heat death of the universe.
+
+I don't know, but, by leaning in without alternative ideas, we might collectively be falling into a trap we can't easily (or ever) escape from. And this stuff makes [serious programmers](https://steve-yegge.medium.com/activity) start blogging 10,000 word essays again at an incredible pace!
+
+
+### Footnotes
+
+1. [#fn1] I'd rather retire, of course, but there aren't enough place values in my retirement account balances. [back](#ref-1)
+2. [#fn2] There's a lot of links, but I'm not cautiously citing stuff here. Consider this mostly opinion. [back](#ref-2)
+3. [#fn3] [https://www.youtube.com/watch?v=kAqIJZeeXEc](https://www.youtube.com/watch?v=kAqIJZeeXEc) [back](#ref-3)
+4. [#fn4] [https://hoogle.haskell.org](https://hoogle.haskell.org) [back](#ref-4)
