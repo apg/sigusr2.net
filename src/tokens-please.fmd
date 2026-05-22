@@ -1,0 +1,94 @@
+---
+title: Tokens, Please!
+publish_date: 2026-05-15
+blog: true
+---
+
+*Two years ago, a friend and former-colleague asked me if I’d be willing to answer some questions from her friend around “machine identity.” (note: this is usually called "Non-Human Identity" these days) I tend to easily agree to requests for information like these, and this one was no different.*
+
+![From: Ellen. Date: January 26th, 2024. Subject: APG meet Ellen. Body: ... I often find myself going 'everyone talks about X all of the time, but I feel like we keep saying the same surface level things without really thinking about it.'](/i/tokens-please/actual-email.png)
+
+*But, due to scheduling conflicts making a meeting hard, and my general lack of continued attention span, I did what any other person would do: I stopped what I was doing, thought about all the questions that she might possibly ask, and wrote 1,000 words attempting to explain in a manner that would provide solid intuition, and invite follow up questions that I could answer independently.*
+
+*I had the intention to turn this into a zine, but I've been unable to make a cover I'm happy with. So, I guess it goes here instead.*
+
+---
+
+
+*Alright!* Let's assume nothing. The world of computer security has jargon, and it’s best if we define some of it up front.
+
+<img alt="drawing of a visa stamp like you would get at immigration. This has AWS on it, implying it was granted to give you access to AWS" style="float: right;" src="/i/tokens-please/visa-stamp.png" />
+
+When we talk about something that has an identity, we call it a **Principal**. And once you have a Principal, you want to do two things with it: authenticate it, and make sure it’s authorized to access whatever it’s trying to access.
+
+The easiest way to think about **authentication** is airport border security. You prove who you are with a passport. The passport has your picture, it’s registered in some directory, and the agent compares your face and other attributes against the document and whatever is on their screen. If it checks out, you’re through.
+
+**Authorization** is the next step -- same border, different question. Your identity, in this case your citizenship status, grants you access to a country. Want to enter the US? Your passport does that. Want to enter China? You probably needed to apply for a visa in advance. Want to enter somewhere as an American where they just wave you through for 30 days? Come on in!
+
+Either way, a visa is a device for authorization. It gives you permission to be somewhere for a defined period of time. What does any of this have to do with machines?
+
+Honestly, not much is different. The mechanisms shift a bit, but the concepts map almost perfectly.
+
+## Example: GitHub Actions
+
+Say I push some code to GitHub and have an action set up to run tests or build the project. At some point, maybe that action needs to talk to a third party--let’s say AWS.
+
+Here’s the thing: when I push the code, GitHub is running the build process code, not me. I’m delegating responsibility to GitHub. So how do I let GitHub access AWS on my behalf?
+
+There are a few ways. Let’s look at two.
+
+### Option 1: Static Credentials
+
+Call this "The Old-Fashioned Way." I create an identity in AWS IAM, write a policy that gives it the access I need, generate credentials for it, and stash those credentials within GitHub’s secrets configurator. When the action runs, it reads the credentials from secrets, programmatically logs into AWS, and does its thing.
+
+What we’ve basically done is create a “GitHub Actions Principal.” Especially if that IAM identity is only ever used for this purpose--we’re trusting that the credentials are only in the secrets store for this action, and therefore when they get used, it’s probably our action using them.
+
+These are, more generally, called Service Principals--Principals without a specific human connected to them, created for a specific machine purpose. You tie credentials and authorization rules (“policy”) to them and call it a day.
+
+
+<div style="padding-left: 1em; margin-left: 10px; border-left: 1px solid blue; color: #666">
+Side note on history: in the “olden days,” websites gave out API tokens that were tied to a specific user’s identity. If I grabbed a Trello API token and dropped it in GitHub Secrets, Trello would think I was making the request--not a machine. Why does Trello care? Mostly fraud and abuse reasons, but also: "I am human; not a machine."
+</div>
+
+
+### Option 2: Ephemeral Passports
+
+<img src="/i/tokens-please/passport-cover.png" style="float: right;" alt="drawing of a passport cover."/>
+
+GitHub knows a lot about what’s happening when an action runs. It knows the repository, the workflow, who pushed the code, where the action is running. That’s basically passport-level information:
+
+What if GitHub were a registered passport agency--like the US Department of State? Then it could issue a new passport every time an action runs.
+
+This is actually how it works, using standards like OpenID Connect (OIDC) and SPIFFE. This is the "New Way."
+
+Inside my GitHub Action, I make an API call saying “hey, generate a passport for me.” GitHub authenticates that request using a token it already gave the action, then spits back a document called a JWT (JSON Web Token). It looks something like a Passport.
+
+![drawing of a passport page](/i/tokens-please/passport-page.png)
+
+<div style="padding-left: 1em; margin-left: 10px; border-left: 1px solid #0078AA; color: #666">
+**sub:** (subject) who/what this passport is for
+
+**iss:** (issuer)--the equivalent of “The Philadelphia Passport Office” stamped on your passport. It says who created and stands behind this document.
+
+**exp:** (expiration time) in Unix epoch seconds 
+(seconds since Jan 1, 1970, if you’re wondering)
+
+**iat:** (issued at time) in Unix epoch seconds
+</div>
+
+GitHub cryptographically signs this document and hands it back to the action. The signature isn’t “ink”--it’s more like a stamp from a Public Notary.
+
+Here’s the really elegant part: that iss field can be turned into a URL where anyone can fetch GitHub’s public cryptographic key. Using that key, AWS (or anyone else) can verify that GitHub--and only GitHub--could have produced this token.
+
+In AWS, I can set up a rule such as: “Any valid token issued by GitHub, where the subject is the repository github.com/apg/top-secrets, is allowed to write to the top-secrets-classified S3 bucket.”
+
+We’ve created a trust relationship between “sovereign nations.” GitHub issues passports. AWS accepts them and grants visas based on the attributes inside. The developer sets up the visa rules, and optionally helps configure the passport office so other systems can validate what gets presented to them.
+
+
+### One Important Caveat
+
+Anyone can claim to be GitHub. You could write a JWT yourself, sign it with your own key, and present it. The catch? You can’t make GitHub host your signing key at the well-known URL associated with token.actions.githubusercontent.com.
+
+Which means AWS and other “nations” don’t just trust the document--they trust the TLS certificate of the server hosting the signing key. That’s the chain of trust that makes the whole thing work.
+
+The concepts here--principals, authentication, authorization, ephemeral credentials, federated identity--apply way beyond GitHub and AWS. Any time a machine needs to prove who it is and get access to something, this is the underlying playbook. The passport-and-visa metaphor isn’t just a nice analogy; it’s almost exactly how the protocols were designed to work.​​​​​​​​​​​​​​​​
