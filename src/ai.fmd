@@ -1,0 +1,18 @@
+---
+title: AI
+publish_date: 2026-07-28
+blog: true
+---
+A lot has been written about "AI," which, at least in this moment, is a term used fairly synonymously with Large Language Models, otherwise known as [[lemons]]. I've also [previously](/notes-on-not-looking-at-the-code.html) [written](/excel-was-never-built-on-slop.html) on the matter. I'm not the kind of person who is going to devote my life to writing about this topic, so I kind of want to leave it at this:
+
+A couple of months ago, I cancelled my personal Claude personal subscription before the pre-paid year came up. This wasn't because Claude was ineffective--far from it. This wasn't because Claude's rate limits "slowed me down," or that I didn't have access to the powerful models (Haiku is still very powerful). The fact of the matter is that for personal projects there's no excitement in "vibe coding" a piece of software. I don't get a sense of pride when I run it, don't feel any ownership of it. In fact, it kind of becomes a burden to have it at all. Skip the fun part, sign up for all the hard parts of "shipping it." Yeah... maybe not.
+
+Over the course of my subscription, I wrote, at least, 3 large SwiftUI apps. One of them worked well across iOS, iPadOS, and macOS. I wrote a few compilers, including an SML to Go compiler, and did some "what if?" style language experiments asking questions like "What if SmallTalk, Erlang, and Unison had a baby?" I did some playing with social networks, experimented with the PlayDate game console, wrote a "better" semantic grep, and even mashed up ngrok / Tailscale into a self hosted, adhoc software defined mesh network. There might even be more that I'm forgetting.
+
+Have you seen any of those? If you're a closer friend, maybe I shared a screenshot... or a video demo? I certainly didn't ship them. Again, I never felt ownership. I never even felt as though I "earned" the ability to be happy they exist. At least one of those things could have been sold on the AppStore. I don't think it would have felt fair to make money from it, though.
+
+The _only_ thing this experience has done is reinforce that, at least for me, "shipping personal projects" is not the point; sitting in the captain's chair, plotting the course, the so called "adventure," _is_.
+
+Which brings me to "work." I would love to work in an industry where the topic of "company transformation because of agents" wasn't the going narrative. Where the entire management chain was able to think through and push on the fact that [[lemon-extract]] is probably more appropriate than squeezing the juice. But, that's not where we are--at least not yet.
+
+For the time being, that means being somewhat weak, and [playing along](/notes-on-not-looking-at-the-code.html). It means, focusing on things that I _can_ control--using my employment status to influence security controls that can be [applied to agents](https://www.docker.com/blog/docker-ai-governance-unlock-agent-autonomy-safely/). It means continuing to iterate my opinions on how we work together with these things. How we evolve as engineers. And, if the token economy dries up, and we've squeezed our last lemon, I hope that I've bottled at least a little extract; I'm confident that the work I'm taking part in is _interesting_, and believe it makes good sense, whether you're dealing with agents, or not. At least there's that.
