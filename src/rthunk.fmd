@@ -1,0 +1,85 @@
+---
+title: rThunk'd
+publish_date: 2026-08-27
+blog: true
+---
+[StrongDM](https://strongdm.com) is a zero trust networking product with a shared responsibility model. A customer MUST run some infrastructure in order to enable the StrongDM Control Plane to access resources within the customer's network. Simplifying the complexities, these are so called Nodes and they serve to bridge a customer managed endpoint (say, employee laptop in a coffee shop) to a customer managed resource (say, a Postgres Database in an AWS VPC) safely.
+
+The Node creates a persistent outbound connection "channel" to the StrongDM Control Plane, and clients in the coffee shop, after making a series of requests, rendevous to one of the available Nodes, which has direct access to the Postgres Database. The channel is used to deliver control data, like in this case, the rendevous information for the Postgres session started by the coffee shop user.
+
+It's that channel that I want to focus on.
+
+For years (and likely long before I showed up), that channel has been composed of gRPC streams, and loads of switch statement cases to react to individual types of messages. Adding new types of handlers, resulted in forcing upgrades of Nodes after landing the change, and carefully planning how the rollout would take place, because, well, customers will see their Nodes complaining about unprocessed messages and things.
+
+There was another mechanism used to "call into" the Node from the Control Plane, but it was very specialized. It wasn't extensible, and it didn't support return values, but utilized the same basic ideas.
+
+You might call me lazy, but I didn't want to go add a new switch case based handler for every message I wanted to send down, and _sometimes_ I'd like a result. I wanted to be able to register a gRPC service on the Node and just "magically" "call" it from the Control Plane, whenever it was needed. I wanted to be able to make it easy to register feature hints in the Node that I could check before assuming behavior, or scheduling work that couldn't actually be completed. None of the mechanisms that existed supported these things. I'd have to NIH it.
+
+Turns out that when you have a channel, everything's an indirection (or two... or three...) away.
+
+Here's how it works... and hold on, as it gets a bit confusing.
+
+Let's start off with a few definitions:
+
+* **Channel**: An arbitrary, bi-directional communication channel between two hosts.
+* **Service**: A set of related Methods that a Client can call. Services typically get called through a Channel
+* **Client**: A consumer of a Service. Might be "virtual", but a Client, at some point, likely uses a Channel to call a Service
+* **Method**: A function that is hosted in a Service, and invoked by a Client.
+
+Basically, the subscription model that processed messages from above did this[^1]:
+
+1. Node connects to the Control Plane with a gRPC Client and calls the Subscribe Method on the Subscription Service.
+2. Node switches on messages and handles them forever
+
+This honestly isn't much different than we desired:
+
+1. Node registers "Target" Service with a local Service registry
+2. Node connects to the Control Plane with a gRPC Client and calls the `Register` Method on the Executor Service, establishing Channel. (For StrongDM, this established a gRPC Stream)
+3. Control Plane creates a Client for Channel for "Target" Service running on Node
+4. Control Plane calls Method on "Target" Service running on Node, which writes to Channel (`Send(CallMethodRequest)`)
+5. Control Plane waits for a rendevous response with ID of call in line 3.
+6. Node switches on messages from Channel (`CallMethodRequest call = Recv()`)
+7. Node looks up call information in Service registry and calls appropriate Method on "Target" Service running in Node.
+8. Node captures return value and sends result back through Channel. (Executor Service had a `SendResponse` Method that took a `CallMethodResponse`)
+
+Alright, it's a _lot_ different, but the same basic concepts exist here. The rest is indirection.
+
+The local Service registry MUST map a Service to all of its Methods, and their argument specifications. If you're using gRPC, like we were, you build a `protoc` plugin that generates all the boilerplate for you. A "Dispatcher" abstraction does steps 6, 7, and 8, 
+
+The message types that get put on the Channel look like this:
+
+```
+message CallMethodRequest {
+   string requestID = 1;
+   string method = 2;
+   repeated bytes payload = 3;
+}
+
+message CallMethodResponse {
+   string requestID = 1;
+   string method = 2;
+   int32 error_code = 3;
+   string error_message = 4;
+   repeated bytes payload = 5;
+}
+```
+
+It should be pretty easy to see what a Client does. It papers over the fact that a call needs to package everything up into a call to `CallMethod` on the Channel. The Control Plane has to have some way to find the right Channel, which is equivalent to `Dial(address)` -- an exercise left for the reader.
+
+The parenthesized items in the list above hint at the Channel implementation we used[^2]. I can assure you that it's possible to do this over a Channel created from:
+
+1. Job Queues / Workflow Orchestration
+2. TCP directly
+3. Direct handoff
+4. HTTP 1.1
+5. US Postal Service
+
+Like the implementation of `Dial(address)` the way in which a caller _waits_ for a response is also an exercise left for the reader. As are all the other outstandinging distributed systems problems like handling retries, concurrency, failures, solar flares, etc...
+
+[Previously](/serializing-work-to-be-done.html)[^3]..., [Previously](/remote-objects.html)...
+
+### Footnotes
+
+1. [#fn1] And to be clear, this won't go away. This stuff "just" makes it possible to different kinds of workloads. [back](#ref-1)
+2. [#fn2] Narrator: and _indeed_ it was more complicated. It relied heavily on [NATS](https://nats.io), actually. There were multiple Control Plane servers. Nodes might have connected to anyone of them, so SendResponse would post to NATS and the Control Plane server who was looking for a response, would pick it up there. Similarly, `CallMethod` wrote to NATS, and the Channel established by `Register` subscribed through NATS. [back](#ref-2)
+3. [#fn3] This is very similar to that effort, but even more general. This is honestly such a silly thing to write about, and I hope someone is offended for some reason. But if you know, you know. And while I'm here, you might be wondering about the name. rThunk. What is that? Well, the "r" stood for "remote." And, Thunk, well that's a concept of delaying a computation until it's needed. There you go. [back](#ref-3)
